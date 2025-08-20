@@ -368,10 +368,10 @@ void CActor::Load	(LPCSTR section )
 	::Sound->create		(sndHit[2],			TRUE,	strconcat(buf,*cName(),"\\hurt3"),SOUND_TYPE_MONSTER_INJURING);
 	::Sound->create		(sndHit[3],			TRUE,	strconcat(buf,*cName(),"\\hurt4"),SOUND_TYPE_MONSTER_INJURING);
 */	
-	::Sound->create		(sndDie[0],			strconcat(buf,*cName(),"\\die0"), st_Effect,SOUND_TYPE_MONSTER_DYING);
-	::Sound->create		(sndDie[1],			strconcat(buf,*cName(),"\\die1"), st_Effect,SOUND_TYPE_MONSTER_DYING);
-	::Sound->create		(sndDie[2],			strconcat(buf,*cName(),"\\die2"), st_Effect,SOUND_TYPE_MONSTER_DYING);
-	::Sound->create		(sndDie[3],			strconcat(buf,*cName(),"\\die3"), st_Effect,SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[0], xr_strconcat(buf,*cName(),"\\die0"), st_Effect,SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[1], xr_strconcat(buf,*cName(),"\\die1"), st_Effect,SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[2], xr_strconcat(buf,*cName(),"\\die2"), st_Effect,SOUND_TYPE_MONSTER_DYING);
+	::Sound->create		(sndDie[3], xr_strconcat(buf,*cName(),"\\die3"), st_Effect,SOUND_TYPE_MONSTER_DYING);
 
 	m_HeavyBreathSnd.create	(pSettings->r_string(section,"heavy_breath_snd"), st_Effect,SOUND_TYPE_MONSTER_INJURING);
 	m_BloodSnd.create		(pSettings->r_string(section,"heavy_blood_snd"), st_Effect,SOUND_TYPE_MONSTER_INJURING);
@@ -1659,10 +1659,10 @@ void CActor::OnDifficultyChanged	()
 	VERIFY(g_SingleGameDifficulty>=egdNovice && g_SingleGameDifficulty<=egdMaster); 
 	LPCSTR diff_name				= get_token_name(difficulty_type_token, g_SingleGameDifficulty);
 	string128						tmp;
-	strconcat						(tmp,"actor_immunities_",diff_name);
+	xr_strconcat						(tmp,"actor_immunities_",diff_name);
 	conditions().LoadImmunities		(tmp,pSettings);
 	// hit probability
-	strconcat						(tmp,"hit_probability_",diff_name);
+	xr_strconcat						(tmp,"hit_probability_",diff_name);
 	hit_probability					= pSettings->r_float(*cNameSect(),tmp);
 }
 

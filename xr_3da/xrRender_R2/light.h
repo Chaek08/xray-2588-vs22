@@ -48,29 +48,38 @@ public:
 		u16			smap_ID;
 	}				vis;
 
-	union			_xform	{
-		struct		_D		{
-			Fmatrix						combine	;
-			s32							minX,maxX	;
-			s32							minY,maxY	;
-			BOOL						transluent	;
+	union _xform
+	{
+		struct _D
+		{
+			Fmatrix						combine = {};
+			s32							minX, maxX;
+			s32							minY, maxY;
+			BOOL						transluent;
 		}	D;
-		struct		_P		{
-			Fmatrix						world		;
-			Fmatrix						view		;
-			Fmatrix						project		;
-			Fmatrix						combine		;
+
+		struct _P
+		{
+			Fmatrix						world = {};
+			Fmatrix						view = {};
+			Fmatrix						project = {};
+			Fmatrix						combine = {};
 		}	P;
-		struct		_S		{
-			Fmatrix						view		;
-			Fmatrix						project		;
-			Fmatrix						combine		;
-			u32							size		;
-			u32							posX		;
-			u32							posY		;
-			BOOL						transluent	;
+
+		struct _S
+		{
+			Fmatrix						view = {};
+			Fmatrix						project = {};
+			Fmatrix						combine = {};
+			u32							size;
+			u32							posX;
+			u32							posY;
+			BOOL						transluent;
 		}	S;
-	}	X;
+
+	};
+
+	_xform X = {};
 #endif
 
 public:

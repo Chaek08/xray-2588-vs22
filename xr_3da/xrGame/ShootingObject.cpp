@@ -86,12 +86,12 @@ void CShootingObject::LoadFireParams	(LPCSTR section, LPCSTR prefix)
 	fireDispersionBase	= pSettings->r_float	(section,"fire_dispersion_base"	);
 	fireDispersionBase	= deg2rad				(fireDispersionBase);
 	//сила выстрела и его мощьность
-	fHitPower			= pSettings->r_float	(section,strconcat(full_name, prefix, "hit_power"));
-	fHitImpulse			= pSettings->r_float	(section,strconcat(full_name, prefix, "hit_impulse"));
+	fHitPower			= pSettings->r_float	(section, xr_strconcat(full_name, prefix, "hit_power"));
+	fHitImpulse			= pSettings->r_float	(section, xr_strconcat(full_name, prefix, "hit_impulse"));
 	//максимальное расстояние полета пули
-	fireDistance		= pSettings->r_float	(section,strconcat(full_name, prefix, "fire_distance"));
+	fireDistance		= pSettings->r_float	(section, xr_strconcat(full_name, prefix, "fire_distance"));
 	//начальная скорость пули
-	m_fStartBulletSpeed = pSettings->r_float	(section,strconcat(full_name, prefix, "bullet_speed"));
+	m_fStartBulletSpeed = pSettings->r_float	(section, xr_strconcat(full_name, prefix, "bullet_speed"));
 }
 
 void CShootingObject::LoadLights		(LPCSTR section, LPCSTR prefix)
@@ -188,12 +188,12 @@ void CShootingObject::UpdateParticles (CParticlesObject*& pParticles,
 void CShootingObject::LoadShellParticles (LPCSTR section, LPCSTR prefix)
 {
 	string256 full_name;
-	strconcat(full_name, prefix, "shell_particles");
+	xr_strconcat(full_name, prefix, "shell_particles");
 
 	if(pSettings->line_exist(section,full_name)) 
 	{
 		m_sShellParticles	= pSettings->r_string	(section,full_name);
-		vLoadedShellPoint	= pSettings->r_fvector3	(section,strconcat(full_name, prefix, "shell_point"));
+		vLoadedShellPoint	= pSettings->r_fvector3	(section, xr_strconcat(full_name, prefix, "shell_point"));
 	}
 }
 
@@ -202,15 +202,15 @@ void CShootingObject::LoadFlameParticles (LPCSTR section, LPCSTR prefix)
 	string256 full_name;
 
 	// flames
-	strconcat(full_name, prefix, "flame_particles");
+	xr_strconcat(full_name, prefix, "flame_particles");
 	if(pSettings->line_exist(section, full_name))
 		m_sFlameParticles	= pSettings->r_string (section, full_name);
 
-	strconcat(full_name, prefix, "smoke_particles");
+	xr_strconcat(full_name, prefix, "smoke_particles");
 	if(pSettings->line_exist(section, full_name))
 		m_sSmokeParticles = pSettings->r_string (section, full_name);
 
-	strconcat(full_name, prefix, "shot_particles");
+	xr_strconcat(full_name, prefix, "shot_particles");
 	if(pSettings->line_exist(section, full_name))
 		m_sShotParticles = pSettings->r_string (section, full_name);
 

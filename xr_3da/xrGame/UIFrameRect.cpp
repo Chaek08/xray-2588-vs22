@@ -55,15 +55,15 @@ void CUIFrameRect::InitTexture(const char* texture){
 	}
 	else
 	{
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_back"),	&frame[CUIFrameRect::fmBK]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_l"),		&frame[CUIFrameRect::fmL]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_r"),		&frame[CUIFrameRect::fmR]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_t"),		&frame[CUIFrameRect::fmT]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_b"),		&frame[CUIFrameRect::fmB]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_lt"),		&frame[CUIFrameRect::fmLT]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_rt"),		&frame[CUIFrameRect::fmRT]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_rb"),		&frame[CUIFrameRect::fmRB]);
-		CUITextureMaster::InitTexture(strconcat(buf,texture,"_lb"),		&frame[CUIFrameRect::fmLB]);		
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_back"),	&frame[CUIFrameRect::fmBK]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_l"),		&frame[CUIFrameRect::fmL]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_r"),		&frame[CUIFrameRect::fmR]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_t"),		&frame[CUIFrameRect::fmT]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_b"),		&frame[CUIFrameRect::fmB]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_lt"),		&frame[CUIFrameRect::fmLT]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_rt"),		&frame[CUIFrameRect::fmRT]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_rb"),		&frame[CUIFrameRect::fmRB]);
+		CUITextureMaster::InitTexture(xr_strconcat(buf,texture,"_lb"),		&frame[CUIFrameRect::fmLB]);		
 	}
 }
 

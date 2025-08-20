@@ -102,7 +102,7 @@ IRender_Visual*	CModelPool::Instance_Load		(const char* N, BOOL allow_register)
 	string512		name;
 
 	// Add default ext if no ext at all
-	if (0==strext(N))	strconcat	(name,N,".ogf");
+	if (0==strext(N))	xr_strconcat	(name,N,".ogf");
 	else				strcpy		(name,N);
 
 	// Load data from MESHES or LEVEL
@@ -366,7 +366,7 @@ void CModelPool::Prefetch()
 	Logging					(FALSE);
 	// prefetch visuals
 	string256 section;
-	strconcat				(section,"prefetch_visuals_",g_pGamePersistent->m_game_params.m_game_type);
+	xr_strconcat				(section,"prefetch_visuals_",g_pGamePersistent->m_game_params.m_game_type);
 	CInifile::Sect& sect	= pSettings->r_section(section);
 	for (CInifile::SectIt I=sect.begin(); I!=sect.end(); I++)	{
 		CInifile::Item& item= *I;

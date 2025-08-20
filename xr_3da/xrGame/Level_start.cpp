@@ -254,7 +254,7 @@ bool CLevel::net_start6				()
 		if (strstr(Core.Params,"-$")) {
 			string256				buf,cmd,param;
 			sscanf					(strstr(Core.Params,"-$")+2,"%[^ ] %[^ ] ",cmd,param);
-			strconcat				(buf,cmd," ",param);
+			xr_strconcat				(buf,cmd," ",param);
 			Console->Execute		(buf);
 		}
 	}else{

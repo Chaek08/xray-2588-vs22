@@ -123,7 +123,7 @@ void CRender::Screenshot		(IRender_interface::ScreenshotMode mode, LPCSTR name)
 				string64			t_stemp;
 				string_path			buf;
 				VERIFY				(name);
-				strconcat			(buf,"ss_",Core.UserName,"_",timestamp(t_stemp),"_#",name);
+				xr_strconcat			(buf,"ss_",Core.UserName,"_",timestamp(t_stemp),"_#",name);
 				strcat				(buf,".tga");
 				IWriter*		fs	= FS.w_open	("$screenshots$",buf); R_ASSERT(fs);
 				TGAdesc				p;

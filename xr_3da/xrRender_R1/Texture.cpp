@@ -38,10 +38,10 @@ IC void	Reduce				(int& w, int& h, int& l, int& skip)
 
 void				TW_Save	(IDirect3DTexture9* T, LPCSTR name, LPCSTR prefix, LPCSTR postfix)
 {
-	string256		fn;		strconcat	(fn,name,"_",prefix,"-",postfix);
+	string256		fn;		xr_strconcat	(fn,name,"_",prefix,"-",postfix);
 	for (int it=0; it<int(xr_strlen(fn)); it++)	
 		if ('\\'==fn[it])	fn[it]	= '_';
-	string256		fn2;	strconcat	(fn2,"debug\\",fn,".dds");
+	string256		fn2;	xr_strconcat	(fn2,"debug\\",fn,".dds");
 	Log						("* debug texture save: ",fn2);
 	R_CHK					(D3DXSaveTextureToFile	(fn2,D3DXIFF_DDS,T,0));
 }
