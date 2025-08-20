@@ -387,7 +387,7 @@ void CUITalkWnd::PlaySnd(LPCSTR text)
 	StopSnd						();
 	
 	string_path	fn;
-	strconcat(fn, "characters_voice\\dialogs\\", text, ".ogg");
+ xr_strconcat(fn, "characters_voice\\dialogs\\", text, ".ogg");
 	if(FS.exist("$game_sounds$",fn)){
 		VERIFY(m_pActor);
 		if (!m_pActor->OnDialogSoundHandlerStart(m_pOthersInvOwner,fn)) {

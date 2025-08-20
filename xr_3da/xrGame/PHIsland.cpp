@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PHIsland.h"
 #include "physics.h"
-void	CPHIsland::	Step(dReal step)
+void	CPHIsland::	Step(float step)
 {
 	if(!m_flags.is_active()) return;
 	//dWorldStepFast1	(DWorld(),	fixed_step,	phIterations/*+Random.randI(0,phIterationCycle)*/);

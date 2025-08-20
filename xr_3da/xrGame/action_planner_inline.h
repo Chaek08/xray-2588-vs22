@@ -238,7 +238,7 @@ TEMPLATE_SPECIALIZATION
 IC	void CPlanner::show				(LPCSTR offset)
 {
 	string256		temp;
-	strconcat		(temp,offset,"    ");
+ xr_strconcat		(temp,offset,"    ");
 	{
 		Msg			("\n%sEVALUATORS : %d\n",offset,evaluators().size());
 		EVALUATORS::const_iterator	I = evaluators().begin();

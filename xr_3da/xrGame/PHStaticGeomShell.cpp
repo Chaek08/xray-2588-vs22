@@ -11,7 +11,7 @@ void CPHStaticGeomShell::get_spatial_params()
 	spatialParsFromDGeom	(dSpacedGeometry(),spatial.sphere.P,AABB,spatial.sphere.R);
 }
 
-void	CPHStaticGeomShell::PhDataUpdate		(dReal step)
+void	CPHStaticGeomShell::PhDataUpdate		(float step)
 {
 	Island().Step(step);
 	Island().Unmerge();

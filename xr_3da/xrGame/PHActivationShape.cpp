@@ -196,11 +196,11 @@ void	CPHActivationShape::	Size								(Fvector &size)
 	dGeomBoxGetLengths(m_geom,cast_fp(size));
 }
 
-void	CPHActivationShape::	PhDataUpdate						(dReal step)												
+void	CPHActivationShape::	PhDataUpdate						(float step)												
 {
 	m_safe_state.new_state(m_body);
 }
-void	CPHActivationShape::	PhTune								(dReal step)												
+void	CPHActivationShape::	PhTune								(float step)												
 {
 
 }

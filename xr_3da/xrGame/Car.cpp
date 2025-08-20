@@ -1316,7 +1316,7 @@ void CCar::TransmissionDown()
 
 
 
-void CCar::PhTune(dReal step)
+void CCar::PhTune(float step)
 {
 	
 
@@ -1683,7 +1683,7 @@ void CCar::ResetScriptData(void	*P)
 	CScriptEntity::ResetScriptData(P);
 }
 
-void CCar::PhDataUpdate(dReal step)
+void CCar::PhDataUpdate(float step)
 {
 		if(m_repairing)Revert();
 		LimitWheels();

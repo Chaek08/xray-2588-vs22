@@ -425,7 +425,7 @@ void CPHShellSplitterHolder::InitNewShell(CPHShell* shell)
 		CPHCollideValidator::RegisterObjToGroup(m_pShell->collide_bits(),*static_cast<CPHObject*>(shell));
 }
 
-void CPHShellSplitterHolder::PhTune(dReal step)
+void CPHShellSplitterHolder::PhTune(float step)
 {
 	SPLITTER_I i=m_splitters.begin(),e=m_splitters.end();
 	for(;i!=e;++i)
@@ -446,7 +446,7 @@ void CPHShellSplitterHolder::PhTune(dReal step)
 		}
 	}
 }
-void CPHShellSplitterHolder::PhDataUpdate(dReal step)
+void CPHShellSplitterHolder::PhDataUpdate(float step)
 {
 	SPLITTER_I i=m_splitters.begin(),e=m_splitters.end();
 	for(;i!=e;++i)

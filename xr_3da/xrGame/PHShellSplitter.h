@@ -1,7 +1,7 @@
 #ifndef PHSHELL_SPLITTER_H
 #define PHSHELL_SPLITTER_H
 #include "PHDefs.h"
-#include "PHObject.h"
+#include "PHUpdateObject.h"
 class CPHShellSplitter;
 class CPHShell;
 class CODEGeom;
@@ -34,8 +34,8 @@ bool							m_unbreakable																																;
 CPHShell*						m_pShell																																	;			//purpose: to extract elements and joints corresponded splitters
 SPLITTER_STORAGE				m_splitters																																	;			//
 GEOM_MAP						m_geom_root_map																																;			//to find geom pointer by bone id
-virtual	void					PhTune						(dReal step)																									;						//call fractures PhTune for element splitters m_pShell->m_elements[m_splitters[i]->m_element]->m_pFracturesHolder->PhTune()
-virtual void					PhDataUpdate				(dReal step)																									;				//call fractures PhDataUpdate for element splitters m_pShell->m_elements[m_splitters[i]->m_element]->m_pFracturesHolder->PhDataUpdate()
+virtual	void					PhTune						(float step)																									;						//call fractures PhTune for element splitters m_pShell->m_elements[m_splitters[i]->m_element]->m_pFracturesHolder->PhTune()
+virtual void					PhDataUpdate				(float step)																									;				//call fractures PhDataUpdate for element splitters m_pShell->m_elements[m_splitters[i]->m_element]->m_pFracturesHolder->PhDataUpdate()
 		bool					CheckSplitter				(u16 aspl)																										;		//
 		shell_root				SplitJoint					(u16 aspl)																										;		//create new shell moving into it departed elements and joints 
 		shell_root				ElementSingleSplit			(const element_fracture &split_elem,const CPHElement* source_element)											;

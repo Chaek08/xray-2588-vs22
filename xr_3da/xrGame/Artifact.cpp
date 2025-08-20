@@ -53,7 +53,7 @@ struct SArtefactActivation{
 	void						ChangeEffects					();
 	void						UpdateEffects					();
 	void						SpawnAnomaly					();
-	void						PhDataUpdate					(dReal step);
+	void						PhDataUpdate					(float step);
 };
 
 
@@ -295,7 +295,7 @@ void CArtefact::ActivateArtefact	()
 
 }
 
-void CArtefact::PhDataUpdate	(dReal step)
+void CArtefact::PhDataUpdate	(float step)
 {
 	if(m_activationObj)
 		m_activationObj->PhDataUpdate			(step);
@@ -384,7 +384,7 @@ void SArtefactActivation::UpdateActivation()
 
 }
 
-void SArtefactActivation::PhDataUpdate(dReal step)
+void SArtefactActivation::PhDataUpdate(float step)
 {
 	if (m_cur_activation_state==eFlying) {
 		Fvector dir	= {0, -1.f, 0};

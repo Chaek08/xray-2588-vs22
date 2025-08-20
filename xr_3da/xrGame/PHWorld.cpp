@@ -332,7 +332,7 @@ u32 CPHWorld::CalcNumSteps (u32 dTime)
 	return res;
 };
 
-void CPHWorld::FrameStep(dReal step)
+void CPHWorld::FrameStep(float step)
 {
 	if(IsFreezed())		return;
 	

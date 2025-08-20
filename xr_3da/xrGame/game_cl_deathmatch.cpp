@@ -486,15 +486,15 @@ void game_cl_Deathmatch::shedule_Update			(u32 dt)
 					ConvertTime2String(&S, TimeRemains);
 					string1024 tmpStr = "";
 					if (TimeRemains > 10000)
-						strconcat(tmpStr, *st.translate("mp_time2start"), S);
+						xr_strconcat(tmpStr, *st.translate("mp_time2start"), S);
 					else
 					{
 						if (TimeRemains < 1000)
-							strconcat(tmpStr, *st.translate("mp_go"), "");
+							xr_strconcat(tmpStr, *st.translate("mp_go"), "");
 						else
 						{
 							_itoa(TimeRemains/1000, S, 10);
-							strconcat(tmpStr, *st.translate("mp_ready"), S);
+							xr_strconcat(tmpStr, *st.translate("mp_ready"), S);
 						}
 					};
 					

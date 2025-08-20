@@ -182,7 +182,7 @@ float	CPHShell::getDensity()
 
 
 
-void CPHShell::PhDataUpdate(dReal step){
+void CPHShell::PhDataUpdate(float step){
 
 	ELEMENT_I i=elements.begin(),e=elements.end();
 	bool disable=true;
@@ -206,7 +206,7 @@ void CPHShell::PhDataUpdate(dReal step){
 
 
 
-void CPHShell::PhTune(dReal step){
+void CPHShell::PhTune(float step){
 	ELEMENT_I i=elements.begin(),e=elements.end();
 	for(; e!=i ;++i)
 		(*i)->PhTune(step);

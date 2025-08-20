@@ -305,7 +305,7 @@ void				game_cl_Deathmatch::LoadDefItemsForRank(CUIBuyWnd* pBuyMenu)
 	char tmp[5];
 	for (int i=1; i<=local_player->rank; i++)
 	{
-		strconcat(RankStr,"rank_",itoa(i,tmp,10));
+		xr_strconcat(RankStr,"rank_",itoa(i,tmp,10));
 		if (!pSettings->section_exist(RankStr)) continue;
 		for (u32 it=0; it<PlayerDefItems.size(); it++)
 		{
@@ -313,7 +313,7 @@ void				game_cl_Deathmatch::LoadDefItemsForRank(CUIBuyWnd* pBuyMenu)
 
 			char* ItemName = pBuyMenu->GetWeaponNameByIndex(u8(((*pItemID)&0xff00)>>0x08), u8((*pItemID)&0x00ff));
 			if (!ItemName) continue;
-			strconcat(ItemStr, "def_item_repl_", ItemName);
+			xr_strconcat(ItemStr, "def_item_repl_", ItemName);
 			if (!pSettings->line_exist(RankStr, ItemStr)) continue;
 
 			strcpy(NewItemStr,pSettings->r_string(RankStr, ItemStr));

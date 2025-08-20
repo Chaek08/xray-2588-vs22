@@ -90,7 +90,7 @@ void CUIEncyclopediaWnd::Init()
 
 
 	string256 header;
-	strconcat(header, ALL_PDA_HEADER_PREFIX, "/Encyclopedia");
+ xr_strconcat(header, ALL_PDA_HEADER_PREFIX, "/Encyclopedia");
 	m_InfosHeaderStr = header;
 
 	xml_init.InitAutoStatic(uiXml, "left_auto_static", UIEncyclopediaInfoBkg);

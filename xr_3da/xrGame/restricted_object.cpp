@@ -106,8 +106,18 @@ BOOL CRestrictedObject::net_Spawn			(CSE_Abstract* data)
 u32	CRestrictedObject::accessible_nearest	(const Fvector &position, Fvector &result) const
 {
 	START_PROFILE("Restricted Object/Accessible Nearest");
-	VERIFY						(!accessible(position));
-	return						(Level().space_restriction_manager().accessible_nearest(object().ID(),position,result));
+	//VERIFY						(!accessible(position));
+	//return						(Level().space_restriction_manager().accessible_nearest(object().ID(),position,result));
+	VERIFY2(
+		!accessible(position),
+		make_string<const char*>(
+			"[%s] [%f][%f][%f]",
+			object().cName().c_str(),
+			VPUSH(position)
+		)
+	);
+
+	return						(Level().space_restriction_manager().accessible_nearest(object().ID(), position, result));
 	STOP_PROFILE;
 }
 

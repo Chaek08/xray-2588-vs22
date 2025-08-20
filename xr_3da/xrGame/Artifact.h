@@ -2,7 +2,7 @@
 
 #include "inventory_item_object.h"
 #include "hit_immunity.h"
-#include "PHObject.h"
+#include "PHUpdateObject.h"
 #include "script_export_space.h"
 
 struct SArtefactActivation;
@@ -62,8 +62,8 @@ public:
 	void							ActivateArtefact					();
 	bool							CanBeActivated						()				{return m_bCanSpawnZone;};// does artefact can spawn anomaly zone
 
-	virtual void					PhDataUpdate						(dReal step);
-	virtual void					PhTune								(dReal step)	{};
+	virtual void					PhDataUpdate						(float step);
+	virtual void					PhTune								(float step)	{};
 	//////////////////////////////////////////////////////////////////////////
 	// свойства артефакта, когда он висит на по€се у актера
 	//////////////////////////////////////////////////////////////////////////

@@ -393,7 +393,7 @@ void CServerList::InitFromXml(CUIXml& xml_doc, const char* path){
 
 	// init header elements
 	for (int i = 0; i<6; i++)
-		CUIXmlInit::Init3tButton(xml_doc,strconcat(buf,path,":header"), 0, &m_header[i]);
+		CUIXmlInit::Init3tButton(xml_doc, xr_strconcat(buf,path,":header"), 0, &m_header[i]);
 	m_header[0].Enable(false);
 	for (int i = 0; i<5; i++)
 	{

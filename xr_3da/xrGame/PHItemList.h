@@ -31,8 +31,7 @@ template<class T>
 	
 		public:
 		
-		class iterator;
-		typedef  class iterator
+		class iterator
 			{
 				
 						T		*my_ptr;
@@ -40,7 +39,7 @@ template<class T>
 								iterator(){my_ptr=0;}
 								iterator(T* i){ my_ptr=i; }
 					iterator	operator ++ ()	{return my_ptr=((my_ptr)->next);}
-					T*			operator *	()	{return	my_ptr;}
+					/*inline*/  T*			operator *	()	{return	my_ptr;}
 					bool		operator !=	 (iterator right){return my_ptr!=right.my_ptr;}
 			};
 							CPHItemList		()		{  empty();}
@@ -94,7 +93,7 @@ template<class T>
 	public:	
 		void			push_back		(T* item)	
 		{
-			item->stack_pos=size;
+			item->stack_pos=this->size;
 			CPHItemList<T>::push_back(item);
 		}
 	};

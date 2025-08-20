@@ -536,7 +536,7 @@ void CPHSimpleCharacter::PhDataUpdate(dReal /**step/**/){
 	m_body_interpolation.UpdatePositions();
 }
 
-void CPHSimpleCharacter::PhTune(dReal step){
+void CPHSimpleCharacter::PhTune(float step){
 
 	//if(b_jumping)
 	//{

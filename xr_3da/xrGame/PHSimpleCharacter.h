@@ -119,8 +119,8 @@ public:
 	virtual					~CPHSimpleCharacter					()						{Destroy();}
 
 	/////////////////CPHObject//////////////////////////////////////////////
-	virtual		void		PhDataUpdate						(dReal step)						;
-	virtual		void		PhTune								(dReal step)						;
+	virtual		void		PhDataUpdate						(float step)						;
+	virtual		void		PhTune								(float step)						;
 	virtual		void		InitContact							(dContact* c,bool &do_collide,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/)		;
 	virtual		dSpaceID	dSpace								()									{return m_space;}
 	virtual		dGeomID		dSpacedGeom							()									{return (dGeomID)m_space;}

@@ -480,7 +480,7 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 	string256							temp;
 
 	const CObjectHandlerPlanner			&objects = planner();
-	strconcat							(temp,indent,indent);
+ xr_strconcat							(temp,indent,indent);
 	draw_planner						(objects,temp,indent,"root");
 
 	HUD().Font().pFontSmall->OutSet		(330,up_indent);
@@ -647,7 +647,7 @@ void CAI_Stalker::OnHUDDraw				(CCustomHUD *hud)
 			movement().restrictions().base_in_restrictions().size()
 		) {
 		HUD().Font().pFontSmall->OutNext	("%s%srestrictions",indent,indent);
-		strconcat							(temp,indent,indent,indent);
+	 xr_strconcat							(temp,indent,indent,indent);
 		draw_restrictions					(movement().restrictions().out_restrictions(),temp,indent,"out");
 		draw_restrictions					(movement().restrictions().in_restrictions(),temp,indent,"in");
 		draw_restrictions					(movement().restrictions().base_out_restrictions(),temp,indent,"base out");

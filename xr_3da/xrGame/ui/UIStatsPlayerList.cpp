@@ -66,7 +66,7 @@ void CUIStatsPlayerList::Init(CUIXml& xml_doc, LPCSTR path){
 	string256 _path;
 	// init item text params
 	CUIXmlInit::InitFont(xml_doc, xr_strconcat(_path, path, ":text_format"), 0, m_i.c, m_i.f);
-	m_i.h = xml_doc.ReadAttribFlt(strconcat(_path, path, ":text_format"), 0, "height", 25);
+	m_i.h = xml_doc.ReadAttribFlt(xr_strconcat(_path, path, ":text_format"), 0, "height", 25);
 
 	// init list header
 	switch (GameID())

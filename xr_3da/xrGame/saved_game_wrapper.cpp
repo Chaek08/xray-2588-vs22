@@ -19,7 +19,7 @@ extern LPCSTR alife_section;
 CSavedGameWrapper::CSavedGameWrapper	(LPCSTR saved_game_name)
 {
 	string256					temp,file_name;
-	strconcat					(temp,saved_game_name,SAVE_EXTENSION);
+	xr_strconcat					(temp,saved_game_name,SAVE_EXTENSION);
 	FS.update_path				(file_name,"$game_saves$",temp);
 	R_ASSERT3					(FS.exist(file_name),"There is no saved game ",file_name);
 	

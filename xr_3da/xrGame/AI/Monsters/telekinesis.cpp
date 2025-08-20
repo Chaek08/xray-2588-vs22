@@ -165,7 +165,7 @@ void CTelekinesis::schedule_update()
 	}
 }
 
-void CTelekinesis::PhDataUpdate(dReal step)
+void CTelekinesis::PhDataUpdate(float step)
 {
 	if (!active) return;
 
@@ -192,7 +192,7 @@ void  CTelekinesis::clear_notrelevant()
 	TELE_OBJECTS_IT it = remove_if(objects.begin(),objects.end(),RemovePred);
 	objects.erase(it, objects.end());
 }
-void  CTelekinesis::PhTune(dReal step)
+void  CTelekinesis::PhTune(float step)
 {
 	if (!active) return;
 	clear_notrelevant();

@@ -122,7 +122,7 @@ void CMiniMapSpot::Load(CUIXml* xml, LPCSTR path)
 	base_rect.x2 = xml->ReadAttribFlt(path, 0, "width", 0);
 	base_rect.y2 = xml->ReadAttribFlt(path, 0, "height", 0);
 
-	strconcat(buf, path, ":texture_above");
+	xr_strconcat(buf, path, ":texture_above");
 	n = xml->NavigateToNode(buf,0);
 	if(n){
 		LPCSTR texture  = xml->Read(buf, 0, NULL);
@@ -135,7 +135,7 @@ void CMiniMapSpot::Load(CUIXml* xml, LPCSTR path)
 		m_tex_rect_above.set(x,y,width,height);
 	}
 
-	strconcat(buf, path, ":texture_below");
+	xr_strconcat(buf, path, ":texture_below");
 	n = xml->NavigateToNode(buf,0);
 	if(n){
 		LPCSTR texture  = xml->Read(buf, 0, NULL);
@@ -147,7 +147,7 @@ void CMiniMapSpot::Load(CUIXml* xml, LPCSTR path)
 		m_icon_below.create("hud\\default",texture);
 		m_tex_rect_below.set(x,y,width,height);
 	}
-	strconcat(buf, path, ":texture");
+	xr_strconcat(buf, path, ":texture");
 	n = xml->NavigateToNode(buf,0);
 	if(n){
 		LPCSTR texture  = xml->Read(buf, 0, NULL);

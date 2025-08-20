@@ -2,7 +2,7 @@
 #ifndef PH_CAPTURE_H
 #define PH_CAPTURE_H
 
-#include "phobject.h"
+#include "PHUpdateObject.h"
 #include "gameobject.h"
 #include "physicsshellholder.h"
 
@@ -68,8 +68,8 @@ private:
 static void object_contactCallbackFun(bool& do_colide,bool bo1,dContact& c,SGameMtl* /*material_1*/,SGameMtl* /*material_2*/);
 
 ///////////CPHObject/////////////////////////////
-	virtual void PhDataUpdate(dReal step);
-	virtual void PhTune(dReal step);
+	virtual void PhDataUpdate(float step);
+	virtual void PhTune(float step);
 
 };
 #endif

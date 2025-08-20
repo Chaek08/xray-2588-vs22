@@ -55,7 +55,7 @@ void CStringTable::Load	(LPCSTR xml_file)
 {
 	CUIXml uiXml;
 	string128 xml_file_full;
-	strconcat(xml_file_full, xml_file, ".xml");
+	xr_strconcat(xml_file_full, xml_file, ".xml");
 	bool xml_result = uiXml.Init(CONFIG_PATH, STRING_TABLE_PATH, *(pData->m_sLanguage), xml_file_full);
 	if(!xml_result)
 		Debug.fatal("string table xml file not found %s, for language %s", xml_file_full, *(pData->m_sLanguage));

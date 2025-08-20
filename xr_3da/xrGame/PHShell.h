@@ -165,8 +165,8 @@ public:
 	virtual		void				vis_update_deactivate	  		();
 	virtual		void				PureStep						(float step);
 	virtual		void				StaticCollideStep				(float step);
-	virtual		void				PhDataUpdate					(dReal step);
-	virtual		void				PhTune							(dReal step);
+	virtual		void				PhDataUpdate					(float step);
+	virtual		void				PhTune							(float step);
 	virtual		void				InitContact						(dContact* c,bool &do_collide,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/){};
 	virtual		void				FreezeContent					();
 	virtual		void				UnFreezeContent					();
@@ -174,7 +174,7 @@ public:
 	virtual		void				UnFreeze						();
 	virtual		void				NetInterpolationModeON			(){CPHObject::NetInterpolationON();}
 	virtual		void				NetInterpolationModeOFF			(){CPHObject::NetInterpolationOFF();}
-	virtual		void				StepFrameUpdate					(dReal step){};
+	virtual		void				StepFrameUpdate					(float step){};
 	virtual		CPHMoveStorage*		MoveStorage						(){return &m_traced_geoms;}
 	virtual		void				build_FromKinematics			(CKinematics* K,BONE_P_MAP* p_geting_map=NULL);
 	virtual		void				preBuild_FromKinematics			(CKinematics* K,BONE_P_MAP* p_geting_map);

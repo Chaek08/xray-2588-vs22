@@ -841,14 +841,14 @@ void CUIBagWnd::ReloadItemsPrices()
 		R_ASSERT(pSettings->line_exist(m_sectionPrice, iitm->object().cNameSect()/*(*it)->strName)*/));
 		m_info[itm->m_index].price = pSettings->r_u32(m_sectionPrice, *iitm->object().cNameSect());
 		//-------------------------------------------------------------------------------
-		strconcat(ItemCostStr, *iitm->object().cNameSect(), "_cost");
+	 xr_strconcat(ItemCostStr, *iitm->object().cNameSect(), "_cost");
 		if (pSettings->line_exist(m_sectionName, ItemCostStr))
 			m_info[itm->m_index].price = pSettings->r_u32(m_sectionName, ItemCostStr);
 		//-------------------------------------------------------------------------------
 		for (int i=1; i<=g_mp_restrictions.GetRank(); i++)
 		{
 			string16 tmp;
-			strconcat(RankStr, "rank_", itoa(i, tmp, 10));
+		 xr_strconcat(RankStr, "rank_", itoa(i, tmp, 10));
 			if (!pSettings->line_exist(RankStr, ItemCostStr))
 				continue;
 			m_info[itm->m_index].price = pSettings->r_u32(RankStr, ItemCostStr);

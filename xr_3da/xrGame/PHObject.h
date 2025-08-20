@@ -6,7 +6,7 @@
 #include "PHIsland.h"
 typedef u32	CLClassBits;
 typedef u32	CLBits;
-DEFINE_VECTOR(ISpatial*,qResultVec,qResultIt)
+DEFINE_VECTOR(ISpatial*, qResultVec, qResultIt)
 class CPHObject;
 class CPHUpdateObject;
 class CPHMoveStorage;
@@ -63,7 +63,7 @@ protected:
 public:
 	IC			BOOL			IsRayMotion						()								{return m_flags.test(fl_ray_motions);}
 				void			IslandReinit					()								{m_island.Unmerge();}
-				void			IslandStep						(dReal step)					{m_island.Step(step);}
+				void			IslandStep						(float step)					{m_island.Step(step);}
 				void			MergeIsland						(CPHObject* obj)				{m_island.Merge(&obj->m_island);}
 				CPHIsland&		Island							()								{return m_island;}
 				dWorldID		DActiveWorld					()								{return m_island.DActiveWorld();}
@@ -74,8 +74,8 @@ public:
 	virtual		void			UnFreezeContent					()								;
 	virtual		void 			EnableObject					(CPHObject* obj)				;
 
-	virtual 	void 			PhDataUpdate					(dReal step)					=0;
-	virtual 	void 			PhTune							(dReal step)					=0;
+	virtual 	void 			PhDataUpdate					(float step)					=0;
+	virtual 	void 			PhTune							(float step)					=0;
 	virtual		void 			spatial_move					()								;
 	virtual 	void 			InitContact						(dContact* c,bool& do_collide,SGameMtl * /*material_1*/,SGameMtl * /*material_2*/)	=0;
 	virtual		void			CutVelocity						(float l_limit,float a_limit)	{};						
@@ -88,7 +88,7 @@ public:
 				bool			NetInterpolation				()								{return !!(m_flags.test(st_net_interpolation));}
 	virtual		u16				get_elements_number				()								= 0;
 	virtual		CPHSynchronize	*get_element_sync				(u16 element)					= 0;		
-	//virtual void StepFrameUpdate(dReal step)=0;
+	//virtual void StepFrameUpdate(float step)=0;
 
 
 							CPHObject						()										;
@@ -114,22 +114,5 @@ IC			const CLBits&				collide_bits		()const 								{return m_collide_bits;}
 IC			const _flags<CLClassBits>&	collide_class_bits 	()const 								{return m_collide_class_bits;}
 };
 
-
-
-class CPHUpdateObject 
-{
-	DECLARE_PHLIST_ITEM(CPHUpdateObject)
-	bool				b_activated																	;
-
-public:
-					CPHUpdateObject	()																;
-	void			Activate		()																;
-	void			Deactivate		()																;
-IC	bool			IsActive		()																{return b_activated;}
-	virtual void	PhDataUpdate	(dReal step)													=0;
-	virtual void	PhTune			(dReal step)													=0;
-};
-
-DEFINE_PHITEM_LIST(CPHObject,PH_OBJECT_STORAGE,PH_OBJECT_I)
-DEFINE_PHITEM_LIST(CPHUpdateObject,PH_UPDATE_OBJECT_STORAGE,PH_UPDATE_OBJECT_I)
+DEFINE_PHITEM_LIST(CPHObject, PH_OBJECT_STORAGE, PH_OBJECT_I)
 #endif//CPHOBJECT

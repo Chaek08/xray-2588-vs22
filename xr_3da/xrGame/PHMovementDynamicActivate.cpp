@@ -164,7 +164,7 @@ public:
 			return true;
 		}
 	}
-	virtual void PhDataUpdate(dReal step)
+	virtual void PhDataUpdate(float step)
 	{
 		const float		*linear_velocity		=dBodyGetLinearVel(m_body);
 
@@ -186,7 +186,7 @@ public:
 		dVectorSet(m_safe_velocity,linear_velocity);
 	}
 
-	virtual void PhTune(dReal step)
+	virtual void PhTune(float step)
 	{
 
 		VelocityLimit();
@@ -221,7 +221,7 @@ public:
 	float mf_slf_y(){return m_max_force_self_y;}
 	float mf_slf_sd(){return m_max_force_self_sd;}
 protected:
-	virtual void PhTune(dReal step)
+	virtual void PhTune(float step)
 	{
 		InitValues();
 		int num=dBodyGetNumJoints(m_body);
@@ -236,7 +236,7 @@ protected:
 		}
 	}
 
-	virtual void PhDataUpdate(dReal step)
+	virtual void PhDataUpdate(float step)
 	{
 		int num=dBodyGetNumJoints(m_body);
 		for(int i=0;i<num;i++)

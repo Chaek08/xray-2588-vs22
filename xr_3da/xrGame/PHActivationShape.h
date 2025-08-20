@@ -31,8 +31,8 @@ const		Fvector			&Position							()																															;
 			void			Size								(Fvector &size)																												;
 			dBodyID			ODEBody								()																											{return m_body	;}
 private:
-virtual		void			PhDataUpdate						(dReal step)																												;
-virtual		void			PhTune								(dReal step)																												;
+virtual		void			PhDataUpdate						(float step)																												;
+virtual		void			PhTune								(float step)																												;
 virtual		void			CutVelocity							(float l_limit,float a_limit)																								;						
 virtual		void			InitContact							(dContact* c,bool& do_collide,SGameMtl * ,SGameMtl * )																		;
 virtual		dGeomID			dSpacedGeom							()																															;

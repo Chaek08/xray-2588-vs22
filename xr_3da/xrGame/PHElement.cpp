@@ -409,7 +409,7 @@ void CPHElement::Update(){
 	VERIFY2(_valid(mXFORM),"invalid position in update");
 }
 
-void CPHElement::PhTune(dReal step)
+void CPHElement::PhTune(float step)
 {
 	if(!isActive()) return;
 	CPHContactBodyEffector* contact_effector=
@@ -426,7 +426,7 @@ void CPHElement::PhTune(dReal step)
 	}
 #endif
 }
-void CPHElement::PhDataUpdate(dReal step){
+void CPHElement::PhDataUpdate(float step){
 
 	if(! isActive())return;
 #ifdef DEBUG

@@ -2,6 +2,7 @@
 #include "entity.h"
 #include "PHDynamicData.h"
 #include "PhysicsShell.h"
+#include "PHUpdateObject.h"
 #include "script_entity.h"
 #include "CarLights.h"
 #include "phobject.h"
@@ -76,8 +77,8 @@ static	const u16				cAsCallsnum						=3;
 ////////////////////////////////////////////////////////////////////////
 	static	BONE_P_MAP					bone_map;					//interface for PhysicsShell
 	static	void 						ActorObstacleCallback		(bool& do_colide,bool bo1,dContact& c,SGameMtl* material_1,SGameMtl* material_2);
-	virtual void						PhDataUpdate				(dReal step)			;
-	virtual void						PhTune						(dReal step)			;
+	virtual void						PhDataUpdate				(float step)			;
+	virtual void						PhTune						(float step)			;
 /////////////////////////////////////////////////////////////////////////
 	virtual void						ApplyDamage					(u16 level)				;
 	virtual	float						Health						()						{return GetfHealth();}

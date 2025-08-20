@@ -271,7 +271,7 @@ public:
     }
 
     void SetPrefereExactIntegration() { m_flags.set_prefere_exact_integration(); }
-    void Step(dReal step);
+    void Step(float step);
     void Enable();
     void Repair();
 };

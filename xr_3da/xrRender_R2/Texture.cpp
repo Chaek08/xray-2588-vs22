@@ -351,7 +351,7 @@ _BUMP:
 
 		// 
 		string256			fnameB;
-		strconcat			(fnameB,"$user$",fname,"X");
+	 xr_strconcat			(fnameB,"$user$",fname,"X");
 		ref_texture			t_temp		= Device.Resources->_CreateTexture	(fnameB);
 		t_temp->surface_set	(T_normal_2C	);
 		_RELEASE			(T_normal_2C	);	// texture should keep reference to it by itself
