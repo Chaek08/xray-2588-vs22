@@ -32,7 +32,7 @@ void CAI_PhraseDialogManager::ReceivePhrase (DIALOG_SHARED_PTR& phrase_dialog)
 #include "level.h"
 #include "ui/UItalkWnd.h"
 
-void CAI_PhraseDialogManager::AnswerPhrase (DIALOG_SHARED_PTR& phrase_dialog)
+void CAI_PhraseDialogManager::AnswerPhrase(DIALOG_SHARED_PTR& phrase_dialog)
 {
 	CInventoryOwner* pInvOwner = smart_cast<CInventoryOwner*>(this);
 	THROW(pInvOwner);
@@ -41,43 +41,40 @@ void CAI_PhraseDialogManager::AnswerPhrase (DIALOG_SHARED_PTR& phrase_dialog)
 	CInventoryOwner* pOthersIO = smart_cast<CInventoryOwner*>(pOthersGO);
 	THROW(pOthersIO);
 
-	if(!phrase_dialog->IsFinished())
+	if (!phrase_dialog->IsFinished())
 	{
 		CHARACTER_GOODWILL attitude = RELATION_REGISTRY().GetAttitude(pOthersIO, pInvOwner);
 
 		xr_vector<int> phrases;
 		CHARACTER_GOODWILL phrase_goodwill = NO_GOODWILL;
-		//если не найдем более подходяещей выводим фразу
-		//последнюю из списка (самую грубую)
-		int phrase_num = phrase_dialog->PhraseList().size()-1;
-		for(u32 i=0; i<phrase_dialog->PhraseList().size(); i++)
+
+		int phrase_num = phrase_dialog->PhraseList().size() - 1;
+		for (u32 i = 0; i < phrase_dialog->PhraseList().size(); i++)
 		{
 			phrase_goodwill = phrase_dialog->PhraseList()[phrase_num]->GoodwillLevel();
-			if(attitude >= phrase_goodwill)
+			if (attitude >= phrase_goodwill)
 			{
 				phrase_num = i;
 				break;
 			}
 		}
 
-		for(i=0; i<phrase_dialog->PhraseList().size(); i++)
+		for (u32 i = 0; i < phrase_dialog->PhraseList().size(); i++)
 		{
-			if(phrase_goodwill == phrase_dialog->PhraseList()[phrase_num]->GoodwillLevel())
+			if (phrase_goodwill == phrase_dialog->PhraseList()[i]->GoodwillLevel())
 				phrases.push_back(i);
 		}
-		
+
 		phrase_num = phrases[Random.randI(0, phrases.size())];
 
 		PHRASE_ID _id = phrase_dialog->PhraseList()[phrase_num]->GetIndex();
-		
+
 		CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(HUD().GetUI()->UIGame());
 		pGameSP->TalkMenu->AddAnswer(phrase_dialog->GetPhraseText(_id), pInvOwner->Name());
 
 		CPhraseDialogManager::SayPhrase(phrase_dialog, _id);
-
 	}
 }
-
 
 
 void CAI_PhraseDialogManager::SetStartDialog(PHRASE_DIALOG_ID phrase_dialog)

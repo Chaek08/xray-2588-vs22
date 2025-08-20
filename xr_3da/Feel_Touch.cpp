@@ -25,59 +25,53 @@ void Touch::feel_touch_deny		(CObject* O, DWORD T)
 	feel_touch_disable.push_back	(D);
 }
 
-void Touch::feel_touch_update	(Fvector& C, float R)
+void Touch::feel_touch_update(Fvector& C, float R)
 {
-	// Check if denied objects expire in time
-	DWORD	dwT			= Device.dwTimeGlobal;
-	for (u32 dit=0; dit<feel_touch_disable.size(); dit++){
-		if (feel_touch_disable[dit].Expire<dwT){
-			feel_touch_disable.erase	(feel_touch_disable.begin()+dit);
-			dit--;
-		}
-	}
+    DWORD dwT = Device.dwTimeGlobal;
 
-	// Find nearest objects
-	xr_vector<CObject*>						q_nearest;	q_nearest.reserve(feel_touch.size());
-	g_pGameLevel->ObjectSpace.GetNearest	(q_nearest,C,R, NULL);
-	xr_vector<CObject*>::iterator	n_begin	= q_nearest.begin	();
-	xr_vector<CObject*>::iterator	n_end	= q_nearest.end		();
-	if (n_end!=n_begin)						{
-		// Process results (NEW)
-		for (xr_vector<CObject*>::iterator it = n_begin; it!=n_end; it++){
-			CObject* O = *it;
-			if (O->getDestroy())		continue;							// Don't touch candidates for destroy
-			if (!feel_touch_contact(O))	continue;							// Actual contact
+    // Удаляем истёкшие disable-объекты
+    feel_touch_disable.erase(
+        std::remove_if(feel_touch_disable.begin(), feel_touch_disable.end(),
+            [dwT](const auto& d) { return d.Expire < dwT; }),
+        feel_touch_disable.end()
+    );
 
-			if (std::find(feel_touch.begin(),feel_touch.end(),O) == feel_touch.end()){
-				// check for deny
-				BOOL bDeny = FALSE;
-				for (dit=0; dit<feel_touch_disable.size(); dit++)
-					if (O == feel_touch_disable[dit].O)	{ bDeny=TRUE; break; }
+    // Находим ближайшие объекты
+    xr_vector<CObject*> q_nearest;
+    q_nearest.reserve(feel_touch.size());
+    g_pGameLevel->ObjectSpace.GetNearest(q_nearest, C, R, nullptr);
 
-				// _new _
-				if (!bDeny)
-				{
-					feel_touch.push_back	(O);
-					feel_touch_new			(O);
-				}
-			}
-		}
-	}
+    // Добавляем новые
+    for (CObject* O : q_nearest) {
+        if (O->getDestroy()) continue;
+        if (!feel_touch_contact(O)) continue;
 
-	// Process results (DELETE)
-	for (int d = 0; d<int(feel_touch.size()); d++)
-	{
-		CObject* O	= feel_touch[d];
-		if (O->getDestroy() || !feel_touch_contact(O) || (std::find(n_begin,n_end,O) == n_end))	// Don't touch candidates for destroy
-		{
-			// _delete_
-			feel_touch.erase		(feel_touch.begin()+d);
-			feel_touch_delete		(O);
-			d--;
-		}
-	}
+        if (std::find(feel_touch.begin(), feel_touch.end(), O) == feel_touch.end()) {
+            // Проверка deny-листа
+            bool bDeny = std::any_of(feel_touch_disable.begin(), feel_touch_disable.end(),
+                [O](const auto& d) { return d.O == O; });
 
-	//. Engine.Sheduler.Slice	();	
+            if (!bDeny) {
+                feel_touch.push_back(O);
+                feel_touch_new(O);
+            }
+        }
+    }
+
+    // Удаляем старые
+    feel_touch.erase(
+        std::remove_if(feel_touch.begin(), feel_touch.end(),
+            [&](CObject* O) {
+                if (O->getDestroy() || !feel_touch_contact(O) ||
+                    std::find(q_nearest.begin(), q_nearest.end(), O) == q_nearest.end())
+                {
+                    feel_touch_delete(O);
+                    return true; // удалить
+                }
+                return false;
+            }),
+        feel_touch.end()
+    );
 }
 
 void Touch::feel_touch_relcase	(CObject* O)

@@ -15,7 +15,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -61,13 +61,13 @@
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib ogg_static_d.lib theora_static_d.lib"
 				ShowProgress="0"
-				OutputFile="x:\XR_3DA.exe"
+				OutputFile="g:\XR_3DA.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\XR_3DA.map"
+				MapFileName="g:\XR_3DA.map"
 				MapExports="FALSE"
 				SubSystem="2"/>
 			<Tool
@@ -76,7 +76,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -100,7 +100,7 @@
 		</Configuration>
 		<Configuration
 			Name="Mixed|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Mixed"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -142,7 +142,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib ogg_static.lib theora_static.lib"
-				OutputFile="x:\XR_3DA.exe"
+				OutputFile="g:\XR_3DA.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="libcmt.lib"
@@ -159,7 +159,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -183,7 +183,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -226,13 +226,13 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib ogg_static.lib theora_static.lib"
-				OutputFile="x:\XR_3DA.exe"
+				OutputFile="g:\XR_3DA.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="FALSE"
-				MapFileName="x:\XR_3DA.map"
+				MapFileName="g:\XR_3DA.map"
 				SubSystem="0"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -243,7 +243,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -267,7 +267,7 @@
 		</Configuration>
 		<Configuration
 			Name="DebugNoExceptions|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -313,13 +313,13 @@
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib"
 				ShowProgress="0"
-				OutputFile="x:\XR_3DA.exe"
+				OutputFile="g:\XR_3DA.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\XR_3DA.map"
+				MapFileName="g:\XR_3DA.map"
 				MapExports="FALSE"
 				SubSystem="2"/>
 			<Tool
@@ -328,7 +328,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -352,7 +352,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug_Dedicated|Win32"
-			OutputDirectory="x:\dedicated\"
+			OutputDirectory="g:\dedicated\"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -398,13 +398,13 @@
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib ogg_static_d.lib theora_static_d.lib"
 				ShowProgress="0"
-				OutputFile="x:\dedicated\XR_3DA.exe"
+				OutputFile="g:\dedicated\XR_3DA.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\XR_3DA.map"
+				MapFileName="g:\XR_3DA.map"
 				MapExports="FALSE"
 				SubSystem="2"/>
 			<Tool
@@ -413,7 +413,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -437,7 +437,7 @@
 		</Configuration>
 		<Configuration
 			Name="Mixed_Dedicated|Win32"
-			OutputDirectory="x:\dedicated\"
+			OutputDirectory="g:\dedicated\"
 			IntermediateDirectory=".\Mixed"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -479,7 +479,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib ogg_static.lib theora_static.lib"
-				OutputFile="x:\dedicated\XR_3DA.exe"
+				OutputFile="g:\dedicated\XR_3DA.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="libcmt.lib"
@@ -496,7 +496,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -520,7 +520,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release_Dedicated|Win32"
-			OutputDirectory="x:\dedicated\"
+			OutputDirectory="g:\dedicated\"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
 			UseOfMFC="0"
@@ -563,13 +563,13 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
 				AdditionalDependencies="msacm32.lib vfw32.lib ogg_static.lib theora_static.lib"
-				OutputFile="x:\dedicated\XR_3DA.exe"
+				OutputFile="g:\dedicated\XR_3DA.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="FALSE"
-				MapFileName="x:\XR_3DA.map"
+				MapFileName="g:\XR_3DA.map"
 				SubSystem="0"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -580,7 +580,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\XR_3DA.tlb"/>
+				TypeLibraryName="g:\XR_3DA.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

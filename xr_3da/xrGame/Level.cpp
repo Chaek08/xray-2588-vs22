@@ -44,6 +44,8 @@
 #include "car.h"
 #include "trade_parameters.h"
 
+#include <functional>
+
 #ifdef DEBUG
 #	include "level_debug.h"
 #	include "ai/stalker/ai_stalker.h"

@@ -36,92 +36,91 @@ short QC (float v)
 	return short(t&0xffff);
 }
 
-void CDetailManager::hw_Load	()
+void CDetailManager::hw_Load()
 {
 	// Analyze batch-size
-	hw_BatchSize	= (u32(HW.Caps.geometry.dwRegisters)-c_hdr)/c_size;
-	clamp			(hw_BatchSize,(u32)0,(u32)50);
-	Msg				("* [DETAILS] VertexConsts(%d), Batch(%d)",u32(HW.Caps.geometry.dwRegisters),hw_BatchSize);
+	hw_BatchSize = (u32(HW.Caps.geometry.dwRegisters) - c_hdr) / c_size;
+	clamp(hw_BatchSize, (u32)0, (u32)50);
+	Msg("* [DETAILS] VertexConsts(%d), Batch(%d)", u32(HW.Caps.geometry.dwRegisters), hw_BatchSize);
 
 	// Pre-process objects
-	u32			dwVerts		= 0;
-	u32			dwIndices	= 0;
-	for (u32 o=0; o<objects.size(); o++)
+	u32 dwVerts = 0;
+	u32 dwIndices = 0;
+	for (u32 o = 0; o < objects.size(); o++)
 	{
-		CDetail& D	=	*objects[o];
-		dwVerts		+=	D.number_vertices*hw_BatchSize;
-		dwIndices	+=	D.number_indices*hw_BatchSize;
+		CDetail& D = *objects[o];
+		dwVerts += D.number_vertices * hw_BatchSize;
+		dwIndices += D.number_indices * hw_BatchSize;
 	}
-	u32			vSize		= sizeof(vertHW);
-	Msg("* [DETAILS] %d v(%d), %d p",dwVerts,vSize,dwIndices/3);
-
-	// Determine POOL & USAGE
-	u32 dwUsage		=	D3DUSAGE_WRITEONLY;
+	u32 vSize = sizeof(vertHW);
+	Msg("* [DETAILS] %d v(%d), %d p", dwVerts, vSize, dwIndices / 3);
 
 	// Create VB/IB
-	R_CHK			(HW.pDevice->CreateVertexBuffer(dwVerts*vSize,dwUsage,0,D3DPOOL_MANAGED,&hw_VB,0));
-	R_CHK			(HW.pDevice->CreateIndexBuffer(dwIndices*2,dwUsage,D3DFMT_INDEX16,D3DPOOL_MANAGED,&hw_IB,0));
-	Msg("* [DETAILS] Batch(%d), VB(%dK), IB(%dK)",hw_BatchSize,(dwVerts*vSize)/1024, (dwIndices*2)/1024);
+	u32 dwUsage = D3DUSAGE_WRITEONLY;
+	R_CHK(HW.pDevice->CreateVertexBuffer(dwVerts * vSize, dwUsage, 0, D3DPOOL_MANAGED, &hw_VB, nullptr));
+	R_CHK(HW.pDevice->CreateIndexBuffer(dwIndices * sizeof(u16), dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &hw_IB, nullptr));
+	Msg("* [DETAILS] Batch(%d), VB(%dK), IB(%dK)", hw_BatchSize, (dwVerts * vSize) / 1024, (dwIndices * 2) / 1024);
 
 	// Fill VB
 	{
-		vertHW*			pV;
-		R_CHK			(hw_VB->Lock(0,0,(void**)&pV,0));
-		for (o=0; o<objects.size(); o++)
+		vertHW* pV = nullptr;
+		R_CHK(hw_VB->Lock(0, 0, reinterpret_cast<void**>(&pV), 0));
+		for (u32 o = 0; o < objects.size(); o++)
 		{
-			CDetail& D		=	*objects[o];
-			for (u32 batch=0; batch<hw_BatchSize; batch++)
+			CDetail& D = *objects[o];
+			for (u32 batch = 0; batch < hw_BatchSize; batch++)
 			{
-				u32 mid	=	batch*c_size;
-				for (u32 v=0; v<D.number_vertices; v++)
+				u32 mid = batch * c_size;
+				for (u32 v = 0; v < D.number_vertices; v++)
 				{
-					Fvector&	vP = D.vertices[v].P;
-					pV->x	=	vP.x;
-					pV->y	=	vP.y;
-					pV->z	=	vP.z;
-					pV->u	=	QC(D.vertices[v].u);
-					pV->v	=	QC(D.vertices[v].v);
-					pV->t	=	QC(vP.y/(D.bv_bb.max.y-D.bv_bb.min.y));
-					pV->mid	=	short(mid);
+					Fvector& vP = D.vertices[v].P;
+					pV->x = vP.x;
+					pV->y = vP.y;
+					pV->z = vP.z;
+					pV->u = QC(D.vertices[v].u);
+					pV->v = QC(D.vertices[v].v);
+					pV->t = QC(vP.y / (D.bv_bb.max.y - D.bv_bb.min.y));
+					pV->mid = short(mid);
 					pV++;
 				}
 			}
 		}
-		R_CHK			(hw_VB->Unlock());
+		R_CHK(hw_VB->Unlock());
 	}
 
 	// Fill IB
 	{
-		u16*			pI;
-		R_CHK			(hw_IB->Lock(0,0,(void**)(&pI),0));
-		for (o=0; o<objects.size(); o++)
+		u16* pI = nullptr;
+		R_CHK(hw_IB->Lock(0, 0, reinterpret_cast<void**>(&pI), 0));
+		for (u32 o = 0; o < objects.size(); o++)
 		{
-			CDetail& D		=	*objects[o];
-			u16		offset	=	0;
-			for (u32 batch=0; batch<hw_BatchSize; batch++)
+			CDetail& D = *objects[o];
+			u16 offset = 0;
+			for (u32 batch = 0; batch < hw_BatchSize; batch++)
 			{
-				for (u32 i=0; i<u32(D.number_indices); i++)
-					*pI++	=	u16(u16(D.indices[i]) + u16(offset));
-				offset		=	u16(offset+u16(D.number_vertices));
+				for (u32 i = 0; i < u32(D.number_indices); i++)
+					*pI++ = u16(D.indices[i]) + offset;
+				offset = u16(offset + D.number_vertices);
 			}
 		}
-		R_CHK			(hw_IB->Unlock());
+		R_CHK(hw_IB->Unlock());
 	}
 
 	// Create shader to access constant storage
-	ref_shader		S;	S.create("details\\set");
-	R_constant_table&	T0	= *(S->E[0]->passes[0]->constants);
-	R_constant_table&	T1	= *(S->E[1]->passes[0]->constants);
-	hwc_consts			= T0.get("consts");
-	hwc_wave			= T0.get("wave");
-	hwc_wind			= T0.get("dir2D");
-	hwc_array			= T0.get("array");
-	hwc_s_consts		= T1.get("consts");
-	hwc_s_xform			= T1.get("xform");
-	hwc_s_array			= T1.get("array");
+	ref_shader S;
+	S.create("details\\set");
+	R_constant_table& T0 = *(S->E[0]->passes[0]->constants);
+	R_constant_table& T1 = *(S->E[1]->passes[0]->constants);
+	hwc_consts = T0.get("consts");
+	hwc_wave = T0.get("wave");
+	hwc_wind = T0.get("dir2D");
+	hwc_array = T0.get("array");
+	hwc_s_consts = T1.get("consts");
+	hwc_s_xform = T1.get("xform");
+	hwc_s_array = T1.get("array");
 
 	// Declare geometry
-	hw_Geom.create		(dwDecl, hw_VB, hw_IB);
+	hw_Geom.create(dwDecl, hw_VB, hw_IB);
 }
 
 void CDetailManager::hw_Unload()

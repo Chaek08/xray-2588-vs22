@@ -40,86 +40,78 @@ void CStatGraph::OnDeviceDestroy()
 	hGeomTri.destroy				();
 }
 
-void CStatGraph::RenderBack	()
+void CStatGraph::RenderBack()
 {
 	// draw back
-	u32			dwOffset,dwCount;
-	FVF::TL0uv* pv_start				= (FVF::TL0uv*)RCache.Vertex.Lock(4,hGeomTri->vb_stride,dwOffset);
-	FVF::TL0uv* pv						= pv_start;
+	u32 dwOffset, dwCount;
+	FVF::TL0uv* pv_start = (FVF::TL0uv*)RCache.Vertex.Lock(4, hGeomTri->vb_stride, dwOffset);
+	FVF::TL0uv* pv = pv_start;
 	// base rect
-	pv->set					(lt.x,rb.y,back_color); pv++;	// 0
-	pv->set					(lt.x,lt.y,back_color); pv++; 	// 1
-	pv->set					(rb.x,rb.y,back_color); pv++;	// 2
-	pv->set					(rb.x,lt.y,back_color); pv++;	// 3
-	// render	
-	dwCount 				= u32(pv-pv_start);
-	RCache.Vertex.Unlock	(dwCount,hGeomTri->vb_stride);
-	RCache.set_Geometry		(hGeomTri);
-	RCache.Render	   		(D3DPT_TRIANGLELIST,dwOffset,0, dwCount, 0, dwCount/2);	
+	pv->set(lt.x, rb.y, back_color); pv++;    // 0
+	pv->set(lt.x, lt.y, back_color); pv++;    // 1
+	pv->set(rb.x, rb.y, back_color); pv++;    // 2
+	pv->set(rb.x, lt.y, back_color); pv++;    // 3
+	// render    
+	dwCount = u32(pv - pv_start);
+	RCache.Vertex.Unlock(dwCount, hGeomTri->vb_stride);
+	RCache.set_Geometry(hGeomTri);
+	RCache.Render(D3DPT_TRIANGLELIST, dwOffset, 0, dwCount, 0, dwCount / 2);
 
-	//draw rect
-	pv_start				= (FVF::TL0uv*)RCache.Vertex.Lock(5,hGeomLine->vb_stride,dwOffset);
-	pv						= pv_start;
-	// base rect
-	pv->set					(lt.x,lt.y,rect_color); pv++;	// 0
-	pv->set					(rb.x-1,lt.y,rect_color); pv++; 	// 1
-	pv->set					(rb.x-1,rb.y,rect_color); pv++;	// 2
-	pv->set					(lt.x,rb.y,rect_color); pv++;	// 3
-	pv->set					(lt.x,lt.y,rect_color); pv++;	// 0
-	// render	
-	dwCount 				= u32(pv-pv_start);
-    RCache.Vertex.Unlock	(dwCount,hGeomLine->vb_stride);
-    RCache.set_Geometry		(hGeomLine);
-    RCache.Render	   		(D3DPT_LINESTRIP,dwOffset,4);
+	// draw rect
+	pv_start = (FVF::TL0uv*)RCache.Vertex.Lock(5, hGeomLine->vb_stride, dwOffset);
+	pv = pv_start;
+	pv->set(lt.x, lt.y, rect_color); pv++;
+	pv->set(rb.x - 1, lt.y, rect_color); pv++;
+	pv->set(rb.x - 1, rb.y, rect_color); pv++;
+	pv->set(lt.x, rb.y, rect_color); pv++;
+	pv->set(lt.x, lt.y, rect_color); pv++;
+	dwCount = u32(pv - pv_start);
+	RCache.Vertex.Unlock(dwCount, hGeomLine->vb_stride);
+	RCache.set_Geometry(hGeomLine);
+	RCache.Render(D3DPT_LINESTRIP, dwOffset, 4);
 
 	// draw grid
-	float elem_factor	= float(rb.y-lt.y)/float(mx-mn);
-	float base_y		= float(rb.y)+(mn*elem_factor);
+	float elem_factor = float(rb.y - lt.y) / float(mx - mn);
+	float base_y = float(rb.y) + (mn * elem_factor);
 
-	int PNum_H_LinesUp	= int((base_y - float(lt.y)) / (grid_step.y*elem_factor));
-	int PNum_H_LinesDwn = u32((float(rb.y) - base_y) / (grid_step.y*elem_factor));
+	int PNum_H_LinesUp = int((base_y - float(lt.y)) / (grid_step.y * elem_factor));
+	int PNum_H_LinesDwn = int((float(rb.y) - base_y) / (grid_step.y * elem_factor));
 	int Num_H_LinesUp = (grid.y < PNum_H_LinesUp) ? grid.y : PNum_H_LinesUp;
-	int Num_H_LinesDwn = (grid.y < PNum_H_LinesUp) ? grid.y : PNum_H_LinesDwn;
+	int Num_H_LinesDwn = (grid.y < PNum_H_LinesDwn) ? grid.y : PNum_H_LinesDwn;
 
-	pv_start	= (FVF::TL0uv*)RCache.Vertex.Lock(	2 + 2*grid.x + Num_H_LinesUp*2 + Num_H_LinesDwn*2,
-													hGeomLine->vb_stride,dwOffset);
-    pv			= pv_start;
-    // base Coordinate Line
-	pv->set					(lt.x, int(base_y), base_color); pv++; // 0
-	pv->set					(rb.x, int(base_y), base_color); pv++;	// 0    
-    // grid
-//    float grid_offs_x		= float(rb.x-lt.x)/float(grid.x+1);
-//    float grid_offs_y		= float(rb.y-lt.y)/float(grid.y+1);
-    for (int g_x=1; g_x<=grid.x; g_x++)
-	{
-	    pv->set				(int(lt.x + g_x*grid_step.x*elem_factor),lt.y,grid_color); pv++; 	
-	    pv->set				(int(lt.x + g_x*grid_step.x*elem_factor),rb.y,grid_color); pv++; 	
+	pv_start = (FVF::TL0uv*)RCache.Vertex.Lock(
+		2 + 2 * grid.x + Num_H_LinesUp * 2 + Num_H_LinesDwn * 2,
+		hGeomLine->vb_stride, dwOffset
+	);
+	pv = pv_start;
+	// base Coordinate Line
+	pv->set(lt.x, int(base_y), base_color); pv++;
+	pv->set(rb.x, int(base_y), base_color); pv++;
+
+	// vertical grid lines
+	for (int g_x = 1; g_x <= grid.x; g_x++) {
+		pv->set(int(lt.x + g_x * grid_step.x * elem_factor), lt.y, grid_color); pv++;
+		pv->set(int(lt.x + g_x * grid_step.x * elem_factor), rb.y, grid_color); pv++;
 	}
-	for (int g_y=1; g_y<=Num_H_LinesDwn; g_y++)
-	{
-		pv->set				(lt.x,int(base_y+g_y*grid_step.y*elem_factor),grid_color); pv++;
-		pv->set				(rb.x,int(base_y+g_y*grid_step.y*elem_factor),grid_color); pv++;
-	};
 
-	for (g_y=1; g_y<=Num_H_LinesUp; g_y++)
-	{									
-		pv->set				(lt.x,int(base_y-g_y*grid_step.y*elem_factor),grid_color); pv++; 	
-		pv->set				(rb.x,int(base_y-g_y*grid_step.y*elem_factor),grid_color); pv++; 	
-	}    	
+	// horizontal lines down
+	for (int g_y = 1; g_y <= Num_H_LinesDwn; g_y++) {
+		pv->set(lt.x, int(base_y + g_y * grid_step.y * elem_factor), grid_color); pv++;
+		pv->set(rb.x, int(base_y + g_y * grid_step.y * elem_factor), grid_color); pv++;
+	}
 
-	
-//    for (int g_y=1; g_y<=grid.y; g_y++){
-//	    pv->set				(lt.x,iFloor(g_y*grid_offs_y+lt.y),grid_color); pv++; 	
-//	    pv->set				(rb.x,iFloor(g_y*grid_offs_y+lt.y),grid_color); pv++; 	
-//	}
+	// horizontal lines up
+	for (int g_y = 1; g_y <= Num_H_LinesUp; g_y++) {
+		pv->set(lt.x, int(base_y - g_y * grid_step.y * elem_factor), grid_color); pv++;
+		pv->set(rb.x, int(base_y - g_y * grid_step.y * elem_factor), grid_color); pv++;
+	}
 
-	dwCount 				= u32(pv-pv_start);
-    RCache.Vertex.Unlock	(dwCount,hGeomLine->vb_stride);
-    RCache.set_Geometry		(hGeomLine);
-    RCache.Render	   		(D3DPT_LINELIST,dwOffset,dwCount/2);
+	dwCount = u32(pv - pv_start);
+	RCache.Vertex.Unlock(dwCount, hGeomLine->vb_stride);
+	RCache.set_Geometry(hGeomLine);
+	RCache.Render(D3DPT_LINELIST, dwOffset, dwCount / 2);
+}
 
-
-};
 
 void CStatGraph::RenderBars(FVF::TL0uv** ppv, ElementsDeq* pelements)
 {

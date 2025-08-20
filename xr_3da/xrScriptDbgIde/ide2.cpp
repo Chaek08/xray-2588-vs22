@@ -261,7 +261,7 @@ const char *g_rAllowConn				= "AllowConnections";
 
 const char *g_rSSafeIniDefValue			    = "\\\\X-RAY\\VSS$\\srcsafe.ini";
 const char *g_rSSafeFolderDefValue          = "$/xrStalker/Scripts/";
-const char *g_rComparerCmdDef				= "x:\\wincmp.exe";
+const char *g_rComparerCmdDef				= "g:\\wincmp.exe";
 const char *g_rComparerFormatDef			= " %s %s";
 DWORD g_rAllowDef = 1;
 	char g_rSSUserNameDef[128];

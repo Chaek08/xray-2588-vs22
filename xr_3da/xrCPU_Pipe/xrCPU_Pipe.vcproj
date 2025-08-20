@@ -15,7 +15,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -55,25 +55,25 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="x:\xr_3da.lib odbc32.lib odbccp32.lib"
-				OutputFile="x:\xrCPU_Pipe.dll"
+				AdditionalDependencies="g:\xr_3da.lib odbc32.lib odbccp32.lib"
+				OutputFile="g:\xrCPU_Pipe.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="FALSE"
-				MapFileName="x:\xrCPU_Pipe.map"
+				MapFileName="g:\xrCPU_Pipe.map"
 				SubSystem="0"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="x:\xrCPU_Pipe.lib"/>
+				ImportLibrary="g:\xrCPU_Pipe.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrCPU_Pipe.tlb"/>
+				TypeLibraryName="g:\xrCPU_Pipe.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -97,7 +97,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -137,24 +137,24 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="odbc32.lib odbccp32.lib x:\xr_3da.lib"
-				OutputFile="x:\xrCPU_Pipe.dll"
+				AdditionalDependencies="odbc32.lib odbccp32.lib g:\xr_3da.lib"
+				OutputFile="g:\xrCPU_Pipe.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\xrCPU_Pipe.map"
+				MapFileName="g:\xrCPU_Pipe.map"
 				MapExports="FALSE"
 				OptimizeReferences="0"
-				ImportLibrary="x:\xrCPU_Pipe.lib"/>
+				ImportLibrary="g:\xrCPU_Pipe.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrCPU_Pipe.tlb"/>
+				TypeLibraryName="g:\xrCPU_Pipe.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -178,7 +178,7 @@
 		</Configuration>
 		<Configuration
 			Name="Mixed|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory="Mixed"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -218,14 +218,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="x:\xr_3da.lib odbc32.lib odbccp32.lib"
-				OutputFile="x:\xrCPU_Pipe.dll"
+				AdditionalDependencies="g:\xr_3da.lib odbc32.lib odbccp32.lib"
+				OutputFile="g:\xrCPU_Pipe.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
-				MapFileName="x:\xrCPU_Pipe.map"
-				ImportLibrary="x:\xrCPU_Pipe.lib"
+				MapFileName="g:\xrCPU_Pipe.map"
+				ImportLibrary="g:\xrCPU_Pipe.lib"
 				TargetMachine="0"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -233,7 +233,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrCPU_Pipe.tlb"/>
+				TypeLibraryName="g:\xrCPU_Pipe.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -257,7 +257,7 @@
 		</Configuration>
 		<Configuration
 			Name="DebugNoExceptions|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -297,24 +297,24 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="odbc32.lib odbccp32.lib x:\xr_3da.lib"
-				OutputFile="x:\xrCPU_Pipe.dll"
+				AdditionalDependencies="odbc32.lib odbccp32.lib g:\xr_3da.lib"
+				OutputFile="g:\xrCPU_Pipe.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\xrCPU_Pipe.map"
+				MapFileName="g:\xrCPU_Pipe.map"
 				MapExports="FALSE"
 				OptimizeReferences="0"
-				ImportLibrary="x:\xrCPU_Pipe.lib"/>
+				ImportLibrary="g:\xrCPU_Pipe.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrCPU_Pipe.tlb"/>
+				TypeLibraryName="g:\xrCPU_Pipe.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool

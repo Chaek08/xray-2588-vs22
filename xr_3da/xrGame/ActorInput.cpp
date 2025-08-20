@@ -407,27 +407,35 @@ static	u32 SlotsToCheck [] = {
 		APPARATUS_SLOT	,		// 4
 };
 
-void	CActor::OnNextWeaponSlot()
+void CActor::OnNextWeaponSlot()
 {
 	u32 ActiveSlot = inventory().GetActiveSlot();
-	if (ActiveSlot == NO_ACTIVE_SLOT) ActiveSlot = inventory().GetPrevActiveSlot();
-	if (ActiveSlot == NO_ACTIVE_SLOT) return;
-	
-	u32 NumSlotsToCheck = sizeof(SlotsToCheck)/sizeof(u32);	
-	for (u32 CurSlot=0; CurSlot<NumSlotsToCheck; CurSlot++)
+	if (ActiveSlot == NO_ACTIVE_SLOT)
+		ActiveSlot = inventory().GetPrevActiveSlot();
+	if (ActiveSlot == NO_ACTIVE_SLOT)
+		return;
+
+	u32 NumSlotsToCheck = sizeof(SlotsToCheck) / sizeof(SlotsToCheck[0]);
+	u32 CurSlot = 0;
+
+	for (; CurSlot < NumSlotsToCheck; CurSlot++)
 	{
-		if (SlotsToCheck[CurSlot] == ActiveSlot) break;
+		if (SlotsToCheck[CurSlot] == ActiveSlot)
+			break;
 	};
-	if (CurSlot >= NumSlotsToCheck) return;
-	for (u32 i=CurSlot+1; i<NumSlotsToCheck; i++)
+
+	if (CurSlot >= NumSlotsToCheck)
+		return;
+
+	for (u32 i = CurSlot + 1; i < NumSlotsToCheck; i++)
 	{
 		if (inventory().ItemFromSlot(SlotsToCheck[i]))
 		{
-			IR_OnKeyboardPress(kWPN_1+(i-KNIFE_SLOT));
+			IR_OnKeyboardPress(kWPN_1 + (i - KNIFE_SLOT));
 			return;
 		}
 	}
-};
+}
 
 void	CActor::OnPrevWeaponSlot()
 {
@@ -435,17 +443,18 @@ void	CActor::OnPrevWeaponSlot()
 	if (ActiveSlot == NO_ACTIVE_SLOT) ActiveSlot = inventory().GetPrevActiveSlot();
 	if (ActiveSlot == NO_ACTIVE_SLOT) return;
 
-	u32 NumSlotsToCheck = sizeof(SlotsToCheck)/sizeof(u32);	
-	for (u32 CurSlot=0; CurSlot<NumSlotsToCheck; CurSlot++)
+	u32 NumSlotsToCheck = sizeof(SlotsToCheck) / sizeof(SlotsToCheck[0]);
+	u32 CurSlot = 0;
+	for (; CurSlot < NumSlotsToCheck; CurSlot++)
 	{
 		if (SlotsToCheck[CurSlot] == ActiveSlot) break;
 	};
 	if (CurSlot >= NumSlotsToCheck) return;
-	for (s32 i=s32(CurSlot-1); i>=0; i--)
+	for (s32 i = s32(CurSlot - 1); i >= 0; i--)
 	{
 		if (inventory().ItemFromSlot(SlotsToCheck[i]))
 		{
-			IR_OnKeyboardPress(kWPN_1+(i-KNIFE_SLOT));
+			IR_OnKeyboardPress(kWPN_1 + (i - KNIFE_SLOT));
 			return;
 		}
 	}

@@ -186,9 +186,10 @@ BOOL IPureClient::Connect	(LPCSTR options)
 	if (strchr(server_name,'/'))	*strchr(server_name,'/') = 0;
 
 	string64				password_str = "";
-	if (strstr(options, "psw="))
+	const char* psw_pos = strstr(options, "psw=");
+	if (psw_pos)
 	{
-		char* PSW = strstr(options, "psw=") + 4;
+		char* PSW = const_cast<char*>(psw_pos) + 4;
 		if (strchr(PSW, '/')) 
 			strncpy(password_str, PSW, strchr(PSW, '/') - PSW);
 		else

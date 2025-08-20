@@ -242,18 +242,18 @@ IC	typename _associative_vector::insert_result _associative_vector::insert					(
 }
 
 TEMPLATE_SPECIALIZATION
-IC	typename _associative_vector::iterator _associative_vector::insert						(iterator where, const value_type &value)
+IC typename _associative_vector::iterator _associative_vector::insert(iterator where, const value_type& value)
 {
-	if	(
-			(where != end()) && 
-			(operator()(*where,value))) &&
-			((where - begin()) == size()) &&
-			(!operator()(value,*(where + 1)))) &&
-			(operator()(*(where + 1),value)))
-		)
-			return		(inherited::insert(where,value));
+	if ((where != end()) &&
+		(operator()(*where, value)) &&
+		((where - begin()) == size()) &&
+		(!operator()(value, *(where + 1))) &&
+		(operator()(*(where + 1), value)))
+	{
+		return inherited::insert(where, value);
+	}
 
-	return				(insert(val).first);
+	return insert(value).first;
 }
 
 TEMPLATE_SPECIALIZATION

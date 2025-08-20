@@ -301,7 +301,7 @@ void CLevel::IR_OnKeyboardPress	(int key)
 			Console->Hide	();
 			char fn[256];
 			FS.update_path(fn,"$game_saves$","1.xrdemo");
-//			 strcpy(fn,"x:\\1.xrdemo");
+//			 strcpy(fn,"1.xrdemo");
 			g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn));
 		}
 		break;

@@ -478,19 +478,21 @@ void CKinematicsAnimated::Spawn	()
 		blend_instances[i].construct();
 }
 
-void CKinematicsAnimated::IBlend_Startup	()
+void CKinematicsAnimated::IBlend_Startup()
 {
 	_DBG_SINGLE_USE_MARKER;
-	CBlend B; ZeroMemory(&B,sizeof(B));
-	B.blend				= CBlend::eFREE_SLOT;
-	blend_pool.clear	();
-	for (u32 i=0; i<MAX_BLENDED_POOL; i++)
+	CBlend B;
+	ZeroMemory(&B, sizeof(B));
+	B.blend = CBlend::eFREE_SLOT;
+
+	blend_pool.clear();
+	for (u32 i = 0; i < MAX_BLENDED_POOL; i++)
 		blend_pool.push_back(B);
 
-	// cycles+fx clear
-	for (i=0; i<MAX_PARTS; i++)
+	for (u32 i = 0; i < MAX_PARTS; i++)
 		blend_cycles[i].clear();
-	blend_fx.clear		();
+
+	blend_fx.clear();
 }
 
 CBlend*	CKinematicsAnimated::IBlend_Create	()

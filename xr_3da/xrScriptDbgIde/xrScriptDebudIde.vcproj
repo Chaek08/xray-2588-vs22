@@ -45,11 +45,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="cj60lib.lib"
-				OutputFile="x:\xrScriptDbgIde.exe"
+				OutputFile="g:\xrScriptDbgIde.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\library\release"
-				ProgramDatabaseFile="x:\xrScriptDbgIde.pdb"
+				ProgramDatabaseFile="g:\xrScriptDbgIde.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
@@ -116,12 +116,12 @@ copy $(TargetDir)CJ60Lib.dll e:\exchange2\debugger
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="cj60lib.lib"
-				OutputFile="x:\xrScriptDbgIde.exe"
+				OutputFile="g:\xrScriptDbgIde.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=".\libs"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="x:\xrScriptDbgIde.pdb"
+				ProgramDatabaseFile="g:\xrScriptDbgIde.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool

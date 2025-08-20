@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+    <Filter Include="GameSpy">
+      <UniqueIdentifier>{92c3e410-2f48-404f-a70a-8d5487149c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSpy\Common">
+      <UniqueIdentifier>{60232a1e-f8f6-4c35-a768-7ea7ff69624a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSpy\QR2">
+      <UniqueIdentifier>{98afe20f-15fa-47bc-b69a-94339fe18cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSpy\ServerBrowsing">
+      <UniqueIdentifier>{30d8ecca-db12-47e3-9405-8e6ed1b05580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSpy\CD-Key">
+      <UniqueIdentifier>{71907adf-83a9-4cc9-98e9-5f2783f1fc72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xrGameSpy_ServerBrowser">
+      <UniqueIdentifier>{eaa870df-1d6f-46bf-ba25-e845504a550b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xrGameSpy_Available">
+      <UniqueIdentifier>{8c1a7f3e-cdf0-42fc-8782-1c4c0ae92d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xrGameSpy_QR2">
+      <UniqueIdentifier>{0a596ab5-b24a-4f1b-8e87-63317c9d7f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xrGameSpy_CDKey">
+      <UniqueIdentifier>{72a7b882-405f-422e-b1d0-ced03854e798}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\available.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\darray.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\gsiDebug.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\hashtable.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\md5c.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\nonport.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\stringutil.c">
+      <Filter>GameSpy\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\Qr2\qr2.c">
+      <Filter>GameSpy\QR2</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\Qr2\qr2regkeys.c">
+      <Filter>GameSpy\QR2</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\ServerBrowsing\sb_crypt.c">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\ServerBrowsing\sb_queryengine.c">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\ServerBrowsing\sb_server.c">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\ServerBrowsing\sb_serverbrowsing.c">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\ServerBrowsing\sb_serverlist.c">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\CDKey\gcdkeyc.c">
+      <Filter>GameSpy\CD-Key</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpy\CDKey\gcdkeys.c">
+      <Filter>GameSpy\CD-Key</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpy_ServerBrowser.cpp">
+      <Filter>xrGameSpy_ServerBrowser</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpy_Available.cpp">
+      <Filter>xrGameSpy_Available</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpy_QR2.cpp">
+      <Filter>xrGameSpy_QR2</Filter>
+    </ClCompile>
+    <ClCompile Include="xrGameSpy_CDKey.cpp">
+      <Filter>xrGameSpy_CDKey</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpy_MainDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\available.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\darray.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\gsiDebug.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\hashtable.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\md5.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\nonport.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\stringutil.h">
+      <Filter>GameSpy\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\Qr2\qr2.h">
+      <Filter>GameSpy\QR2</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\Qr2\qr2regkeys.h">
+      <Filter>GameSpy\QR2</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\ServerBrowsing\sb_ascii.h">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\ServerBrowsing\sb_crypt.h">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\ServerBrowsing\sb_internal.h">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\ServerBrowsing\sb_serverbrowsing.h">
+      <Filter>GameSpy\ServerBrowsing</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\CDKey\gcdkeyc.h">
+      <Filter>GameSpy\CD-Key</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpy\CDKey\gcdkeys.h">
+      <Filter>GameSpy\CD-Key</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpy_ServerBrowser.h">
+      <Filter>xrGameSpy_ServerBrowser</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpy_Available.h">
+      <Filter>xrGameSpy_Available</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpy_QR2.h">
+      <Filter>xrGameSpy_QR2</Filter>
+    </ClInclude>
+    <ClInclude Include="xrGameSpy_CDKey.h">
+      <Filter>xrGameSpy_CDKey</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

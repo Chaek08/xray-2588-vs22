@@ -406,7 +406,7 @@ CRenderTarget::CRenderTarget		()
 			}
 			R_CHK		(t_material_surf->UnlockBox	(0));
 			// #ifdef DEBUG
-			// R_CHK	(D3DXSaveTextureToFile	("x:\\r2_material.dds",D3DXIFF_DDS,t_material_surf,0));
+			// R_CHK	(D3DXSaveTextureToFile	("g:\\r2_material.dds",D3DXIFF_DDS,t_material_surf,0));
 			// #endif
 		}
 

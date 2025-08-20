@@ -1,14 +1,20 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-LPSTR _TrimLeft( LPSTR str )
+LPSTR _TrimLeft(LPSTR str)
 {
-	LPSTR p 	= str;
-	while( *p && ((*p)<=' ') ) p++;
-    if (p!=str){
-        for (LPSTR t=str; *p; t++,p++) *t=*p;
-        *t = 0;
-    }
+	LPSTR p = str;
+	while (*p && (*p <= ' '))
+		p++;
+
+	if (p != str) {
+		LPSTR t = str;
+		while (*p) {
+			*t++ = *p++;
+		}
+		*t = 0;
+	}
+
 	return str;
 }
 

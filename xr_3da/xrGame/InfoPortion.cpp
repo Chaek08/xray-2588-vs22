@@ -58,7 +58,7 @@ void CInfoPortion::Load	(INFO_ID info_id)
 }
 
 
-void CInfoPortion::load_shared	(LPCSTR)
+void CInfoPortion::load_shared(LPCSTR)
 {
 	const id_to_index::ITEM_DATA& item_data = *id_to_index::GetById(m_InfoId);
 
@@ -73,71 +73,68 @@ void CInfoPortion::load_shared	(LPCSTR)
 	XML_NODE* pNode = uiXml.NavigateToNode(id_to_index::tag_name, item_data.pos_in_file);
 	THROW3(pNode, "info_portion id=", *item_data.id);
 
-
 	int defer_init = uiXml.ReadAttribInt(pNode, "defer_init", 0);
-	if (1 == defer_init) 
+	if (1 == defer_init)
 		info_data()->m_bDeferInit = true;
 	else
 		info_data()->m_bDeferInit = false;
 
-
 	//текст
-	info_data()->m_text = uiXml.Read(pNode, "text", 0,"");
+	info_data()->m_text = uiXml.Read(pNode, "text", 0, "");
 
 	//список названий диалогов
 	int dialogs_num = uiXml.GetNodesNum(pNode, "dialog");
 	info_data()->m_DialogNames.clear();
-	for(int i=0; i<dialogs_num; ++i)
+	for (int i = 0; i < dialogs_num; ++i)
 	{
-		shared_str dialog_name = uiXml.Read(pNode, "dialog", i,"");
+		shared_str dialog_name = uiXml.Read(pNode, "dialog", i, "");
 		info_data()->m_DialogNames.push_back(dialog_name);
 	}
 
 	dialogs_num = uiXml.GetNodesNum(pNode, "actor_dialog");
 	info_data()->m_ActorDialogNames.clear();
-	for(int i=0; i<dialogs_num; ++i)
+	for (int i = 0; i < dialogs_num; ++i)
 	{
-		shared_str dialog_name = uiXml.Read(pNode, "actor_dialog", i,"");
+		shared_str dialog_name = uiXml.Read(pNode, "actor_dialog", i, "");
 		info_data()->m_ActorDialogNames.push_back(dialog_name);
 	}
-	
-	//список названий порций информации, которые деактивируются,
-	//после получения этой порции
+
+	//список названий порций информации, которые деактивируются
 	int disable_num = uiXml.GetNodesNum(pNode, "disable");
 	info_data()->m_DisableInfo.clear();
-	for(i=0; i<disable_num; ++i)
+	for (int i = 0; i < disable_num; ++i)
 	{
-		INFO_ID info_id = uiXml.Read(pNode, "disable", i,"");
+		INFO_ID info_id = uiXml.Read(pNode, "disable", i, "");
 		info_data()->m_DisableInfo.push_back(info_id);
 	}
 
 	//имена скриптовых функций
 	info_data()->m_PhraseScript.Load(&uiXml, pNode);
 
-
 	//индексы статей
 	info_data()->m_Articles.clear();
 	int articles_num = uiXml.GetNodesNum(pNode, "article");
-	for(i=0; i<articles_num; ++i)
+	for (int i = 0; i < articles_num; ++i)
 	{
 		LPCSTR article_str_id = uiXml.Read(pNode, "article", i, NULL);
 		THROW(article_str_id);
 		info_data()->m_Articles.push_back(article_str_id);
 	}
+
 	//индексы статей, которые уберутся из реестра
 	info_data()->m_ArticlesDisable.clear();
 	articles_num = uiXml.GetNodesNum(pNode, "article_disable");
-	for(i=0; i<articles_num; ++i)
+	for (int i = 0; i < articles_num; ++i)
 	{
 		LPCSTR article_str_id = uiXml.Read(pNode, "article_disable", i, NULL);
 		THROW(article_str_id);
 		info_data()->m_ArticlesDisable.push_back(article_str_id);
 	}
-	
-	//индексы статей, которые уберутся из реестра
+
+	//индексы заданий
 	info_data()->m_GameTasks.clear();
 	int task_num = uiXml.GetNodesNum(pNode, "task");
-	for(i=0; i<task_num; ++i)
+	for (int i = 0; i < task_num; ++i)
 	{
 		LPCSTR task_str_id = uiXml.Read(pNode, "task", i, NULL);
 		THROW(task_str_id);

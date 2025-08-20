@@ -132,31 +132,33 @@ void CInput::SetKBDAcquire( BOOL bAcquire )
 	if (pKeyboard)	bAcquire ? pKeyboard->Acquire()	: pKeyboard->Unacquire();
 }
 //-----------------------------------------------------------------------
-void CInput::KeyUpdate	( )
+void CInput::KeyUpdate()
 {
-	HRESULT						hr;
-	DWORD dwElements			= KEYBOARDBUFFERSIZE;
-	DIDEVICEOBJECTDATA			od[KEYBOARDBUFFERSIZE];
-	DWORD key					= 0;
+	HRESULT hr;
+	DWORD dwElements = KEYBOARDBUFFERSIZE;
+	DIDEVICEOBJECTDATA od[KEYBOARDBUFFERSIZE];
+	DWORD key = 0;
 
 	VERIFY(pKeyboard);
 
-	hr = pKeyboard->GetDeviceData( sizeof(DIDEVICEOBJECTDATA), &od[0], &dwElements, 0 );
-	if (( hr == DIERR_INPUTLOST )||( hr == DIERR_NOTACQUIRED )){
+	hr = pKeyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od[0], &dwElements, 0);
+	if ((hr == DIERR_INPUTLOST) || (hr == DIERR_NOTACQUIRED)) {
 		hr = pKeyboard->Acquire();
-		if ( hr != S_OK ) return;
-		hr = pKeyboard->GetDeviceData( sizeof(DIDEVICEOBJECTDATA), &od[0], &dwElements, 0 );
-		if ( hr != S_OK ) return;
+		if (hr != S_OK) return;
+		hr = pKeyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od[0], &dwElements, 0);
+		if (hr != S_OK) return;
 	}
 
-	for (u32 i = 0; i < dwElements; i++){
-		key					= od[i].dwOfs;
-		KBState[key]		= od[i].dwData & 0x80;
-		if ( KBState[key])	cbStack.back()->IR_OnKeyboardPress	( key );
-		if (!KBState[key])	cbStack.back()->IR_OnKeyboardRelease	( key );
+	for (u32 i = 0; i < dwElements; i++) {
+		key = od[i].dwOfs;
+		KBState[key] = od[i].dwData & 0x80;
+		if (KBState[key])  cbStack.back()->IR_OnKeyboardPress(key);
+		if (!KBState[key]) cbStack.back()->IR_OnKeyboardRelease(key);
 	}
-	for ( i = 0; i < COUNT_KB_BUTTONS; i++ )
-		if (KBState[i]) cbStack.back()->IR_OnKeyboardHold( i );
+
+	for (u32 i = 0; i < COUNT_KB_BUTTONS; i++) {
+		if (KBState[i]) cbStack.back()->IR_OnKeyboardHold(i);
+	}
 }
 
 BOOL CInput::iGetAsyncKeyState( int dik )

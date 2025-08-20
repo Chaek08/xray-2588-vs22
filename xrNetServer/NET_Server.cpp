@@ -147,17 +147,19 @@ BOOL IPureServer::Connect(LPCSTR options)
 	strcpy					(session_name,options);
 	if (strchr(session_name,'/'))	*strchr(session_name,'/')=0;
 	if (strchr(options,'/'))		strcpy(session_options, strchr(options,'/')+1);
-	if (strstr(options, "psw="))
+	const char* psw_pos = strstr(options, "psw=");
+	if (psw_pos)
 	{
-		char* PSW = strstr(options, "psw=") + 4;
+		char* PSW = const_cast<char*>(psw_pos) + 4;
 		if (strchr(PSW, '/')) 
 			strncpy(password_str, PSW, strchr(PSW, '/') - PSW);
 		else
 			strncpy(password_str, PSW, 63);
 	}
-	if (strstr(options, "maxplayers="))
+	const char* mp_pos = strstr(options, "maxplayers=");
+	if (mp_pos)
 	{
-		char* sMaxPlayers = strstr(options, "maxplayers=") + 11;
+		char* sMaxPlayers = const_cast<char*>(mp_pos) + 11;
 		string64 tmpStr = "";
 		if (strchr(sMaxPlayers, '/')) 
 			strncpy(tmpStr, sMaxPlayers, strchr(sMaxPlayers, '/') - sMaxPlayers);
@@ -561,29 +563,32 @@ bool			IPureServer::DisconnectClient	(IClient* C)
 	return true;
 };
 
-bool			IPureServer::DisconnectAddress	(char* Address)
+bool IPureServer::DisconnectAddress(char* Address)
 {
 	IClient* PlayersToDisconnect[256];
 	u32 NumPlayers = 0;
-	IBannedClient	tmpBanCl(Address, 0);
-	for (u32 it = 0; it<net_Players.size(); it++)
+	IBannedClient tmpBanCl(Address, 0);
+
+	u32 it;
+	for (it = 0; it < net_Players.size(); it++)
 	{
 		char ClAddress[4];
 		GetClientAddress(net_Players[it]->ID, ClAddress);
 		if (tmpBanCl == ClAddress)
 		{
 			PlayersToDisconnect[NumPlayers++] = net_Players[it];
-		};
-	};
+		}
+	}
 
 	if (!NumPlayers) return false;
 
-	for (it = 0; it<NumPlayers; it++)
+	for (it = 0; it < NumPlayers; it++)
 	{
 		DisconnectClient(PlayersToDisconnect[it]);
-	};
+	}
 	return true;
-};
+}
+
 
 bool			IPureServer::GetClientAddress	(IDirectPlay8Address* pClientAddress, char* Address, DWORD* pPort)
 {

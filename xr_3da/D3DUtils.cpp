@@ -142,6 +142,7 @@ void CDrawUtilities::UpdateGrid(int number_of_cell, float square_size, int subdi
 	FVF::L left,right;
 	left.p.y = right.p.y = 0;
 
+    int i;
 	for(int thin=0; thin<2; thin++){
 		for(int i=-m_GridCounts[0]; i<=m_GridCounts[0]; i++){
 			if( (!!thin) != !!(i%m_GridSubDiv[0]) ){
@@ -201,6 +202,7 @@ void CDrawUtilities::OnDeviceCreate()
     // initialize identity box
 	Fbox bb;
 	bb.set(-0.505f,-0.505f,-0.505f, 0.505f,0.505f,0.505f);
+    int i;
 	for (i=0; i<8; i++){
     	Fvector S;
     	Fvector p;

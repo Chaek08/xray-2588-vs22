@@ -28,38 +28,44 @@ struct v_filter {
 // Gauss filtering coeffs
 // Samples:			0-central, -1, -2,..., -7, 1, 2,... 7
 // 
-void	CalcGauss_k7(
-					 Fvector4&	w0,					// weight
-					 Fvector4&	w1,					// weight
-					 float		r		=3.3f,		// gaussian radius
-					 float		s_out	=1.f		// resulting magnitude
-					 )
+void CalcGauss_k7(
+	Fvector4& w0,                 // weight
+	Fvector4& w1,                 // weight
+	float     r = 3.3f,      // gaussian radius
+	float     s_out = 1.f        // resulting magnitude
+)
 {
-	float				W[8];
+	float W[8];
 
 	// calculate
-	float mag					=	0;
-	for (int i=-7; i<=0; i++)	W[-i]	=	expf	(-float(i*i)/(2*r*r));	// weight
-	for (i=0; i<8; i++)	mag		+= i?2*W[i]:W[i];							// symmetrical weight
-	for (i=0; i<8; i++)	W[i]	= s_out*W[i]/mag;
+	float mag = 0;
+	for (int i = -7; i <= 0; i++)
+		W[-i] = expf(-float(i * i) / (2 * r * r));  // weight
+
+	for (int j = 0; j < 8; j++)
+		mag += j ? 2 * W[j] : W[j];                 // symmetrical weight
+
+	for (int k = 0; k < 8; k++)
+		W[k] = s_out * W[k] / mag;
 
 	// W[0]=0, W[7]=-7
-	w0.set	(W[1],W[2],W[3],W[4]);		// -1, -2, -3, -4
-	w1.set	(W[5],W[6],W[7],W[0]);		// -5, -6, -7, 0
+	w0.set(W[1], W[2], W[3], W[4]); // -1, -2, -3, -4
+	w1.set(W[5], W[6], W[7], W[0]); // -5, -6, -7, 0
 }
-void	CalcGauss_wave(
-					   Fvector4&	w0,						// weight
-					   Fvector4&	w1,						// weight
-					   float		r_base		=3.3f,		// gaussian radius
-					   float		r_detail	=1.0f,		// gaussian radius
-					   float		s_out		=1.f		// resulting magnitude
-					   )
+
+void CalcGauss_wave(
+	Fvector4& w0,                     // weight
+	Fvector4& w1,                     // weight
+	float     r_base = 3.3f,        // gaussian radius
+	float     r_detail = 1.0f,        // gaussian radius
+	float     s_out = 1.f          // resulting magnitude
+)
 {
-	Fvector4	t0,t1;
-	CalcGauss_k7(w0,w1,r_base,  s_out);
-	CalcGauss_k7(t0,t1,r_detail,s_out);
-	w0.add		(t0);
-	w1.add		(t1);
+	Fvector4 t0, t1;
+	CalcGauss_k7(w0, w1, r_base, s_out);
+	CalcGauss_k7(t0, t1, r_detail, s_out);
+	w0.add(t0);
+	w1.add(t1);
 }
 
 void CRenderTarget::phase_bloom	()

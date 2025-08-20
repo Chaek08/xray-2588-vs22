@@ -552,23 +552,23 @@ void CInventory::Update()
 		}
 	}
 
-	//проверить слоты
-	for(i=0; i<(int)m_slots.size(); ++i)	{
+	// проверить слоты
+	for (int i = 0; i < (int)m_slots.size(); ++i) {
 		PIItem pIItem = m_slots[i].m_pIItem;
 
-		if(pIItem && pIItem->GetDrop())	{
-			pIItem->SetDrop		(FALSE);			 
-			
-			if(pIItem->object().H_Parent())
+		if (pIItem && pIItem->GetDrop()) {
+			pIItem->SetDrop(FALSE);
+
+			if (pIItem->object().H_Parent())
 			{
 				NET_Packet P;
-				pIItem->object().u_EventGen(P, GE_OWNERSHIP_REJECT, 
-									pIItem->object().H_Parent()->ID());
+				pIItem->object().u_EventGen(P, GE_OWNERSHIP_REJECT,
+					pIItem->object().H_Parent()->ID());
 				P.w_u16(u16(pIItem->object().ID()));
 				if (OnServer()) pIItem->object().u_EventSend(P);
 			}
 			else
-				m_drop_tasks.push_back	(pIItem);
+				m_drop_tasks.push_back(pIItem);
 		}
 	}
 	while	(m_drop_tasks.size())	{

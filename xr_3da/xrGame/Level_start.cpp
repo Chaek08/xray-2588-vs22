@@ -196,8 +196,8 @@ bool CLevel::net_start3				()
 		if (strstr(m_caServerOptions.c_str(), "psw=") && !strstr(m_caClientOptions.c_str(), "psw="))
 		{
 			string64	PasswordStr = "";
-			char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
-			if (strchr(PSW, '/')) 
+			const char* PSW = strstr(m_caServerOptions.c_str(), "psw=") + 4;
+			if (strchr(PSW, '/'))
 				strncpy(PasswordStr, PSW, strchr(PSW, '/') - PSW);
 			else
 				strcpy(PasswordStr, PSW);
@@ -205,7 +205,7 @@ bool CLevel::net_start3				()
 			string4096	tmp;
 			sprintf(tmp, "%s/psw=%s", m_caClientOptions.c_str(), PasswordStr);
 			m_caClientOptions = tmp;
-		};
+		}
 	};
 	return true;
 }

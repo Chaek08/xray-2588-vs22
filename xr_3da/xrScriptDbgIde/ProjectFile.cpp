@@ -471,7 +471,7 @@ void CProjectFile::SyntaxCheck			()
 {
 	char* _args[3];
 	CString str = GetPathName();
-	_args[0] = "x:\\luac.exe";
+	_args[0] = "g:\\luac.exe";
 	_args[1] = str.GetBuffer(0);
 	_args[2] = NULL;
 

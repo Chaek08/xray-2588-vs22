@@ -16,7 +16,7 @@ public:
 	CLASS_ID					CLS;
 	string128					cName;
 	string32					cComputer;
-	u32							cTime;
+	time_t						cTime;
 	u16							version;
 	
 	CBlender_DESC()	

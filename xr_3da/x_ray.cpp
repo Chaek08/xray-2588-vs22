@@ -376,7 +376,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// check for need to execute something external
 	if (xr_strlen(N)) 
 	{
-		_args[0] = "x:\\xr_3da.exe";
+		_args[0] = "xr_3da.exe";
 		_args[1] = N;
 		_args[2] = NULL;
 

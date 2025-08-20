@@ -35,12 +35,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="x:\xrGameSpy.dll"
+				OutputFile="g:\xrGameSpy.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/xrGameSpy.pdb"
 				SubSystem="2"
-				ImportLibrary="x:\xrGameSpy.lib"
+				ImportLibrary="g:\xrGameSpy.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -81,7 +81,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="x:\xrGameSpy.dll"
+				OutputFile="g:\xrGameSpy.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"

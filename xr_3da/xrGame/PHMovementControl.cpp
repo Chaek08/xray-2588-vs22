@@ -320,89 +320,90 @@ void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPat
 	//m_character->Reinit();
 }
 
-void CPHMovementControl::PathNearestPoint(const xr_vector<DetailPathManager::STravelPathPoint>  &path,			//in path
-										  const Fvector					&new_position,  //in position
-										  int							&index,			//in start from; out nearest
-										  bool							&near_line       //out type
-										  )
+void CPHMovementControl::PathNearestPoint(const xr_vector<DetailPathManager::STravelPathPoint>& path,			//in path
+	const Fvector& new_position,  //in position
+	int& index,			//in start from; out nearest
+	bool& near_line       //out type
+)
 {
 
-	Fvector from_first,from_second,dir;
-	bool after_line=true;//to check first point
+	Fvector from_first, from_second, dir;
+	bool after_line = true;//to check first point
 
-	Fvector path_point,vtemp;
+	Fvector path_point, vtemp;
 	float temp;
 
-	for(int i=0;i<m_path_size-1;++i)
+	int i;
+	for (i = 0; i < m_path_size - 1; ++i)
 	{
-		const Fvector &first=path[i].position, &second=path[i+1].position;
-		from_first.sub(new_position,first);
-		from_second.sub(new_position,second);
-		dir.sub(second,first);
+		const Fvector& first = path[i].position, & second = path[i + 1].position;
+		from_first.sub(new_position, first);
+		from_second.sub(new_position, second);
+		dir.sub(second, first);
 		dir.normalize_safe();
 
 
-		if(from_first.dotproduct(dir)<0.f)//befor this line
+		if (from_first.dotproduct(dir) < 0.f)//befor this line
 		{
-			if(after_line)//after previous line && befor this line = near first point
+			if (after_line)//after previous line && befor this line = near first point
 			{
-				vtemp.sub(new_position,first);
-				temp=vtemp.magnitude();
-				if(temp<m_path_distance)
+				vtemp.sub(new_position, first);
+				temp = vtemp.magnitude();
+				if (temp < m_path_distance)
 				{
-					m_path_distance=temp;
-					index=i;
+					m_path_distance = temp;
+					index = i;
 					vPathPoint.set(first);
 					vPathDir.set(dir);
-					near_line=false;
+					near_line = false;
 				}
 			}
-			after_line=false;
+			after_line = false;
 
 		}
 		else //after first 
 		{
-			if(from_second.dotproduct(dir)<0.f) //befor second && after first = near line
+			if (from_second.dotproduct(dir) < 0.f) //befor second && after first = near line
 			{
 				//temp=dir.dotproduct(new_position); seems to be wrong
-				temp=dir.dotproduct(from_first);
+				temp = dir.dotproduct(from_first);
 				vtemp.set(dir);
 				vtemp.mul(temp);
-				path_point.add(vtemp,first);
-				vtemp.sub(path_point,new_position);
-				temp=vtemp.magnitude();
-				if(temp<m_path_distance)
+				path_point.add(vtemp, first);
+				vtemp.sub(path_point, new_position);
+				temp = vtemp.magnitude();
+				if (temp < m_path_distance)
 				{
-					m_path_distance=temp;
-					index=i;
+					m_path_distance = temp;
+					index = i;
 					vPathPoint.set(path_point);
 					vPathDir.set(dir);
-					near_line=true;
+					near_line = true;
 				}
 			}
 			else							//after second = after this line
 			{
-				after_line=true;
+				after_line = true;
 			}
 		}
 	}
 
-	if(m_path_distance==dInfinity)	//after whall path
+	if (m_path_distance == dInfinity)	//after whall path
 	{
 
-		R_ASSERT2(after_line,"Must be after line");
-		vtemp.sub(new_position,path[i].position);
-		m_path_distance=vtemp.magnitude();
+		R_ASSERT2(after_line, "Must be after line");
+		vtemp.sub(new_position, path[i].position);
+		m_path_distance = vtemp.magnitude();
 		vPathDir.set(dir);
 		vPathPoint.set(path[i].position);
-		index=i;
-		near_line=false;
+		index = i;
+		near_line = false;
 	}
 #ifdef DEBUG
-	if(ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject)&&(!!pObject->cName())&&stricmp(PH_DBG_ObjectTrack(),*pObject->cName())==0)
+	if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrack(), *pObject->cName()) == 0)
 	{
-		Msg("CPHMovementControl::Calculate out %s (Object Position) %f,%f,%f",PH_DBG_ObjectTrack(),pObject->Position().x,pObject->Position().y,pObject->Position().z);
-		Msg("CPHMovementControl::Calculate out %s (CPHMovementControl::vPosition) %f,%f,%f",PH_DBG_ObjectTrack(),vPosition.x,vPosition.y,vPosition.z);
+		Msg("CPHMovementControl::Calculate out %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrack(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+		Msg("CPHMovementControl::Calculate out %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrack(), vPosition.x, vPosition.y, vPosition.z);
 	}
 #endif
 	return;
@@ -410,180 +411,185 @@ void CPHMovementControl::PathNearestPoint(const xr_vector<DetailPathManager::STr
 
 
 
-void CPHMovementControl::PathNearestPointFindUp(const xr_vector<DetailPathManager::STravelPathPoint>	&path,			//in path
-												const Fvector					&new_position,  //in position
-												int								&index,			//in start from; out nearest
-												float							radius,	//out m_path_distance in exit radius
-												bool							&near_line      //out type
-										  )
+
+void CPHMovementControl::PathNearestPointFindUp(const xr_vector<DetailPathManager::STravelPathPoint>& path,			//in path
+	const Fvector& new_position,  //in position
+	int& index,			//in start from; out nearest
+	float							radius,	//out m_path_distance in exit radius
+	bool& near_line      //out type
+)
 {
 
-	Fvector from_first,from_second,dir;
-	bool after_line=true;//to check first point
+	Fvector from_first, from_second, dir;
+	bool after_line = true;//to check first point
 
-	Fvector path_point,vtemp;
+	Fvector path_point, vtemp;
 	float temp;
 
-	for(int i=m_start_index;i<m_path_size-1;++i)
+	int i;
+	for (i = m_start_index; i < m_path_size - 1; ++i)
 	{
-		const Fvector &first=path[i].position, &second=path[i+1].position;
-		from_first.sub(new_position,first);
-		from_second.sub(new_position,second);
-		dir.sub(second,first);
+		const Fvector& first = path[i].position, & second = path[i + 1].position;
+		from_first.sub(new_position, first);
+		from_second.sub(new_position, second);
+		dir.sub(second, first);
 		dir.normalize_safe();
-		float from_first_dir=from_first.dotproduct(dir);
-		float from_second_dir=from_second.dotproduct(dir);
+		float from_first_dir = from_first.dotproduct(dir);
+		float from_second_dir = from_second.dotproduct(dir);
 
-		if(from_first_dir<0.f)//before this line
+		if (from_first_dir < 0.f)//before this line
 		{
-			temp=from_first.magnitude();
-			if(after_line)//after previous line && before this line = near first point
+			temp = from_first.magnitude();
+			if (after_line)//after previous line && before this line = near first point
 			{
-				if(temp<m_path_distance)
+				if (temp < m_path_distance)
 				{
-					m_path_distance=temp;
-					index=i;
+					m_path_distance = temp;
+					index = i;
 					vPathPoint.set(first);
 					vPathDir.set(dir);
-					near_line=false;
+					near_line = false;
 				}
 			}
-	
-			if(temp>radius) break;//exit test
-			after_line=false;
+
+			if (temp > radius) break;//exit test
+			after_line = false;
 
 		}
 		else //after first 
 		{
-			if(from_second_dir<0.f) //befor second && after first = near line
+			if (from_second_dir < 0.f) //befor second && after first = near line
 			{
 				vtemp.set(dir);
 				vtemp.mul(from_first_dir);
-				path_point.add(vtemp,first);
-				vtemp.sub(path_point,new_position);
-				temp=vtemp.magnitude();
-				if(temp<m_path_distance)
+				path_point.add(vtemp, first);
+				vtemp.sub(path_point, new_position);
+				temp = vtemp.magnitude();
+				if (temp < m_path_distance)
 				{
-					m_path_distance=temp;
-					index=i;
+					m_path_distance = temp;
+					index = i;
 					vPathPoint.set(path_point);
 					vPathDir.set(dir);
-					near_line=true;
+					near_line = true;
 				}
-				if(temp>radius) break;//exit test
+				if (temp > radius) break;//exit test
 			}
 			else							//after second = after this line
 			{
-				after_line=true;
-				if(from_second.magnitude()>radius) break;//exit test
+				after_line = true;
+				if (from_second.magnitude() > radius) break;//exit test
 			}
 		}
 	}
 
-	if(m_path_distance==dInfinity && i==m_path_size-1)	
+	if (m_path_distance == dInfinity && i == m_path_size - 1)
 	{
 
-		R_ASSERT2															(after_line,"Must be after line");
-		vtemp										.sub					(new_position,path[i].position)		;
-		m_path_distance								=vtemp.magnitude		()									;
-		vPathDir									.set					(dir)								;
-		vPathPoint									.set					(path[i].position)					;
-		index										=i															;
-		near_line									=false														;
+		R_ASSERT2(after_line, "Must be after line");
+		vtemp.sub(new_position, path[i].position);
+		m_path_distance = vtemp.magnitude();
+		vPathDir.set(dir);
+		vPathPoint.set(path[i].position);
+		index = i;
+		near_line = false;
 	}
-	
+
 
 	return;
 }
 
 
-void CPHMovementControl::PathNearestPointFindDown(const xr_vector<DetailPathManager::STravelPathPoint>	&path,			//in path
-												const Fvector					&new_position,  //in position
-												int								&index,			//in start from; out nearest
-												float							radius,	//out m_path_distance in exit radius
-												bool							&near_line      //out type
-										  )
+
+void CPHMovementControl::PathNearestPointFindDown(const xr_vector<DetailPathManager::STravelPathPoint>& path,			//in path
+	const Fvector& new_position,  //in position
+	int& index,			//in start from; out nearest
+	float							radius,	//out m_path_distance in exit radius
+	bool& near_line      //out type
+)
 {
 
-	Fvector from_first,from_second,dir;
-	bool after_line=true;//to check first point
+	Fvector from_first, from_second, dir;
+	bool after_line = true;//to check first point
 
-	Fvector path_point,vtemp;
+	Fvector path_point, vtemp;
 	float temp;
 	//(going down)
-	
-	for(int i=m_start_index;i>1;--i)
-	{
-		const Fvector &first=path[i-1].position, &second=path[i].position;
-		from_first.sub(new_position,first);
-		from_second.sub(new_position,second);
-		dir.sub(second,first);
-		dir.normalize_safe();
-		float from_first_dir=from_first.dotproduct(dir);
-		float from_second_dir=from_second.dotproduct(dir);
 
-		if(from_second_dir>0.f)//befor this line
+	int i;
+	for (i = m_start_index; i > 1; --i)
+	{
+		const Fvector& first = path[i - 1].position, & second = path[i].position;
+		from_first.sub(new_position, first);
+		from_second.sub(new_position, second);
+		dir.sub(second, first);
+		dir.normalize_safe();
+		float from_first_dir = from_first.dotproduct(dir);
+		float from_second_dir = from_second.dotproduct(dir);
+
+		if (from_second_dir > 0.f)//befor this line
 		{
-			temp=from_second.magnitude();
-			if(after_line)//after previous line && befor this line = near second point (going down)
+			temp = from_second.magnitude();
+			if (after_line)//after previous line && befor this line = near second point (going down)
 			{
-				if(temp<m_path_distance)
+				if (temp < m_path_distance)
 				{
-					m_path_distance		=temp		;
-					index				=i			;
-					vPathPoint			.set(second);
-					vPathDir			.set(dir)	;
-					near_line			=false		;
+					m_path_distance = temp;
+					index = i;
+					vPathPoint.set(second);
+					vPathDir.set(dir);
+					near_line = false;
 				}
 			}
 
-			if(temp>radius) break;//exit test
-			after_line=false;
+			if (temp > radius) break;//exit test
+			after_line = false;
 
 		}
 		else //after second
 		{
 
-			if(from_first_dir>0.f) //after second && before first = near line (going down)
+			if (from_first_dir > 0.f) //after second && before first = near line (going down)
 			{
 				vtemp.set(dir);
 				vtemp.mul(from_second_dir);
-				path_point.add(second,vtemp); //from_second_dir <0.f !!
-				vtemp.sub(path_point,new_position);
-				temp=vtemp.magnitude();
-				if(temp<m_path_distance)
+				path_point.add(second, vtemp); //from_second_dir <0.f !!
+				vtemp.sub(path_point, new_position);
+				temp = vtemp.magnitude();
+				if (temp < m_path_distance)
 				{
-					m_path_distance=temp;
-					index=i-1;
+					m_path_distance = temp;
+					index = i - 1;
 					vPathPoint.set(path_point);
 					vPathDir.set(dir);
-					near_line=true;
+					near_line = true;
 				}
-				if(temp>radius) break;//exit test
+				if (temp > radius) break;//exit test
 			}
 			else							//after first = after this line(going down)
 			{
-				after_line=true;
-				if(from_first.magnitude()>radius) break;//exit test
+				after_line = true;
+				if (from_first.magnitude() > radius) break;//exit test
 			}
 		}
 	}
 
-	if(m_path_distance==dInfinity && i==1)	
+	if (m_path_distance == dInfinity && i == 1)
 	{
 
-		R_ASSERT2(after_line,"Must be after line");
-		vtemp.sub(new_position,path[i].position);
-		m_path_distance=vtemp.magnitude();
+		R_ASSERT2(after_line, "Must be after line");
+		vtemp.sub(new_position, path[i].position);
+		m_path_distance = vtemp.magnitude();
 		vPathDir.set(dir);
 		vPathPoint.set(path[i].position);
-		index=i;
-		near_line=false;
+		index = i;
+		near_line = false;
 	}
 
 
 	return;
 }
+
 
 void		CPHMovementControl::CorrectPathDir			(const Fvector &real_path_dir,const xr_vector<DetailPathManager::STravelPathPoint> & path,int index,Fvector &corrected_path_dir)
 {

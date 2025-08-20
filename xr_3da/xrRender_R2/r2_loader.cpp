@@ -246,69 +246,73 @@ struct b_portal
 void CRender::LoadSectors(IReader* fs)
 {
 	// allocate memory for portals
-	u32 size = fs->find_chunk(fsL_PORTALS); 
-	R_ASSERT(0==size%sizeof(b_portal));
-	u32 count = size/sizeof(b_portal);
-	Portals.resize	(count);
-	for (u32 c=0; c<count; c++)
-		Portals[c]	= xr_new<CPortal> ();
+	u32 size = fs->find_chunk(fsL_PORTALS);
+	R_ASSERT(0 == size % sizeof(b_portal));
+	u32 count = size / sizeof(b_portal);
+	Portals.resize(count);
+	for (u32 c = 0; c < count; c++)
+		Portals[c] = xr_new<CPortal>();
 
 	// load sectors
 	IReader* S = fs->open_chunk(fsL_SECTORS);
-	for (u32 i=0; ; i++)
+	for (u32 si = 0; ; si++)
 	{
-		IReader* P = S->open_chunk(i);
-		if (0==P) break;
+		IReader* P = S->open_chunk(si);
+		if (0 == P) break;
 
-		CSector* __S		= xr_new<CSector> ();
-		__S->load			(*P);
-		Sectors.push_back	(__S);
+		CSector* __S = xr_new<CSector>();
+		__S->load(*P);
+		Sectors.push_back(__S);
 
 		P->close();
 	}
 	S->close();
 
 	// load portals
-	if (count) 
+	if (count)
 	{
-		CDB::Collector	CL;
-		fs->find_chunk	(fsL_PORTALS);
-		for (i=0; i<count; i++)
+		CDB::Collector CL;
+		fs->find_chunk(fsL_PORTALS);
+		for (u32 pi = 0; pi < count; pi++)
 		{
-			b_portal	P;
-			fs->r		(&P,sizeof(P));
-			CPortal*	__P	= (CPortal*)Portals[i];
-			__P->Setup	(P.vertices.begin(),P.vertices.size(),
+			b_portal P;
+			fs->r(&P, sizeof(P));
+			CPortal* __P = (CPortal*)Portals[pi];
+			__P->Setup(
+				P.vertices.begin(), P.vertices.size(),
 				(CSector*)getSector(P.sector_front),
-				(CSector*)getSector(P.sector_back));
-			for (u32 j=2; j<P.vertices.size(); j++)
+				(CSector*)getSector(P.sector_back)
+			);
+			for (u32 j = 2; j < P.vertices.size(); j++)
 				CL.add_face_packed_D(
-				P.vertices[0],P.vertices[j-1],P.vertices[j],
-				u32(i)
+					P.vertices[0], P.vertices[j - 1], P.vertices[j],
+					u32(pi)
 				);
 		}
-		if (CL.getTS()<2)
+		if (CL.getTS() < 2)
 		{
-			Fvector					v1,v2,v3;
-			v1.set					(-20000.f,-20000.f,-20000.f);
-			v2.set					(-20001.f,-20001.f,-20001.f);
-			v3.set					(-20002.f,-20002.f,-20002.f);
-			CL.add_face_packed_D	(v1,v2,v3,0);
+			Fvector v1, v2, v3;
+			v1.set(-20000.f, -20000.f, -20000.f);
+			v2.set(-20001.f, -20001.f, -20001.f);
+			v3.set(-20002.f, -20002.f, -20002.f);
+			CL.add_face_packed_D(v1, v2, v3, 0);
 		}
 
 		// build portal model
-		rmPortals = xr_new<CDB::MODEL> ();
-		rmPortals->build	(CL.getV(),int(CL.getVS()),CL.getT(),int(CL.getTS()));
-	} else {
+		rmPortals = xr_new<CDB::MODEL>();
+		rmPortals->build(CL.getV(), int(CL.getVS()), CL.getT(), int(CL.getTS()));
+	}
+	else {
 		rmPortals = 0;
 	}
 
 	// debug
-	//	for (int d=0; d<Sectors.size(); d++)
-	//		Sectors[d]->DebugDump	();
+	// for (int d = 0; d < Sectors.size(); d++)
+	//     Sectors[d]->DebugDump();
 
 	pLastSector = 0;
 }
+
 
 void CRender::LoadSWIs(IReader* base_fs)
 {

@@ -16,7 +16,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -58,25 +58,25 @@
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386 
 "
-				AdditionalDependencies="x:\xr_3da.lib"
+				AdditionalDependencies="g:\xr_3da.lib"
 				ShowProgress="0"
-				OutputFile="x:\xrGame.dll"
+				OutputFile="g:\xrGame.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\xrGame.map"
+				MapFileName="g:\xrGame.map"
 				MapExports="FALSE"
-				ImportLibrary="x:\xrGame.lib"/>
+				ImportLibrary="g:\xrGame.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrGame.tlb"/>
+				TypeLibraryName="g:\xrGame.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -100,7 +100,7 @@
 		</Configuration>
 		<Configuration
 			Name="Mixed|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Mixed"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -140,15 +140,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="odbc32.lib odbccp32.lib x:\xr_3da.lib"
-				OutputFile="x:\xrGame.dll"
+				AdditionalDependencies="odbc32.lib odbccp32.lib g:\xr_3da.lib"
+				OutputFile="g:\xrGame.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Mixed/xrGame.map"
-				ImportLibrary="x:\xrGame.lib"
+				ImportLibrary="g:\xrGame.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -156,7 +156,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrGame.tlb"/>
+				TypeLibraryName="g:\xrGame.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -180,7 +180,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -221,26 +221,26 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386 "
-				AdditionalDependencies="odbc32.lib odbccp32.lib x:\xr_3da.lib"
-				OutputFile="x:\xrGame.dll"
+				AdditionalDependencies="odbc32.lib odbccp32.lib g:\xr_3da.lib"
+				OutputFile="g:\xrGame.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="FALSE"
-				MapFileName="x:\xrGame.map"
+				MapFileName="g:\xrGame.map"
 				SubSystem="0"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="x:\xrGame.lib"/>
+				ImportLibrary="g:\xrGame.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrGame.tlb"/>
+				TypeLibraryName="g:\xrGame.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
@@ -264,7 +264,7 @@
 		</Configuration>
 		<Configuration
 			Name="DebugNoExceptions|Win32"
-			OutputDirectory="x:\"
+			OutputDirectory="g:\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -306,25 +306,25 @@
 				IgnoreImportLibrary="TRUE"
 				AdditionalOptions="/MACHINE:I386 
 "
-				AdditionalDependencies="x:\xr_3da.lib"
+				AdditionalDependencies="g:\xr_3da.lib"
 				ShowProgress="0"
-				OutputFile="x:\xrGame.dll"
+				OutputFile="g:\xrGame.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/$(TargetName).pdb"
 				GenerateMapFile="TRUE"
-				MapFileName="x:\xrGame.map"
+				MapFileName="g:\xrGame.map"
 				MapExports="FALSE"
-				ImportLibrary="x:\xrGame.lib"/>
+				ImportLibrary="g:\xrGame.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="x:\xrGame.tlb"/>
+				TypeLibraryName="g:\xrGame.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"/>
 			<Tool
