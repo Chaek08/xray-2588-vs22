@@ -158,8 +158,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>g:\xr_3da.lib;g:\xrCore.lib;g:\xrSound.lib;g:\xrLUA.lib;d3dx9.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\lib\;$(SolutionDir)\SDK\dxSDK\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>xr_3da.lib;xrCore.lib;xrSound.lib;xrLUA.lib;d3dx9.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <BuildLog>
       <Path>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(MSBuildProjectName).log</Path>
