@@ -788,7 +788,7 @@ public:
 		};
 		#endif
 		Console->Hide	();
-		char fn[256]; strconcat(fn,args,".xrdemo");
+		char fn[256]; xr_strconcat(fn,args,".xrdemo");
 		g_pGameLevel->Cameras().AddCamEffector(xr_new<CDemoRecord> (fn));
 	}
 };

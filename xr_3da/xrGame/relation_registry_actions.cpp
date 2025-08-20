@@ -26,13 +26,13 @@ struct SAttackGoodwillStorage
 	void load(LPCSTR prefix)
 	{
 		string128					s;
-		friend_attack_goodwill		= pSettings->r_s32(ACTIONS_POINTS_SECT, strconcat(s,prefix,"friend_attack_goodwill"));
-		neutral_attack_goodwill		= pSettings->r_s32(ACTIONS_POINTS_SECT, strconcat(s,prefix,"neutral_attack_goodwill"));
-		enemy_attack_goodwill		= pSettings->r_s32(ACTIONS_POINTS_SECT, strconcat(s,prefix,"enemy_attack_goodwill"));
+		friend_attack_goodwill		= pSettings->r_s32(ACTIONS_POINTS_SECT, xr_strconcat(s,prefix,"friend_attack_goodwill"));
+		neutral_attack_goodwill		= pSettings->r_s32(ACTIONS_POINTS_SECT, xr_strconcat(s,prefix,"neutral_attack_goodwill"));
+		enemy_attack_goodwill		= pSettings->r_s32(ACTIONS_POINTS_SECT, xr_strconcat(s,prefix,"enemy_attack_goodwill"));
 
-		friend_attack_reputation	= pSettings->r_s32(ACTIONS_POINTS_SECT, strconcat(s,prefix,"friend_attack_reputation"));
-		neutral_attack_reputation	= pSettings->r_s32(ACTIONS_POINTS_SECT, strconcat(s,prefix,"neutral_attack_reputation"));
-		enemy_attack_reputation		= pSettings->r_s32(ACTIONS_POINTS_SECT, strconcat(s,prefix,"enemy_attack_reputation"));
+		friend_attack_reputation	= pSettings->r_s32(ACTIONS_POINTS_SECT, xr_strconcat(s,prefix,"friend_attack_reputation"));
+		neutral_attack_reputation	= pSettings->r_s32(ACTIONS_POINTS_SECT, xr_strconcat(s,prefix,"neutral_attack_reputation"));
+		enemy_attack_reputation		= pSettings->r_s32(ACTIONS_POINTS_SECT, xr_strconcat(s,prefix,"enemy_attack_reputation"));
 	}
 };
 SAttackGoodwillStorage gw_danger,gw_free;

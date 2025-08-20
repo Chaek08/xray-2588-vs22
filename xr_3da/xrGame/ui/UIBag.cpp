@@ -791,7 +791,7 @@ void CUIBag::FillUpItem(CUIDragDropItemMP* pDDItem, const char* name){
 
 		// Читаем стоимость оружия
 		string256 buff;
-		if (pSettings->line_exist(m_StrSectionName, strconcat(buff, name, "_cost")))
+		if (pSettings->line_exist(m_StrSectionName, xr_strconcat(buff, name, "_cost")))
 			pDDItem->SetCost(pSettings->r_u32(m_StrSectionName, buff));
 		else if (pSettings->line_exist(m_StrPricesSection, name))
 			pDDItem->SetCost(pSettings->r_u32(m_StrPricesSection, name));

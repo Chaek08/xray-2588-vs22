@@ -538,5 +538,5 @@ void CEntityCondition::SConditionChangeV::load(LPCSTR sect, LPCSTR prefix)
 	m_fV_PsyHealth			= pSettings->r_float(sect,strconcat(str,"psy_health_v",prefix));	
 	m_fV_Bleeding			= pSettings->r_float(sect,strconcat(str,"bleeding_v",prefix));
 	m_fV_WoundIncarnation	= pSettings->r_float(sect,strconcat(str,"wound_incarnation_v",prefix));
-	m_fV_HealthRestore		= READ_IF_EXISTS(pSettings,r_float,sect, strconcat(str,"health_restore_v",prefix),0.0f);
+	m_fV_HealthRestore		= READ_IF_EXISTS(pSettings,r_float,sect, xr_strconcat(str,"health_restore_v",prefix),0.0f);
 }

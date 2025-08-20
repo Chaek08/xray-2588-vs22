@@ -472,7 +472,7 @@ bool CUIXmlInit::InitListWnd(CUIXml& xml_doc, LPCSTR path,
 	CGameFont *LocalFont				= NULL;
 	u32 cl;
 
-	shared_str text_path				= strconcat(buf,path,":font");
+	shared_str text_path				= xr_strconcat(buf,path,":font");
 	InitFont							(xml_doc, *text_path, index, cl, LocalFont);
 	if (LocalFont)
 	{
@@ -581,7 +581,7 @@ bool CUIXmlInit::InitProgressShape(CUIXml& xml_doc, const char* path, int index,
 		InitStatic(xml_doc, _path, index, pWnd->m_pBackground);
 
 
-    InitStatic(xml_doc, strconcat(_path, path, ":front"), index, pWnd->m_pTexture);
+    InitStatic(xml_doc, xr_strconcat(_path, path, ":front"), index, pWnd->m_pTexture);
 
 	pWnd->m_sectorCount	= xml_doc.ReadAttribInt(path, index, "sector_count", 8);
 	pWnd->m_bClockwise	= xml_doc.ReadAttribInt(path, index, "clockwise") ? true : false;
@@ -791,7 +791,7 @@ bool CUIXmlInit::InitCustomEdit(CUIXml& xml_doc, const char* path, int index, CU
 
 	string256				foo;	
 	u32						color;
-	InitText				(xml_doc, strconcat(foo,path,":text"), index, (IUITextControl*)pWnd);
+	InitText				(xml_doc, xr_strconcat(foo,path,":text"), index, (IUITextControl*)pWnd);
 	
 	strconcat				(foo,path,":text_color:e");
 	if (xml_doc.NavigateToNode(foo,index)){
@@ -1079,7 +1079,7 @@ bool CUIXmlInit::InitMultiTexture(CUIXml &xml_doc, LPCSTR path, int index, CUI3t
 
 bool CUIXmlInit::InitMultiText(CUIXml& xml_doc, LPCSTR path, int index, CUIStatic* pWnd){
 	string256			buf;
-	InitText			(xml_doc, strconcat(buf,path,":text"), index, pWnd);
+	InitText			(xml_doc, xr_strconcat(buf,path,":text"), index, pWnd);
 	u32					color;
 
 	strconcat(buf,path,":text_color:e");

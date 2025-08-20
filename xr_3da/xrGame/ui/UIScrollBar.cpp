@@ -54,7 +54,7 @@ void CUIScrollBar::Init(float x, float y, float length, bool bIsHorizontal, LPCS
 	if(m_bIsHorizontal){
 		CUIWindow::Init			(x,y, length, height);
 
-        strconcat(_path, profile, ":left_arrow");
+        xr_strconcat(_path, profile, ":left_arrow");
 		CUIXmlInit::Init3tButton(xml_doc, _path, 0, m_DecButton);
 		m_DecButton->SetWndPos(0.0f, 0.0f);
 

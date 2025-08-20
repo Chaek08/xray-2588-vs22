@@ -161,7 +161,7 @@ bool CALifeUpdateManager::change_level	(NET_Packet &net_packet)
 	LPCSTR							temp0 = strstr(**m_server_command_line,"/");
 	VERIFY							(temp0);
 	string256						temp;
-	*m_server_command_line			= strconcat(temp,autoave_name,temp0);
+	*m_server_command_line			= xr_strconcat(temp,autoave_name,temp0);
 	
 	save							(autoave_name);
 

@@ -27,7 +27,7 @@ CUIWindow* CUIStats::Init(CUIXml& xml_doc, LPCSTR path,  int team){
     // players
 	CUIStatsPlayerList* pPList = xr_new<CUIStatsPlayerList>();
 	pPList->SetTeam(team);
-	pPList->Init(xml_doc, strconcat(_path, path, ":player_list"));
+	pPList->Init(xml_doc, xr_strconcat(_path, path, ":player_list"));
 	pPList->SetMessageTarget(this);
 	pWnd = pPList->GetHeader();
 	pTinfo = pPList->GetTeamHeader();

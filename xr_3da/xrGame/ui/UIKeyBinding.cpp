@@ -20,15 +20,15 @@ CUIKeyBinding::CUIKeyBinding(){
 void CUIKeyBinding::InitFromXml(CUIXml& xml_doc, LPCSTR path){
 	CUIXmlInit::InitWindow		(xml_doc, path, 0, this);
 	string256 buf;
-	CUIXmlInit::InitListWnd		(xml_doc, strconcat(buf,path,":list"),		0, &m_list);
-	CUIXmlInit::InitFrameWindow	(xml_doc, strconcat(buf,path,":frame"),		0, &m_frame);
-	CUIXmlInit::InitLabel		(xml_doc, strconcat(buf,path,":header_1"),	0, &m_header[0]);
-	CUIXmlInit::InitLabel		(xml_doc, strconcat(buf,path,":header_2"),	0, &m_header[1]);
-//	CUIXmlInit::InitLabel		(xml_doc, strconcat(buf,path,":header_3"),	0, &m_header[2]);
+	CUIXmlInit::InitListWnd		(xml_doc, xr_strconcat(buf,path,":list"),		0, &m_list);
+	CUIXmlInit::InitFrameWindow	(xml_doc, xr_strconcat(buf,path,":frame"),		0, &m_frame);
+	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":header_1"),	0, &m_header[0]);
+	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":header_2"),	0, &m_header[1]);
+//	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":header_3"),	0, &m_header[2]);
 
 	CGameFont* pFake;
-	CUIXmlInit::InitFont		(xml_doc, strconcat(buf,path,":list:group_name"),0,m_dwGroupColor,pFake);
-	CUIXmlInit::InitFont		(xml_doc, strconcat(buf,path,":list:item_text"),0,m_dwItemColor,pFake);
+	CUIXmlInit::InitFont		(xml_doc, xr_strconcat(buf,path,":list:group_name"),0,m_dwGroupColor,pFake);
+	CUIXmlInit::InitFont		(xml_doc, xr_strconcat(buf,path,":list:item_text"),0,m_dwItemColor,pFake);
 
 	FillUpList();
 }
