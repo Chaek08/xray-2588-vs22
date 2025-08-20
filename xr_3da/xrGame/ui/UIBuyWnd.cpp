@@ -14,8 +14,7 @@
 #include "../game_cl_Deathmatch.h"
 #include "UIOutfitSlot.h"
 #include "UIListBoxItem.h"
-#include <dinput.h>
-
+#include "../../xr_input.h"
 #define 	BELT_SLOT			5
 
 CUIBuyWnd::CUIBuyWnd(){
@@ -188,7 +187,6 @@ void CUIBuyWnd::SendMessage(CUIWindow* pWnd, s16 msg, void* pData){
 	}
 }
 
-#include "../../xr_input.h"
 void CUIBuyWnd::OnBtnBulletBuy(int slot){
 	if (m_list[slot]->ItemsCount()){
 		CUICellItem*	itm		= m_list[slot]->GetItemIdx(0);

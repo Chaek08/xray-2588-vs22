@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <dinput.h>
 #include "HUDmanager.h"
 #include "../xr_ioconsole.h"
 #include "entity_alive.h"

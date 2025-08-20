@@ -25,7 +25,6 @@
 
 #include "../HUDManager.h"
 
-#include <dinput.h>				//remove me !!!
 #include "../../xr_input.h"		//remove me !!!
 
 #include "../gameTaskmanager.h" //remove me !!!
