@@ -15,7 +15,7 @@ void CBlender_DESC::Setup	(LPCSTR N)
 	VERIFY(xr_strlen(N)<128);
 	VERIFY(0==strchr(N,'.'));
 	strcpy(cName,N);
-	strlwr(cName);
+	_strlwr(cName);
 	
 //	strcpy(cComputer,Core.CompName);			// Computer
 //	_tzset(); _time32( (__time32_t*)&cTime );	// Time

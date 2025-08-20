@@ -306,7 +306,7 @@ void    xrDebug::_initialize()
     handler = 0;
     std::set_new_handler(def_new_handler);
     std::set_terminate(_terminate);
-    std::set_unexpected(_terminate);
+    //std::set_unexpected(_terminate);
     ::SetUnhandledExceptionFilter(UnhandledFilter);
 }
 #endif

@@ -160,7 +160,7 @@ void	CInifile::Load(IReader* F, LPCSTR path)
 			R_ASSERT	(path&&path[0]);
         	if (_GetItem	(str,1,inc_name,'"')){
             	string_path	fn,inc_path,folder;
-                strconcat	(fn,path,inc_name);
+                xr_strconcat	(fn,path,inc_name);
 				_splitpath	(fn,inc_path,folder, 0, 0 );
 				strcat		(inc_path,folder);
             	IReader* I 	= FS.r_open(fn); R_ASSERT3(I,"Can't find include file:", inc_name);
@@ -192,7 +192,7 @@ void	CInifile::Load(IReader* F, LPCSTR path)
 				}
 			}
 			*strchr(str,']') 	= 0;
-			Current->Name 		= strlwr(str+1);
+			Current->Name 		= _strlwr(str+1);
 		} else {
 			if (Current){
 				char*		name	= str;
@@ -333,7 +333,7 @@ BOOL			CInifile::section_exist	( const shared_str& S	)					{ return	section_exis
 //--------------------------------------------------------------------------------------
 CInifile::Sect& CInifile::r_section( LPCSTR S )
 {
-	char	section[256]; strcpy(section,S); strlwr(section);
+	char	section[256]; strcpy(section,S); _strlwr(section);
 	RootIt I = std::lower_bound(DATA.begin(),DATA.end(),section,sect_pred);
 	if (!(I!=DATA.end() && xr_strcmp(*(*I)->Name,section)==0))	Debug.fatal("Can't open section '%s'",S);
 	return	**I;
@@ -456,7 +456,7 @@ BOOL	CInifile::r_bool( LPCSTR S, LPCSTR L )
 	LPCSTR		C = r_string(S,L);
 	char		B[8];
 	strncpy		(B,C,7);
-	strlwr		(B);
+	_strlwr		(B);
     return 		IsBOOL(B);
 }
 CLASS_ID CInifile::r_clsid( LPCSTR S, LPCSTR L)
@@ -468,7 +468,7 @@ int		CInifile::r_token	( LPCSTR S, LPCSTR L, const xr_token *token_list)
 {
 	LPCSTR		C = r_string(S,L);
 	for( int i=0; token_list[i].name; i++ )
-		if( !stricmp(C,token_list[i].name) )
+		if( !_stricmp(C,token_list[i].name) )
 			return token_list[i].id;
 	return 0;
 }

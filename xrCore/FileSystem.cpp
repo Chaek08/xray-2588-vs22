@@ -66,28 +66,49 @@ xr_string	EFS_Utils::ChangeFileExt(const xr_string& src, LPCSTR ext)
 }
 
 //----------------------------------------------------
-LPCSTR MakeFilter(string1024& dest, LPCSTR info, LPCSTR ext)
+void MakeFilter(string1024& dest, LPCSTR info, LPCSTR ext)
 {
-	ZeroMemory(dest,sizeof(dest));
-    if (ext){
-        int icnt=_GetItemCount(ext,';');
-		LPSTR dst=dest;
-        if (icnt>1){
-            strconcat(dst,info," (",ext,")");
-            dst+=(xr_strlen(dst)+1);
-            strcpy(dst,ext);
-            dst+=(xr_strlen(ext)+1);
-        }
-        for (int i=0; i<icnt; i++){
-            string64 buf;
-            _GetItem(ext,i,buf,';');
-            strconcat(dst,info," (",buf,")");
-            dst+=(xr_strlen(dst)+1);
-            strcpy(dst,buf);
-            dst+=(xr_strlen(buf)+1);
-        }
-    }
-	return dest;
+	std::string res;
+
+	if (ext)
+	{
+		res += info;
+		res += "(";
+		res += ext;
+		res += ")|";
+		res += ext;
+		res += "|";
+		int icnt = _GetItemCount(ext, ';');
+		if (icnt > 1)
+		{
+			for (int idx = 0; idx < icnt; ++idx)
+			{
+				string64		buf;
+				_GetItem(ext, idx, buf, ';');
+
+				res += info;
+				res += "(";
+				res += buf;
+				res += ")|";
+				res += buf;
+				res += "|";
+			}
+		}
+		res += "|";
+	}
+	else
+	{
+		res = "All files(*.*)|*.*||";
+	}
+	xr_strcpy(dest, res.c_str());
+
+	for (u32 i = 0; i < res.size(); ++i)
+	{
+		if (res[i] == '|')
+			dest[i] = '\0';
+	}
+
+
 }
 
 //------------------------------------------------------------------------------
@@ -147,7 +168,7 @@ bool EFS_Utils::GetOpenName( LPCSTR initial, char *buffer, int sz_buf, bool bMul
             strcpy		(buffer,fns);
         }
     }
-    strlwr(buffer);
+    _strlwr(buffer);
     return bRes;
 }
 
@@ -180,7 +201,7 @@ bool EFS_Utils::GetSaveName( LPCSTR initial, char *buffer, int sz_buf, LPCSTR of
         case FNERR_BUFFERTOOSMALL: 	Log("Too many file selected."); break;
         }
 	}
-    strlwr(buffer);
+    _strlwr(buffer);
 	return bRes;
 }
 //----------------------------------------------------
@@ -224,7 +245,7 @@ LPCSTR EFS_Utils::GenerateName(LPCSTR base_path, LPCSTR base_name, LPCSTR def_ex
 {
     int cnt = 0;
 	string256 fn;
-    if (base_name)	strconcat	(fn,base_path,base_name,def_ext);
+    if (base_name)	xr_strconcat	(fn,base_path,base_name,def_ext);
 	else 			sprintf		(fn,"%s%02d%s",base_path,cnt++,def_ext);
 	while (FS.exist(fn))
 	    if (base_name)	sprintf(fn,"%s%s%02d%s",base_path,base_name,cnt++,def_ext);

@@ -61,13 +61,13 @@ void xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs,
 		// Init COM so we can use CoCreateInstance
 		CoInitializeEx		(NULL, COINIT_MULTITHREADED);
 
-		strlwr				(strcpy(Params,GetCommandLine()));
+		_strlwr				(strcpy(Params,GetCommandLine()));
 
 		// application path
         string_path		fn,dr,di;
         GetModuleFileName(GetModuleHandle(MODULE_NAME),fn,sizeof(fn));
         _splitpath		(fn,dr,di,0,0);
-        strconcat		(ApplicationPath,dr,di);                                       
+        xr_strconcat		(ApplicationPath,dr,di);                                       
 
 		// working path
 		GetCurrentDirectory(sizeof(WorkingPath),WorkingPath);

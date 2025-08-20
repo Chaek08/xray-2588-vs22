@@ -138,7 +138,7 @@ void SetLogCB			(LogCallback cb)
 void CreateLog			(BOOL nl)
 {
     no_log				= nl;
-	strconcat			(logFName,Core.ApplicationName,"_",Core.UserName,".log");
+	xr_strconcat			(logFName,Core.ApplicationName,"_",Core.UserName,".log");
 	if (FS.path_exist("$logs$"))
 		FS.update_path	(logFName,"$logs$",logFName);
 	if (!no_log){
@@ -157,7 +157,7 @@ void CreateLog			(BOOL nl)
 	strcpy(buf,__DATE__);
 	sscanf(buf,"%s %d %d",mon,&dnum, &ynum);
 	for (int i=0; i<12; i++) {
-		if (stricmp(month[i],mon)==0) mnum=i;
+		if (_stricmp(month[i],mon)==0) mnum=i;
 	}
 	for (mcnt=6; mcnt<mnum; mcnt++) build+=day_in_month[mcnt];
 	build+=dnum;

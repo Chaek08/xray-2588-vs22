@@ -152,7 +152,7 @@ void CLocatorAPI::ProcessArchive(const char* _path)
 	{
 		string_path		name,full;
 		hdr->r_stringZ	(name,sizeof(name));
-		strconcat		(full,base,name);
+		xr_strconcat(full,base,name);
 		size_t vfs		= archives.size()-1;
 		u32 crc			= hdr->r_u32();
 		u32 ptr			= hdr->r_u32();
@@ -368,7 +368,7 @@ const CLocatorAPI::file* CLocatorAPI::exist			(char* fn, const char* path, const
 const CLocatorAPI::file* CLocatorAPI::exist			(char* fn, const char* path, const char* name, const char* ext)
 {
 	string_path nm;
-	strconcat		(nm,name,ext);
+	xr_strconcat(nm,name,ext);
     update_path		(fn,path,nm);
 	return exist(fn);
 }
@@ -958,7 +958,7 @@ BOOL CLocatorAPI::can_write_to_folder(LPCSTR path)
 	if (path&&path[0]){
 		string_path		temp;       
         LPCSTR fn		= "$!#%TEMP%#!$.$$$";
-	    strconcat		(temp,path,path[xr_strlen(path)-1]!='\\'?"\\":"",fn);
+		xr_strconcat(temp,path,path[xr_strlen(path)-1]!='\\'?"\\":"",fn);
 		FILE* hf		= fopen	(temp, "wb");
 		if (hf==0)		return FALSE;
         else{
