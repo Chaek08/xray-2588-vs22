@@ -24,6 +24,11 @@
 #include "profiler.h"
 #include "stalker_animation_manager_impl.h"
 
+CStalkerAnimationManager::EBodyState CStalkerAnimationManager::body_state() const
+{
+	return (object().movement().body_state());
+}
+
 void CStalkerAnimationManager::reinit				()
 {
 	m_direction_start			= 0;

@@ -56,6 +56,7 @@
 #include "../../alife_human_brain.h"
 #include "../../profiler.h"
 #include "../../BoneProtections.h"
+#include "../ai_object_location_impl.h"
 
 #ifdef DEBUG
 #	include "../../alife_simulator.h"

@@ -87,7 +87,7 @@ private:
 	IC		bool					standing				() const;
 	IC		void					fill_object_info		();
 	IC		u32						object_slot				() const;
-	IC		EBodyState				body_state				() const;
+			EBodyState				body_state				() const;
 
 private:
 			bool					need_look_back			() const;

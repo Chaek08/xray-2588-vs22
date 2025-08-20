@@ -42,6 +42,7 @@
 #include "ai/monsters/snork/snork.h"
 #include "ai/monsters/burer/burer.h"
 #include "GamePersistent.h"
+#include "ai_object_location_impl.h"
 
 #ifdef DEBUG
 #	include "debug_renderer.h"

@@ -8,11 +8,6 @@
 
 #pragma once
 
-IC	CStalkerAnimationManager::EBodyState CStalkerAnimationManager::body_state	() const
-{
-	return					(object().movement().body_state());
-}
-
 IC	bool CStalkerAnimationManager::standing										() const
 {
 	CAI_Stalker				&obj = object();
