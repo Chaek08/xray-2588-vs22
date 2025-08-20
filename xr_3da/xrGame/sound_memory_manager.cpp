@@ -21,6 +21,7 @@
 #include "agent_member_manager.h"
 #include "ai/stalker/ai_stalker.h"
 #include "profiler.h"
+#include <cmath>
 
 #define SILENCE
 //#define SAVE_OWN_SOUNDS
@@ -79,7 +80,7 @@ IC	void CSoundMemoryManager::update_sound_threshold			()
 	VERIFY		(!fis_zero(m_decrease_factor));
 	VERIFY		(m_sound_decrease_quant);
 	// t = max(t*f^((tc - tl)/tq),min_threshold)
-	m_sound_threshold		= _max(
+	m_sound_threshold		= std::max(
 		m_self_sound_factor*
 		m_sound_threshold*
 		exp(

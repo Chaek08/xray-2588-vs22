@@ -174,9 +174,9 @@ void CRestrictions::AddRestriction4rank(int rank, LPCSTR lst){		// private
 
 RESTR CRestrictions::GetRestr(LPCSTR item){ // private function
 	RESTR ret;
-	char* pos = strstr(item,":");
+	const char* pos = strstr(item,":");
 	R_ASSERT(pos);
-	pos[0]=0;
+	pos=0;
 
 	ret.name = item;
 	//if (0 == xr_strcmp(++pos,"no_limit"))

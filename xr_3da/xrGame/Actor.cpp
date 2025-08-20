@@ -671,11 +671,13 @@ void CActor::Die	(CObject* who)
 	//-------------------------------------
 	if (OnServer())
 	{	
-		xr_vector<CInventorySlot>::iterator I = inventory().m_slots.begin(), B = I;
+		xr_vector<CInventorySlot>::iterator I = inventory().m_slots.begin();
 		xr_vector<CInventorySlot>::iterator E = inventory().m_slots.end();
-		for ( ; I != E; ++I)
+
+
+		for (u32 slot_idx=0 ; I != E; ++I,++slot_idx)
 		{
-			if ((I - B) == (int)inventory().GetActiveSlot()) 
+			if (slot_idx == inventory().GetActiveSlot()) 
 			{
 				if((*I).m_pIItem)
 				{

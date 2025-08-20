@@ -5,14 +5,12 @@
 
 CUIListBox::CUIListBox(){
 	m_flags.set(eItemsSelectabe, TRUE);
-	m_cur_wnd_it = false;
 
 	m_def_item_height = 20;
 	m_last_selection = -1;
 	m_text_color = 0xff000000;
 	m_text_color_s = 0xff000000;
 	m_text_al = CGameFont::alLeft;
-	m_cur_wnd_it = NULL;
 	m_last_wnd = NULL;
 
 	m_bImmediateSelection = false;
@@ -130,7 +128,7 @@ LPCSTR CUIListBox::GetFirstText(){
 void CUIListBox::MoveSelectedUp(){
 	R_ASSERT(!m_flags.test(CUIScrollView::eMultiSelect));
 	WINDOW_LIST_it it = m_pad->GetChildWndList().begin();
-	WINDOW_LIST_it it_prev = NULL;
+	WINDOW_LIST_it it_prev{};
 
 	if (smart_cast<CUISelectable*>(*it)->GetSelected())
 		return;
@@ -152,7 +150,7 @@ void CUIListBox::MoveSelectedUp(){
 void CUIListBox::MoveSelectedDown(){
 	R_ASSERT(!m_flags.test(CUIScrollView::eMultiSelect));
 	WINDOW_LIST_it it = m_pad->GetChildWndList().begin();
-	WINDOW_LIST_it it_prev = NULL;
+	WINDOW_LIST_it it_prev{};
 
 	for(; m_pad->GetChildWndList().end()!=it; it_prev = it,it++)
 	{		

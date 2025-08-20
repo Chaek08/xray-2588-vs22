@@ -54,9 +54,9 @@ void CUIInteractiveListItem::Init(const char *str, const xr_vector<char *> &Data
 		strTmp.assign(*it, *(it + 1));
 		tmpPairs.subStr = strTmp;
 		// Ёкранные координаты
-		strTmp.assign(str, (*it));
+		strTmp.assign((char)str, (char)(*it));
 		tmpPairs.pairScreenCrd.first = static_cast<int>(pFont->SizeOf(strTmp.c_str())) + shift;
-		strTmp.assign(str, (*(it + 1)));
+		strTmp.assign((char)str, (char)(*(it + 1)));
 		tmpPairs.pairScreenCrd.second = static_cast<int>(pFont->SizeOf(strTmp.c_str())) + shift;
 		// ID
 		tmpPairs.ID = IDs[counter];
