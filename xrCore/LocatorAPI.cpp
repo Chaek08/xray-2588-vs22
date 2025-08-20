@@ -10,7 +10,6 @@
 #include <direct.h>
 #include <fcntl.h>
 #include <sys\stat.h>
-#pragma warning(default:4995)
 
 #include "FS_internal.h"
 
@@ -82,8 +81,8 @@ void CLocatorAPI::Register		(LPCSTR name, u32 vfs, u32 crc, u32 ptr, u32 size_re
 			desc.size_real		= 0;
 			desc.size_compressed= 0;
             desc.modif			= u32(-1);
-            std::pair<files_it,bool> I = files.insert(desc); 
-            R_ASSERT(I.second);
+            std::pair<files_it,bool> It = files.insert(desc); 
+            R_ASSERT(It.second);
 		}
 		strcpy(temp,folder);
 		if (xr_strlen(temp))		temp[xr_strlen(temp)-1]=0;
@@ -741,7 +740,7 @@ BOOL CLocatorAPI::dir_delete(LPCSTR path,LPCSTR nm,BOOL remove_files)
 			if ((*end_symbol) !='\\'){
 //		        const char* entry_begin = entry.name+base_len;
 				if (!remove_files) return FALSE;
-		    	unlink		(entry.name);
+		    	_unlink		(entry.name);
 				files.erase	(cur_item);
 	        }else{
             	folders.insert(entry);
@@ -769,7 +768,7 @@ void CLocatorAPI::file_delete(LPCSTR path, LPCSTR nm)
     const files_it I	= file_find_it(fname);
     if (I!=files.end()){
 	    // remove file
-    	unlink			(I->name);
+    	_unlink			(I->name);
 		char* str		= LPSTR(I->name);
 		xr_free			(str);
 	    files.erase		(I);
@@ -798,7 +797,7 @@ void CLocatorAPI::file_rename(LPCSTR src, LPCSTR dest, bool bOwerwrite)
 		files_it D		= file_find_it(dest);
 		if (D!=files.end()){ 
 	        if (!bOwerwrite) return;
-            unlink		(D->name);
+            _unlink		(D->name);
 			char* str	= LPSTR(D->name);
 			xr_free		(str);
 			files.erase	(D);
@@ -964,7 +963,7 @@ BOOL CLocatorAPI::can_write_to_folder(LPCSTR path)
 		if (hf==0)		return FALSE;
         else{
         	fclose 		(hf);
-	    	unlink		(temp);
+	    	_unlink		(temp);
             return 		TRUE;
         }
     }else{
