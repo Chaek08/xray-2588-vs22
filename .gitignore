@@ -5,3 +5,4 @@
 /Release_Dedicated/
 /Debug_Dedicated/
 .vs/
+*.user
