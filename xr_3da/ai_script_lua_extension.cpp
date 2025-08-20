@@ -249,7 +249,7 @@ bool bfDoFile(CLuaVirtualMachine *tpLuaVM, LPCSTR caScriptName, LPCSTR caNameSpa
 	string256		l_caLuaFileName;
 	IReader			*l_tpFileReader = FS.r_open(caScriptName);
 	R_ASSERT		(l_tpFileReader);
-	strconcat		(l_caLuaFileName,"@",caScriptName);
+	xr_strconcat		(l_caLuaFileName,"@",caScriptName);
 	
 	if (!bfLoadBuffer(tpLuaVM,static_cast<LPCSTR>(l_tpFileReader->pointer()),(size_t)l_tpFileReader->length(),l_caLuaFileName,caNameSpaceName)) {
 		lua_pop			(tpLuaVM,4);

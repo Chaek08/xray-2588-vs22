@@ -544,7 +544,7 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
     	}
     }else{
 		string_path	nm;
-		strconcat			(nm,N,".ogf");
+		xr_strconcat			(nm,N,".ogf");
 		m_Motions.push_back(SMotionsSlot());
 		m_Motions.back().motions.create(nm,data,bones);
     }

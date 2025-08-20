@@ -200,7 +200,7 @@ void	CKinematics::Load(const char* N, IReader *data, u32 dwFlags)
         // From stream
         IReader* O 	= LD->open_chunk(0);
         if (O){
-            strconcat		(name_load,short_name,":lod:1");
+            xr_strconcat		(name_load,short_name,":lod:1");
             m_lod 			= ::Render->model_CreateChild(name_load,O);
             O->close		();
         }

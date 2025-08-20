@@ -89,7 +89,7 @@ public		:
 	{
 		value->set(mask,!GetValue());
 		TStatus S;
-		strconcat(S,cName," is ", value->test(mask)?"on":"off");
+		xr_strconcat(S,cName," is ", value->test(mask)?"on":"off");
 		Log(S);
 	}
 	virtual void	Status	(TStatus& S)
@@ -299,7 +299,7 @@ public:
 
 		Device.Pause	(bWhatToDo);
 		TStatus S;
-		strconcat(S,cName," is ", Device.Pause()?"on":"off");
+		xr_strconcat(S,cName," is ", Device.Pause()?"on":"off");
 		Log(S);
 	}
 	virtual void	Save	(IWriter *F)	{}
