@@ -266,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="log.cpp" />
     <ClCompile Include="LzHuf.cpp" />
+    <ClCompile Include="memory_alloc_pure.cpp" />
+    <ClCompile Include="memory_alloc_xr.cpp" />
+    <ClCompile Include="memory_usage.cpp" />
     <ClCompile Include="rt_compressor.cpp" />
     <ClCompile Include="rt_lzo.cpp">
       <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">AssemblyAndSourceCode</AssemblerOutput>
@@ -283,7 +286,6 @@
     <ClCompile Include="xrDebug.cpp" />
     <ClCompile Include="xrMemory.cpp" />
     <ClCompile Include="xrMemory_align.cpp" />
-    <ClCompile Include="xrMemory_debug.cpp" />
     <ClCompile Include="xrMemory_POOL.cpp" />
     <ClCompile Include="xrMemory_pso_Copy.cpp">
       <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">AssemblyAndSourceCode</AssemblerOutput>
@@ -332,6 +334,8 @@
     </CustomBuild>
     <ClInclude Include="log.h" />
     <ClInclude Include="lzhuf.h" />
+    <ClInclude Include="memory_alloc_pure.h" />
+    <ClInclude Include="memory_alloc_xr.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rt_compressor.h" />
     <ClInclude Include="rt_lzo.h" />
@@ -349,6 +353,7 @@
     <ClInclude Include="xrMemory_align.h" />
     <ClInclude Include="xrMEMORY_POOL.h" />
     <ClInclude Include="xrMemory_pso.h" />
+    <ClInclude Include="xrMemory_pure.h" />
     <ClInclude Include="xrMemory_subst_borland.h" />
     <ClInclude Include="xrMemory_subst_msvc.h" />
     <ClInclude Include="xrPool.h" />

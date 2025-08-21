@@ -61,63 +61,41 @@ public:
 };
 //-----------------------------------------------------------------------
 extern __declspec(dllimport)	size_t	__cdecl lua_memusage	();
-class CCC_MemStat : public IConsole_Command
-{
-public:
-	CCC_MemStat(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = TRUE; };
-	virtual void Execute(LPCSTR args) {
-		string_path fn;
-		if (args&&args[0])	sprintf	(fn,"%s.dump",args);
-		else				strcpy	(fn,"$memory$.dump");
-		Memory.mem_statistic				(fn);
-//		g_pStringContainer->dump			();
-//		g_pSharedMemoryContainer->dump		();
-	}
-};
-static void vminfo (size_t *_free, size_t *reserved, size_t *committed) {
-	MEMORY_BASIC_INFORMATION memory_info;
-	memory_info.BaseAddress = 0;
-	*_free = *reserved = *committed = 0;
-	while (VirtualQuery (memory_info.BaseAddress, &memory_info, sizeof (memory_info))) {
-		switch (memory_info.State) {
-		case MEM_FREE:
-			*_free		+= memory_info.RegionSize;
-			break;
-		case MEM_RESERVE:
-			*reserved	+= memory_info.RegionSize;
-			break;
-		case MEM_COMMIT:
-			*committed += memory_info.RegionSize;
-			break;
-		}
-		memory_info.BaseAddress = (char *) memory_info.BaseAddress + memory_info.RegionSize;
-	}
-}
+
 class CCC_MemStats : public IConsole_Command
 {
 public:
 	CCC_MemStats(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = TRUE; };
 	virtual void Execute(LPCSTR args) {
 		Memory.mem_compact		();
-		size_t  w_free, w_reserved, w_committed;
-		vminfo	(&w_free, &w_reserved, &w_committed);
-		u32		_total			= Memory.mem_usage	();
-		u32		_lua			= 0; // u32 (lua_memusage());
-		u32		_eco_strings	= g_pStringContainer->stat_economy			();
-		u32		_eco_smem		= g_pSharedMemoryContainer->stat_economy	();
-		u32	m_base=0,c_base=0,m_lmaps=0,c_lmaps=0;
+		u32		_process_heap	= mem_usage_impl(nullptr, nullptr);
+#ifdef SEVERAL_ALLOCATORS
+		u32		_game_lua		= game_lua_memory_usage();
+		u32		_render			= ::Render->memory_usage();
+#endif // SEVERAL_ALLOCATORS
+		int		_eco_strings	= (int)g_pStringContainer->stat_economy			();
+		int		_eco_smem		= (int)g_pSharedMemoryContainer->stat_economy	();
+		u32		m_base=0,c_base=0,m_lmaps=0,c_lmaps=0;
+		
 		if (Device.Resources)	Device.Resources->_GetMemoryUsage	(m_base,c_base,m_lmaps,c_lmaps);
-		Msg		("* [win32]: free[%d K], reserved[%d K], committed[%d K]",w_free/1024,w_reserved/1024,w_committed/1024);
+		
+		log_vminfo	();
+		
 		Msg		("* [ D3D ]: textures[%d K]", (m_base+m_lmaps)/1024);
-		Msg		("* [x-ray]: total[%d K], lua[%d K]",_total/1024,_lua/(1024*1024));
+
+#ifndef SEVERAL_ALLOCATORS
+		Msg		("* [x-ray]: process heap[%d K]",_process_heap/1024);
+#else // SEVERAL_ALLOCATORS
+		Msg		("* [x-ray]: process heap[%d K], game lua[%d K], render[%d K]", _process_heap/1024, _game_lua/1024, _render/1024);
+#endif // SEVERAL_ALLOCATORS
+
 		Msg		("* [x-ray]: economy: strings[%d K], smem[%d K]",_eco_strings/1024,_eco_smem);
+
+#ifdef DEBUG
+		Msg		("* [x-ray]: file mapping: memory[%d K], count[%d]",g_file_mapped_memory/1024,g_file_mapped_count);
+		dump_file_mappings	();
+#endif // DEBUG
 	}
-};
-class CCC_DbgMemCheck : public IConsole_Command
-{
-public:
-	CCC_DbgMemCheck(LPCSTR N) : IConsole_Command(N)  { bEmptyArgsHandled = TRUE; };
-	virtual void Execute(LPCSTR args) { if (Memory.debug_mode){ Memory.dbg_check();}else{Msg("! Run with -mem_debug options.");} }
 };
 class CCC_DbgStrCheck : public IConsole_Command
 {
@@ -454,8 +432,6 @@ void CCC_Register()
 	CMD1(CCC_MemStats,		"stat_memory"		);
 	CMD1(CCC_TexturesStat,	"stat_textures"		);
 
-	CMD1(CCC_MemStat,		"dbg_mem_dump"		);
-	CMD1(CCC_DbgMemCheck,	"dbg_mem_check"		);
 	CMD1(CCC_DbgStrCheck,	"dbg_str_check"		);
 	CMD1(CCC_DbgStrDump,	"dbg_str_dump"		);
 
