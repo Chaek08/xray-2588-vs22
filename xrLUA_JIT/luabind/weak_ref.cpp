@@ -1,3 +1,4 @@
+#include "luabind_api.h"
 // Copyright (c) 2004 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19,7 +20,6 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
 #include <algorithm>
 
 #include <luabind/lua_include.hpp>
@@ -144,7 +144,7 @@ namespace luabind {
     }
     
     weak_ref::weak_ref(lua_State* L, int index)
-        : m_impl(new impl(L, index))
+        : m_impl(luabind_new<impl>(L, index))
     {
         m_impl->count = 1;
     }
@@ -159,7 +159,7 @@ namespace luabind {
     {
         if (m_impl && --m_impl->count == 0)
         {
-            delete m_impl;
+            luabind_delete	(m_impl);
         }
     }
 

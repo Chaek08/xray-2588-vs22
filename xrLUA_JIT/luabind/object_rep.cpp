@@ -19,16 +19,19 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
-#include <luabind/detail/object_rep.hpp>
+#include "luabind_api.h"
 #include <luabind/detail/class_rep.hpp>
+#include <luabind/detail/object_rep.hpp>
+#include <luabind/detail/method_rep.hpp>
+
+#include <luabind/detail/overload_rep_impl.hpp>
 
 //#define TEST_GARBAGE_COLLECTOR
 
 #ifdef TEST_GARBAGE_COLLECTOR
-#	include "stdafx.h"
+#	include "pch.h"
 	string256	debug_test_constructor, debug_test_destructor;
-	LPCSTR		debug_class = "AttackError";//"stateAttackThreaten";
+	const char*		debug_class = "AttackError";//"stateAttackThreaten";
 #endif
 
 namespace luabind { namespace detail
@@ -46,7 +49,7 @@ namespace luabind { namespace detail
 		assert((((m_flags & owner) && dest) || !(m_flags & owner)) && "internal error, please report");
 #ifdef TEST_GARBAGE_COLLECTOR
 		sprintf(debug_test_constructor,"%s %x %x",m_classrep->name(),m_object,this);
-		if (!xr_strcmp(debug_class,m_classrep->name()))
+		if (!sz_cmp(debug_class,m_classrep->name()))
 			Log(debug_test_constructor);
 #endif
 	}
@@ -61,7 +64,7 @@ namespace luabind { namespace detail
 	{
 #ifdef TEST_GARBAGE_COLLECTOR
 		sprintf(debug_test_constructor,"%s %x %x",m_classrep->name(),m_object,this);
-		if (!xr_strcmp(debug_class,m_classrep->name()))
+		if (!sz_cmp(debug_class,m_classrep->name()))
 			Log(debug_test_constructor);
 #endif
 	}
@@ -70,7 +73,7 @@ namespace luabind { namespace detail
 	{
 #ifdef TEST_GARBAGE_COLLECTOR
 		sprintf(debug_test_destructor,"%s %x %x",m_classrep->name(),m_object,this);
-		if (!xr_strcmp(debug_class,m_classrep->name()))
+		if (!sz_cmp(debug_class,m_classrep->name()))
 			Log(debug_test_destructor);
 #endif
 		if (m_flags & owner && m_destructor) m_destructor(m_object);

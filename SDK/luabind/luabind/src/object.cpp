@@ -19,9 +19,8 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
+#include "luabind_api.h"
 #include <luabind/lua_include.hpp>
-
 #include <luabind/luabind.hpp>
 #include <luabind/detail/implicit_cast.hpp>
 
@@ -29,6 +28,24 @@ using namespace luabind::detail;
 
 namespace luabind
 {
+	LUABIND_API lua_State* GetFuckingLuaStateByObject(object** pObj)
+	{
+		lua_State* L = (*pObj)->lua_state();
+		(*pObj)->pushvalue();
+		return L;
+	}
+
+	LUABIND_API string_class DebugPrintStack(lua_State* L)
+	{
+		string_class msg("");
+		luabind::object debug_space = luabind::get_globals(L)["debug"];
+		luabind::object traceback = debug_space["traceback"];
+		string_class tracebackstr = luabind::call_function<string_class>(traceback);
+		msg += "\n traceback: \n";
+		msg += tracebackstr;
+		
+		return msg;
+	}
 	namespace detail
 	{
 
@@ -83,8 +100,6 @@ LUABIND_PROXY_ASSIGNMENT_OPERATOR(proxy_array_object)
 
 		// *************************************
 		// PROXY ARRAY OBJECT
-
-
 
 #define LUABIND_ARRAY_PROXY_ASSIGNMENT_OPERATOR(rhs)\
 		proxy_array_object& proxy_array_object::operator=(const rhs& p) \

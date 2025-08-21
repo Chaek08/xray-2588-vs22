@@ -5,12 +5,11 @@
 
 #pragma once
 
-#include "boost/shared_ptr.hpp"
-
+#include "intrusive_ptr.h"
 //умный указатель для диалога, так как он может 
 //совмесно использоваться несколькими объектами ()
 class CPhraseDialog;
-typedef boost::shared_ptr<CPhraseDialog> DIALOG_SHARED_PTR;
+using DIALOG_SHARED_PTR = xr_shared_ptr<CPhraseDialog>;
 
 
 /*

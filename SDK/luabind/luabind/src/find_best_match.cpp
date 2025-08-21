@@ -19,10 +19,12 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
+#include "luabind_api.h"
 #include <luabind/lua_include.hpp>
-
 #include <luabind/luabind.hpp>
+#include <luabind/detail/find_best_match.hpp>
+
+#include <limits>
 
 using namespace luabind::detail;
 
@@ -69,7 +71,7 @@ void luabind::detail::find_exact_match(
   , size_t orep_size
   , int cmp_match
   , int num_params
-  , std::vector<const overload_rep_base*>& dest)
+  , vector_class<const overload_rep_base*>& dest)
 {
     for (int i = 0; i < num_overloads; ++i)
     {
@@ -78,4 +80,3 @@ void luabind::detail::find_exact_match(
         reinterpret_cast<const char*&>(start) += orep_size;
     }
 }
-

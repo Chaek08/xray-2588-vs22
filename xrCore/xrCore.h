@@ -185,6 +185,8 @@
 #include "xrMemory.h"
 #include "xrDebug.h"
 
+#include "_thread_types.h"
+
 #include "_stl_extensions.h"
 #include "xrsharedmem.h"
 #include "xrstring.h"
@@ -238,7 +240,7 @@ DEFINE_VECTOR	(xr_rtoken,RTokenVec,RTokenVecIt);
 #include "FileSystem.h"
 #include "FTimer.h"
 #include "fastdelegate.h"
-
+#include "intrusive_ptr.h"
 // destructor
 template <class T>
 class destructor

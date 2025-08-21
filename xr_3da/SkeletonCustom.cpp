@@ -640,11 +640,9 @@ void CKinematics::AddWallmark(
 }
 
 static const float LIFE_TIME=30.f;
-struct zero_wm_pred : public std::unary_function<CSkeletonWallmark*, bool>
-{
-	bool operator()(const CSkeletonWallmark* x){ return x==0; }
+struct zero_wm_pred {
+	bool operator()(const intrusive_ptr<CSkeletonWallmark> x) { return x == 0; }
 };
-
 void CKinematics::CalculateWallmarks()
 {
 	if (!wallmarks.empty()&&(wm_frame!=Device.dwFrame)){

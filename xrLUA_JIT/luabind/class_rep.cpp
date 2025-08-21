@@ -19,12 +19,12 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
+#include "luabind_api.h"
 #include <luabind/lua_include.hpp>
-
 #include <luabind/detail/stack_utils.hpp>
 #include <luabind/luabind.hpp>
 #include <utility>
+#include <luabind/detail/find_best_match.hpp>
 
 using namespace luabind::detail;
 
@@ -44,8 +44,8 @@ namespace luabind { namespace detail
 
 	string_class luabind::detail::get_overload_signatures_candidates(
 			lua_State* L
-			, std::vector<const overload_rep_base*>::iterator start
-			, std::vector<const overload_rep_base*>::iterator end
+			, vector_class<const overload_rep_base*>::iterator start
+			, vector_class<const overload_rep_base*>::iterator end
 			, string_class name)
 	{
 		string_class s;
@@ -155,13 +155,8 @@ luabind::detail::class_rep::class_rep(lua_State* L, const char* name)
 	m_instance_metatable = r->lua_instance();
 }
 
-luabind::detail::class_rep::~class_rep()
-{
-}
-
 // leaves object on lua stack
-std::pair<void*,void*> 
-luabind::detail::class_rep::allocate(lua_State* L) const
+std::pair<void*,void*> luabind::detail::class_rep::allocate(lua_State* L) const
 {
 	const int overlap = sizeof(object_rep)&(m_holder_alignment-1);
 	const int padding = overlap==0?0:m_holder_alignment-overlap;
@@ -172,37 +167,6 @@ luabind::detail::class_rep::allocate(lua_State* L) const
 
 	return std::pair<void*,void*>(mem,ptr);
 }
-/*
-#include <iostream>
-namespace
-{
-	void dump_stack(lua_State* L)
-	{
-		for (int i = 1; i <= lua_gettop(L); ++i)
-		{
-			int t = lua_type(L, i);
-			switch (t)
-			{
-			case LUA_TNUMBER:
-				std::cout << "[" << i << "] number: " << lua_tonumber(L, i) << "\n";
-				break;
-			case LUA_TSTRING:
-				std::cout << "[" << i << "] string: " << lua_tostring(L, i) << "\n";
-				break;
-			case LUA_TUSERDATA:
-				std::cout << "[" << i << "] userdata: " << lua_touserdata(L, i) << "\n";
-				break;
-			case LUA_TTABLE:
-				std::cout << "[" << i << "] table:\n";
-				break;
-			case LUA_TNIL:
-				std::cout << "[" << i << "] nil:\n";
-				break;
-			}
-		}
-	}
-}
-*/
 
 void luabind::detail::class_rep::adopt(bool const_obj, void* obj)
 {
@@ -236,13 +200,7 @@ int luabind::detail::class_rep::gettable(lua_State* L)
 
 	// we have to ignore the first argument since this may point to
 	// a method that is not present in this class (but in a subclass)
-#ifndef USE_NATIVE_LUA_STRINGS
 	const char* key = lua_tostring(L, 2);
-#else
-//	lua_string_holder	str = lua_string_holder(L,lua_tostring_object(L,2));
-	TString		*str = lua_tostring_object(L,2);
-	const char* key = getstr(str);
-#endif
 
 #ifndef LUABIND_NO_ERROR_CHECKING
 
@@ -298,11 +256,7 @@ int luabind::detail::class_rep::gettable(lua_State* L)
 	}
 	lua_pop(L, 2);
 
-#ifndef USE_NATIVE_LUA_STRINGS
-	std::map<const char*, callback, ltstr>::iterator j = m_getters.find(key);
-#else
-	callback_map::iterator j = m_getters.find(str);
-#endif
+	map_class<const char*, callback, ltstr>::iterator j = m_getters.find(key);
 	if (j != m_getters.end())
 	{
 		// the name is a data member
@@ -324,21 +278,11 @@ bool luabind::detail::class_rep::settable(lua_State* L)
 	// we have to ignore the first argument since this may point to
 	// a method that is not present in this class (but in a subclass)
 
-#ifndef USE_NATIVE_LUA_STRINGS
 	const char* key = lua_tostring(L, 2);
-#else
-//	lua_string_holder	str = lua_string_holder(L,lua_tostring_object(L,2));
-	TString		*str = lua_tostring_object(L,2);
-	const char* key = getstr(str);
-#endif
 
 	if (std::strlen(key) == lua_strlen(L, 2))
 	{
-#ifndef USE_NATIVE_LUA_STRINGS
-		std::map<const char*, callback, ltstr>::iterator j = m_setters.find(key);
-#else
-		callback_map::iterator j = m_setters.find(str);
-#endif
+		map_class<const char*, callback, ltstr>::iterator j = m_setters.find(key);
 		if (j != m_setters.end())
 		{
 			// the name is a data member
@@ -354,6 +298,14 @@ bool luabind::detail::class_rep::settable(lua_State* L)
 				msg += "\nand does not match: (";
 				msg += stack_content_by_name(L, 3);
 				msg += ")";
+
+				// log the callstack
+				luabind::object debug_space = luabind::get_globals(L)["debug"];
+				luabind::object traceback = debug_space["traceback"];
+				string_class tracebackstr = luabind::call_function<string_class>(traceback);
+				msg += "\n traceback: \n";
+				msg += tracebackstr;
+
 				lua_pushstring(L, msg.c_str());
 				return false;
 			}
@@ -362,11 +314,7 @@ bool luabind::detail::class_rep::settable(lua_State* L)
 			return true;
 		}
 
-#ifndef USE_NATIVE_LUA_STRINGS
 		if (m_getters.find(key) != m_getters.end())
-#else
-		if (m_getters.find(str) != m_getters.end())
-#endif
 		{
 			// this means that we have a getter but no
 			// setter for an attribute. We will then fail
@@ -376,6 +324,14 @@ bool luabind::detail::class_rep::settable(lua_State* L)
 			msg += ".";
 			msg += key;
 			msg += "' is read only";
+
+			// log the callstack
+			luabind::object debug_space = luabind::get_globals(L)["debug"];
+			luabind::object traceback = debug_space["traceback"];
+			string_class tracebackstr = luabind::call_function<string_class>(traceback);
+			msg += "\n traceback: \n";
+			msg += tracebackstr;
+
 			lua_pushstring(L, msg.c_str());
 			return false;
 		}
@@ -414,7 +370,10 @@ int luabind::detail::class_rep::settable_dispatcher(lua_State* L)
 {
 	object_rep* obj = static_cast<object_rep*>(lua_touserdata(L, 1));
 
-	bool success = obj->crep()->settable(L);
+#ifndef LUABIND_NO_ERROR_CHECKING
+	bool success =
+#endif // #ifndef LUABIND_NO_ERROR_CHECKING
+		obj->crep()->settable(L);
 
 #ifndef LUABIND_NO_ERROR_CHECKING
 
@@ -461,8 +420,21 @@ int luabind::detail::class_rep::operator_dispatcher(lua_State* L)
 		}
 	}
 
+	object_rep* obj = static_cast<object_rep*>(lua_touserdata(L, 1));
+	class_rep* crep = obj->crep();
+	auto ptr = lua_tostring(L, lua_upvalueindex(1));
+	if (ptr && std::strcmp(ptr, "__tostring") == 0)
+	{
+		lua_pop(L, lua_gettop(L));
+		lua_pushstring(L, crep->name());
+		return 1;
+	}
 	lua_pop(L, lua_gettop(L));
-	lua_pushstring(L, "No such operator defined");
+
+	char err_str[512];
+	sprintf(err_str, "! No such operator [%s] defined in class [%s]", ptr, crep->name());
+	lua_pushstring(L, err_str);
+
 	lua_error(L);
 
 	return 0;
@@ -509,6 +481,13 @@ int luabind::detail::class_rep::constructor_dispatcher(lua_State* L)
 
 			msg += get_overload_signatures(L, rep->overloads.begin(), rep->overloads.end(), crep->name());
 
+			// log the callstack
+			luabind::object debug_space = luabind::get_globals(L)["debug"];
+			luabind::object traceback = debug_space["traceback"];
+			string_class tracebackstr = luabind::call_function<string_class>(traceback);
+			msg += "\n traceback: \n";
+			msg += tracebackstr;
+
 			lua_pushstring(L, msg.c_str());
 		}
 		lua_error(L);
@@ -522,9 +501,16 @@ int luabind::detail::class_rep::constructor_dispatcher(lua_State* L)
 			msg += stack_content_by_name(L, 2);
 			msg += ")' is ambiguous\nnone of the overloads have a best conversion:\n";
 
-			std::vector<const overload_rep_base*> candidates;
+			vector_class<const overload_rep_base*> candidates;
 			find_exact_match(L, &rep->overloads.front(), rep->overloads.size(), sizeof(construct_rep::overload_t), min_match, num_params, candidates);
 			msg += get_overload_signatures_candidates(L, candidates.begin(), candidates.end(), crep->name());
+
+			// log the callstack
+			luabind::object debug_space = luabind::get_globals(L)["debug"];
+			luabind::object traceback = debug_space["traceback"];
+			string_class tracebackstr = luabind::call_function<string_class>(traceback);
+			msg += "\n traceback: \n";
+			msg += tracebackstr;
 
 			lua_pushstring(L, msg.c_str());
 		}
@@ -542,7 +528,7 @@ int luabind::detail::class_rep::constructor_dispatcher(lua_State* L)
 		void* obj_rep;
 		void* held;
 
-		boost::tie(obj_rep,held) = crep->allocate(L);
+		std::tie(obj_rep,held) = crep->allocate(L);
 
 		weak_ref backref(L, -1);
 
@@ -639,7 +625,8 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
 #endif
 
 		int num_params = lua_gettop(L) /*- 1*/;
-		found = find_best_match(L, &rep->overloads().front(), rep->overloads().size(), sizeof(overload_rep), ambiguous, min_match, match_index, num_params);
+		auto begin_value = rep->overloads().empty() ? 0 : &rep->overloads().front();
+		found = find_best_match(L, begin_value, rep->overloads().size(), sizeof(overload_rep), ambiguous, min_match, match_index, num_params);
 
 #ifdef LUABIND_NO_ERROR_CHECKING
 
@@ -665,6 +652,13 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
 
 			msg += get_overload_signatures(L, rep->overloads().begin(), rep->overloads().end(), function_name);
 
+			// log the callstack
+			luabind::object debug_space = luabind::get_globals(L)["debug"];
+			luabind::object traceback = debug_space["traceback"];
+			string_class tracebackstr = luabind::call_function<string_class>(traceback);
+			msg += "\n traceback: \n";
+			msg += tracebackstr;
+
 			lua_pushstring(L, msg.c_str());
 		}
 		lua_error(L);
@@ -680,7 +674,7 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
 			msg += stack_content_by_name(L, 1);
 			msg += ")' is ambiguous\nnone of the overloads have a best conversion:\n";
 
-			std::vector<const overload_rep_base*> candidates;
+			vector_class<const overload_rep_base*> candidates;
 			find_exact_match(L, &rep->overloads().front(), rep->overloads().size(), sizeof(overload_rep), min_match, num_params, candidates);
 
 			string_class function_name;
@@ -689,6 +683,13 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
 			function_name += rep->name;
 
 			msg += get_overload_signatures_candidates(L, candidates.begin(), candidates.end(), function_name);
+
+			// log the callstack
+			luabind::object debug_space = luabind::get_globals(L)["debug"];
+			luabind::object traceback = debug_space["traceback"];
+			string_class tracebackstr = luabind::call_function<string_class>(traceback);
+			msg += "\n traceback: \n";
+			msg += tracebackstr;
 
 			lua_pushstring(L, msg.c_str());
 		}
@@ -712,11 +713,6 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
         }
 		else
 		{
-#if 0
-			xr_string			str;
-			o.get_signature		(L, str);
-			OutputDebugString	((((xr_string("__function__") + rep->crep->name()) + "::") + rep->name + str + "\n").c_str());
-#endif
 	        return o.call(L, force_static_call != 0);
 		}
 
@@ -750,137 +746,6 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
 	return 0; // will never be reached
 }
 
-#if 0//ndef NDEBUG
-
-#ifndef BOOST_NO_STRINGSTREAM
-#include <sstream>
-#else
-#include <strstream>
-#endif
-
-namespace
-{
-	string_class to_string(luabind::object const& o)
-	{
-		using namespace luabind;
-		if (o.type() == LUA_TSTRING) return object_cast<string_class>(o);
-		lua_State* L = o.lua_state();
-		LUABIND_CHECK_STACK(L);
-
-#ifdef BOOST_NO_STRINGSTREAM
-		std::strstream s;
-#else
-		std::stringstream s;
-#endif
-
-		if (o.type() == LUA_TNUMBER)
-		{
-			s << object_cast<float>(o);
-			return s.str();
-		}
-
-		s << "<" << lua_typename(L, o.type()) << ">";
-#ifdef BOOST_NO_STRINGSTREAM
-		s << std::ends;
-#endif
-		return s.str();
-	}
-
-
-	string_class member_to_string(luabind::object const& e)
-	{
-#if !defined(LUABIND_NO_ERROR_CHECKING)
-        using namespace luabind;
-		lua_State* L = e.lua_state();
-		LUABIND_CHECK_STACK(L);
-
-		if (e.type() == LUA_TFUNCTION)
-		{
-			e.pushvalue();
-			detail::stack_pop p(L, 1);
-
-			{
-				if (lua_getupvalue(L, -1, 3) == 0) return to_string(e);
-				detail::stack_pop p2(L, 1);
-				if (lua_touserdata(L, -1) != reinterpret_cast<void*>(0x1337)) return to_string(e);
-			}
-
-#ifdef BOOST_NO_STRINGSTREAM
-			std::strstream s;
-#else
-			std::stringstream s;
-#endif
-			{
-				lua_getupvalue(L, -1, 2);
-				detail::stack_pop p2(L, 1);
-				int b = lua_toboolean(L, -1);
-				s << "<c++ function";
-				if (b) s << " (default)";
-				s << "> ";
-			}
-
-			{
-				lua_getupvalue(L, -1, 1);
-				detail::stack_pop p2(L, 1);
-				method_rep* m = static_cast<method_rep*>(lua_touserdata(L, -1));
-				s << m << "\n";
-				for (std::vector<overload_rep>::const_iterator i = m->overloads().begin();
-					i != m->overloads().end(); ++i)
-				{
-					string_class str;
-					i->get_signature(L, str);
-					s << "   " << str << "\n";
-				}
-			}
-#ifdef BOOST_NO_STRINGSTREAM
-			s << std::ends;
-#endif
-			return s.str();
-		}
-
-        return to_string(e);
-#else
-        return "";
-#endif
-	}
-}
-
-string_class luabind::detail::class_rep::class_info_string(lua_State* L) const
-{
-#ifdef BOOST_NO_STRINGSTREAM
-	std::strstream ret;
-#else
-	std::stringstream ret;
-#endif
-
-	ret << "CLASS: " << m_name << "\n";
-
-	ret << "dynamic dispatch functions:\n------------------\n";
-
-	get_table(L);
-	object t(L);
-	t.set();
-	for (object::iterator i = t.begin(); i != t.end(); ++i)
-	{
-		object e = *i;
-		ret << "  " << to_string(i.key()) << ": " << member_to_string(e) << "\n";
-	}
-
-	ret << "default implementations:\n------------------\n";
-	get_default_table(L);
-	t.set();
-	for (object::iterator i = t.begin(); i != t.end(); ++i)
-	{
-		object e = *i;
-		ret << "  " << to_string(i.key()) << ": " << member_to_string(e) << "\n";
-	}
-#ifdef BOOST_NO_STRINGSTREAM
-	ret << std::ends;
-#endif
-	return ret.str();
-}
-#endif
-
 void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep::base_info& binfo)
 {
 	// If you hit this assert you are deriving from a type that is not registered
@@ -893,22 +758,18 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	class_rep* bcrep = binfo.base;
 
 	// import all functions from the base
-	typedef std::list<detail::method_rep> methods_t;
+	typedef list_class<detail::method_rep> methods_t;
 
 	for (methods_t::const_iterator i = bcrep->m_methods.begin();
 		i != bcrep->m_methods.end(); ++i)
     {
-		add_method(*i);
+        auto copy = *i;
+		add_method(std::move(copy));
     }
 
 	// import all getters from the base
-#ifndef USE_NATIVE_LUA_STRINGS
-	for (std::map<const char*, callback, ltstr>::const_iterator i = bcrep->m_getters.begin(); 
+	for (map_class<const char*, callback, ltstr>::const_iterator i = bcrep->m_getters.begin(); 
 			i != bcrep->m_getters.end(); ++i)
-#else
-	for (callback_map::const_iterator i = bcrep->m_getters.begin(); 
-			i != bcrep->m_getters.end(); ++i)
-#endif
 	{
 		callback& m = m_getters[i->first];
 		m.pointer_offset = i->second.pointer_offset + binfo.pointer_offset;
@@ -921,13 +782,8 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	}
 
 	// import all setters from the base
-#ifndef USE_NATIVE_LUA_STRINGS
-	for (std::map<const char*, callback, ltstr>::const_iterator i = bcrep->m_setters.begin(); 
+	for (map_class<const char*, callback, ltstr>::const_iterator i = bcrep->m_setters.begin(); 
 			i != bcrep->m_setters.end(); ++i)
-#else
-	for (callback_map::const_iterator i = bcrep->m_setters.begin(); 
-			i != bcrep->m_setters.end(); ++i)
-#endif
 	{
 		callback& m = m_setters[i->first];
 		m.pointer_offset = i->second.pointer_offset + binfo.pointer_offset;
@@ -940,13 +796,8 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	}
 
 	// import all static constants
-#ifndef USE_NATIVE_LUA_STRINGS
-	for (std::map<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin(); 
+	for (map_class<const char*, int, ltstr>::const_iterator i = bcrep->m_static_constants.begin(); 
 			i != bcrep->m_static_constants.end(); ++i)
-#else
-	for (class_rep::STATIC_CONSTANTS::const_iterator i = bcrep->m_static_constants.begin(); 
-			i != bcrep->m_static_constants.end(); ++i)
-#endif
 	{
 		int& v = m_static_constants[i->first];
 		v = i->second;
@@ -955,7 +806,7 @@ void luabind::detail::class_rep::add_base_class(const luabind::detail::class_rep
 	// import all operators
 	for (int i = 0; i < number_of_operators; ++i)
 	{
-		for (std::vector<operator_callback>::const_iterator j = bcrep->m_operators[i].begin(); 
+		for (vector_class<operator_callback>::const_iterator j = bcrep->m_operators[i].begin(); 
 				j != bcrep->m_operators[i].end(); ++j)
 			m_operators[i].push_back(*j);
 	}
@@ -1227,7 +1078,7 @@ int luabind::detail::class_rep::construct_lua_class_callback(lua_State* L)
 	void* obj_ptr;
 	void* held_storage;
 
-	boost::tie(obj_ptr, held_storage) = crep->allocate(L);
+	std::tie(obj_ptr, held_storage) = crep->allocate(L);
 	(new(obj_ptr) object_rep(crep, flags, ref))->set_object(held_storage);
 
 	detail::getref(L, crep->metatable_ref());
@@ -1319,20 +1170,14 @@ int luabind::detail::class_rep::lua_class_gettable(lua_State* L)
 	// a method that is not present in this class (but in a subclass)
 
 	// BUG: This might catch members called "__ok\0foobar"
-#ifndef USE_NATIVE_LUA_STRINGS
 	const char* key		= lua_tostring(L, 2);
-#else
-//	lua_string_holder	str = lua_string_holder(L,lua_tostring_object(L,2));
-	TString		*str = lua_tostring_object(L,2);
-	const char* key = getstr(str);
-#endif
 	const char* _ok_	= "__ok";
 
-	if (key && ( *((unsigned*)key) == *((unsigned*)_ok_) ) && !key[4])
+	if (key && !std::strcmp(key, _ok_))
 	{
-		class_rep* crep = obj->crep();
+		class_rep* pCrep = obj->crep();
 
-		void* p = crep->extractor() ? crep->extractor()(obj->ptr())
+		void* p = pCrep->extractor() ? pCrep->extractor()(obj->ptr())
 			: obj->ptr();
 
 		lua_pushboolean(L, p != 0);
@@ -1371,11 +1216,7 @@ int luabind::detail::class_rep::lua_class_gettable(lua_State* L)
 		return 1;
 	}
 
-#ifndef USE_NATIVE_LUA_STRINGS
-	std::map<const char*, class_rep::callback, ltstr>::iterator j = crep->m_getters.find(key);
-#else
-	class_rep::callback_map::iterator j = crep->m_getters.find(str);
-#endif
+	map_class<const char*, class_rep::callback, ltstr>::iterator j = crep->m_getters.find(key);
 	if (j != crep->m_getters.end())
 	{
 		// the name is a data member
@@ -1413,19 +1254,10 @@ int luabind::detail::class_rep::lua_class_settable(lua_State* L)
 	// we have to ignore the first argument since this may point to
 	// a method that is not present in this class (but in a subclass)
 	// BUG: This will not work with keys with extra nulls in them
-#ifndef USE_NATIVE_LUA_STRINGS
 	const char* key = lua_tostring(L, 2);
-#else
-//	lua_string_holder	str = lua_string_holder(L,lua_tostring_object(L,2));
-	TString		*str = lua_tostring_object(L,2);
-	const char* key = getstr(str);
-#endif
 
-#ifndef USE_NATIVE_LUA_STRINGS
-	std::map<const char*, class_rep::callback, ltstr>::iterator j = crep->m_setters.find(key);
-#else
-	class_rep::callback_map::iterator j = crep->m_setters.find(str);
-#endif
+
+	map_class<const char*, class_rep::callback, ltstr>::iterator j = crep->m_setters.find(key);
 
 	// if the strlen(key) is not the true length,
 	// it means that the member-name contains
@@ -1435,11 +1267,7 @@ int luabind::detail::class_rep::lua_class_settable(lua_State* L)
 	if (j == crep->m_setters.end()
 		|| std::strlen(key) != lua_strlen(L, 2))
 	{
-#ifndef USE_NATIVE_LUA_STRINGS
-		std::map<const char*, class_rep::callback, ltstr>::iterator k = crep->m_getters.find(key);
-#else
-		class_rep::callback_map::iterator k = crep->m_getters.find(str);
-#endif
+		map_class<const char*, class_rep::callback, ltstr>::iterator k = crep->m_getters.find(key);
 
 #ifndef LUABIND_NO_ERROR_CHECKING
 
@@ -1489,13 +1317,7 @@ int luabind::detail::class_rep::static_class_gettable(lua_State* L)
 	if (!lua_isnil(L, -1)) return 1;
 	else lua_pop(L, 2);
 
-#ifndef USE_NATIVE_LUA_STRINGS
 	const char* key = lua_tostring(L, 2);
-#else
-//	lua_string_holder	str = lua_string_holder(L,lua_tostring_object(L,2));
-	TString		*str = lua_tostring_object(L,2);
-	const char* key = getstr(str);
-#endif
 
 	if (std::strlen(key) != lua_strlen(L, 2))
 	{
@@ -1503,11 +1325,7 @@ int luabind::detail::class_rep::static_class_gettable(lua_State* L)
 		return 1;
 	}
 
-#ifndef USE_NATIVE_LUA_STRINGS
-	std::map<const char*, int, ltstr>::const_iterator j = crep->m_static_constants.find(key);
-#else
-	STATIC_CONSTANTS::const_iterator j = crep->m_static_constants.find(str);
-#endif
+	map_class<const char*, int, ltstr>::const_iterator j = crep->m_static_constants.find(key);
 
 	if (j != crep->m_static_constants.end())
 	{
@@ -1523,6 +1341,14 @@ int luabind::detail::class_rep::static_class_gettable(lua_State* L)
 		msg += "' in class '";
 		msg += crep->name();
 		msg += "'";
+
+		// log the callstack
+		luabind::object debug_space = luabind::get_globals(L)["debug"];
+		luabind::object traceback = debug_space["traceback"];
+		string_class tracebackstr = luabind::call_function<string_class>(traceback);
+		msg += "\n traceback: \n";
+		msg += tracebackstr;
+
 		lua_pushstring(L, msg.c_str());
 	}
 	lua_error(L);
@@ -1570,7 +1396,7 @@ void luabind::detail::finalize(lua_State* L, class_rep* crep)
 		lua_call(L, 1, 0);
 	}
 
-	for (std::vector<class_rep::base_info>::const_iterator 
+	for (vector_class<class_rep::base_info>::const_iterator 
 			i = crep->bases().begin(); i != crep->bases().end(); ++i)
 	{
 		if (i->base) finalize(L, i->base);
@@ -1588,7 +1414,7 @@ void* luabind::detail::class_rep::convert_to(
 	assert(obj == 0 || obj->crep() == this);
 
 	int steps = 0;
-	int offset = 0;
+	ptrdiff_t offset = 0;
 	if (!(LUABIND_TYPE_INFO_EQUAL(holder_type(), target_type))
 		&& !(LUABIND_TYPE_INFO_EQUAL(const_holder_type(), target_type)))
 	{
@@ -1684,9 +1510,9 @@ bool luabind::detail::class_rep::has_operator_in_lua(lua_State* L, int id)
 
 // this will merge all overloads of fun into the list of
 // overloads in this class
-void luabind::detail::class_rep::add_method(luabind::detail::method_rep const& fun)
+void luabind::detail::class_rep::add_method(luabind::detail::method_rep && fun)
 {
-	typedef std::list<detail::method_rep> methods_t;
+	typedef list_class<detail::method_rep> methods_t;
 
 	methods_t::iterator m = std::find_if(
 		m_methods.begin()
@@ -1701,13 +1527,12 @@ void luabind::detail::class_rep::add_method(luabind::detail::method_rep const& f
 	}
 	m->crep = this;
 
-	typedef std::vector<detail::overload_rep> overloads_t;
+	typedef vector_class<detail::overload_rep> overloads_t;
 
     for (overloads_t::const_iterator j = fun.overloads().begin();
 		j != fun.overloads().end(); ++j)
     {
-        detail::overload_rep o = *j;
-        m->add_overload(o);
+        m->add_overload(std::move(*j));
     }
 }
 
@@ -1716,7 +1541,6 @@ void luabind::detail::class_rep::add_method(luabind::detail::method_rep const& f
 // name, thses will simply be appended to the overload list
 void luabind::detail::class_rep::register_methods(lua_State* L)
 {
-	LUABIND_CHECK_STACK(L);
 	// insert the function in the normal member table
 	// and in the default member table
 	m_default_table_ref.get(L);
@@ -1725,7 +1549,7 @@ void luabind::detail::class_rep::register_methods(lua_State* L)
 	// pops the tables
 	detail::stack_pop pop_tables(L, 2);
 
-	for (std::list<method_rep>::const_iterator m = m_methods.begin();
+	for (list_class<method_rep>::const_iterator m = m_methods.begin();
 		m != m_methods.end(); ++m)
 	{
 		// create the function closure in m_table_ref

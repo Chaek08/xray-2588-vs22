@@ -224,11 +224,12 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;$(SolutionDir)\xrODE\include;$(SolutionDir)\SDK\loki;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;$(SolutionDir)\xrODE\include;$(SolutionDir)\SDK\loki;$(SolutionDir)\SDK\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ModuleOutputFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleOutputFile>
       <ModuleDependenciesFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleDependenciesFile>
       <XMLDocumentationFileName>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</XMLDocumentationFileName>
       <SourceDependenciesFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</SourceDependenciesFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalOptions>/MACHINE:I386  %(AdditionalOptions)</AdditionalOptions>

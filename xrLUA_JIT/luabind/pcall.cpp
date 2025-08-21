@@ -19,7 +19,7 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
+#include "luabind_api.h"
 #include <luabind/detail/pcall.hpp>
 #include <luabind/error.hpp>
 #include <luabind/lua_include.hpp>
@@ -49,3 +49,5 @@ namespace luabind { namespace detail
 	}
 
 }}
+luabind::memory_allocation_function_pointer		luabind::allocator = 0;
+luabind::memory_allocation_function_parameter	luabind::allocator_parameter = 0;

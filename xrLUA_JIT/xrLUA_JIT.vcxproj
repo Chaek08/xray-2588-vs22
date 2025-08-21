@@ -100,7 +100,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>dynasm;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\xrCore;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\xrLUA_JIT\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>dynasm;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\xrCore;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LUA_BUILD_AS_DLL;LUABIND_BUILDING;LUABIND_NO_ERROR_CHECKING;LUABIND_NO_EXCEPTIONS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling />
@@ -116,6 +116,7 @@
       <ModuleDependenciesFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleDependenciesFile>
       <XMLDocumentationFileName>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</XMLDocumentationFileName>
       <SourceDependenciesFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</SourceDependenciesFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)xrLUA.dll</OutputFile>

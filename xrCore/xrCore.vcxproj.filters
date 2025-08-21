@@ -331,6 +331,15 @@
     <ClInclude Include="string_concatenations.h">
       <Filter>FS</Filter>
     </ClInclude>
+    <ClInclude Include="intrusive_ptr.h">
+      <Filter>Math\STLext</Filter>
+    </ClInclude>
+    <ClInclude Include="intrusive_ptr_inline.h">
+      <Filter>Math\STLext</Filter>
+    </ClInclude>
+    <ClInclude Include="_thread_types.h">
+      <Filter>Math\STLext</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="xrCore.rc">

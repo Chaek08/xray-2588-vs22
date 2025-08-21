@@ -1,30 +1,8 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
-
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-// ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-// SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
-// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
-// OR OTHER DEALINGS IN THE SOFTWARE.
-
+#include "luabind_api.h"
 #include <algorithm>
 #include <luabind/config.hpp>
 #include <luabind/detail/ref.hpp>
 #include <luabind/lua_include.hpp>
-#include <luabind/detail/debug.hpp>
 
 namespace luabind { namespace detail
 {
@@ -92,7 +70,7 @@ namespace luabind { namespace detail
 		}
 	}
 
-	void luaL_setn (lua_State *L, int t, int n)
+	void luaL_setn_impl (lua_State *L, int t, int n)
 	{
 		lua_pushliteral(L, "n");
 		lua_rawget(L, t);
@@ -110,7 +88,7 @@ namespace luabind { namespace detail
 		}
 	}
 
-	int luaL_getn (lua_State *L, int t)
+	int luaL_getn_impl (lua_State *L, int t)
 	{
 		int n;
 		lua_pushliteral(L, "n");  /* try t.n */
@@ -150,11 +128,11 @@ namespace luabind { namespace detail
 			lua_rawseti(L, t, FREELIST_REF);  /* (t[FREELIST_REF] = t[ref]) */
 		}
 		else {  /* no free elements */
-			ref = ::luabind::detail::luaL_getn(L, t);
+			ref = ::luabind::detail::luaL_getn_impl(L, t);
 			if (ref < RESERVED_REFS)
 			ref = RESERVED_REFS;  /* skip reserved references */
 			ref++;  /* create new reference */
-			::luabind::detail::luaL_setn(L, t, ref);
+			::luabind::detail::luaL_setn_impl(L, t, ref);
 		}
 		lua_rawseti(L, t, ref);
 		return ref;
@@ -162,14 +140,21 @@ namespace luabind { namespace detail
 
 	void LUABIND_API unref(lua_State *L, int ref)
 	{
-		LUABIND_CHECK_STACK(L);
-
-		int t = LUA_REGISTRYINDEX;
-		if (ref >= 0) {
-			lua_rawgeti(L, t, FREELIST_REF);
-			lua_rawseti(L, t, ref);  /* t[ref] = t[FREELIST_REF] */
-			lua_pushnumber(L, ref);
-			lua_rawseti(L, t, FREELIST_REF);  /* t[FREELIST_REF] = ref */
+		try
+		{
+			int t = LUA_REGISTRYINDEX;
+			if (ref >= 0) {
+				lua_rawgeti(L, t, FREELIST_REF);
+				lua_rawseti(L, t, ref);  /* t[ref] = t[FREELIST_REF] */
+				lua_pushnumber(L, ref);
+				lua_rawseti(L, t, FREELIST_REF);  /* t[FREELIST_REF] = ref */
+			}
+		}
+		catch (...)
+		{
+#ifdef LUABIND_DEBUG
+#	error check me!
+#endif
 		}
 	}
 

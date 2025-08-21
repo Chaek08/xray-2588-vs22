@@ -1,3 +1,4 @@
+#include "luabind_api.h"
 // Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19,13 +20,10 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
-
 #include <luabind/lua_include.hpp>
-
 #include <luabind/luabind.hpp>
 
 using namespace luabind::detail;
-
 string_class luabind::detail::stack_content_by_name(lua_State* L, int start_index)
 {
 	string_class ret;
@@ -33,8 +31,8 @@ string_class luabind::detail::stack_content_by_name(lua_State* L, int start_inde
 	for (int i = start_index; i <= top; ++i)
 	{
 		object_rep* obj = is_class_object(L, i);
-		class_rep* crep = is_class_rep(L, i)?(class_rep*)lua_touserdata(L, i):0;
-		if (obj == 0 && crep == 0)
+		class_rep* crep = is_class_rep(L, i) ? (class_rep*)lua_touserdata(L, i) : 0;
+		if (!obj && !crep)
 		{
 			int type = lua_type(L, i);
 			ret += lua_typename(L, type);
