@@ -835,6 +835,7 @@ void CActor::g_Physics			(Fvector& _accel, float jump, float dt)
 	}
 }
 
+float g_fov = 67.5f;
 float CActor::currentFOV()
 {
 	CWeapon* pWeapon = smart_cast<CWeapon*>(inventory().ActiveItem());	
@@ -844,7 +845,7 @@ float CActor::currentFOV()
 		(!pWeapon->IsRotatingToZoom() && pWeapon->ZoomTexture())))
 		return pWeapon->GetZoomFactor();
 	else
-		return DEFAULT_FOV;
+		return g_fov;
 }
 
 void CActor::UpdateCL	()

@@ -2270,6 +2270,7 @@ void CCC_RegisterCommands()
 	CMD3(CCC_Mask,				"hud_animate_hit",		&psHUD_Flags,	HUD_CAM_ANIM_HIT);
 
 	CMD2(CCC_Float,				"hud_fov",				&psHUD_FOV);
+	CMD4(CCC_Float,				"fov",					&g_fov,			5.0f,	180.0f);
 
 	// Demo
 	CMD1(CCC_DemoRecord,		"demo_record"			);

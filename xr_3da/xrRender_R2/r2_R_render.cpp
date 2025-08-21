@@ -197,7 +197,7 @@ void CRender::Render		()
 		float		z_distance	= ps_r2_zfill		;
 		Fmatrix		m_zfill, m_project				;
 		m_project.build_projection	(
-			deg2rad(Device.fFOV*Device.fASPECT), 
+			deg2rad(Device.fFOV), 
 			Device.fASPECT, VIEWPORT_NEAR, 
 			z_distance * g_pGamePersistent->Environment.CurrentEnv.far_plane);
 		m_zfill.mul	(m_project,Device.mView);

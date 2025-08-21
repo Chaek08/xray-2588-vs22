@@ -246,7 +246,7 @@ void CCameraManager::ApplyDevice ()
 	// projection
 	Device.fFOV					= fFov;
 	Device.fASPECT				= fAspect;
-	Device.mProject.build_projection(deg2rad(fFov*fAspect), fAspect, VIEWPORT_NEAR, fFar);
+	Device.mProject.build_projection(deg2rad(fFov), fAspect, VIEWPORT_NEAR, fFar);
 
 	if( g_pGamePersistent && g_pGamePersistent->m_pMainMenu->IsActive() )
 		ResetPP					();

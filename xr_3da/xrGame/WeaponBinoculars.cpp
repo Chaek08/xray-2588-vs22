@@ -109,7 +109,7 @@ void CWeaponBinoculars::OnDrawUI()
 
 void GetZoomData(const float scope_factor, float& delta, float& min_zoom_factor)
 {
-	float def_fov = float(DEFAULT_FOV);
+	float def_fov = float(g_fov);
 	float min_zoom_k = 0.3f;
 	float zoom_step_count = 3.0f;
 	float delta_factor_total = def_fov-scope_factor;
