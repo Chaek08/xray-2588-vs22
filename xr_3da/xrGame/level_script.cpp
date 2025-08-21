@@ -355,15 +355,16 @@ Fbox get_bounding_volume()
 void iterate_sounds					(LPCSTR prefix, u32 max_count, const CScriptCallbackEx<void> &callback)
 {
 	for (int j=0, N = _GetItemCount(prefix); j<N; ++j) {
-		string256					fn, s;
+		string_path					fn, s;
 		LPSTR						S = (LPSTR)&s;
 		_GetItem					(prefix,j,S);
 		if (FS.exist(fn,"$game_sounds$",S,".ogg"))
 			callback				(prefix);
 
-		for (u32 i=0; i<max_count; ++i){
-			string256				name;
-			sprintf					(name,"%s%d",S,i);
+		for (u32 i=0; i<max_count; ++i)
+		{
+			string_path					name;
+			sprintf_s					(name,"%s%d",S,i);
 			if (FS.exist(fn,"$game_sounds$",name,".ogg"))
 				callback			(name);
 		}

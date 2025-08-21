@@ -200,7 +200,7 @@ void fs_registrator::script_register(lua_State *L)
 			.def("get_file_age_str",					&get_file_age_str)
 			.def("r_open",								(IReader*	(CLocatorAPI::*)(LPCSTR,LPCSTR)) (&CLocatorAPI::r_open))
 			.def("r_open",								(IReader*	(CLocatorAPI::*)(LPCSTR)) (&CLocatorAPI::r_open))
-			.def("r_close",								&CLocatorAPI::r_close)
+			.def("r_close",								(void (CLocatorAPI::*)(IReader *&))(&CLocatorAPI::r_close))
 
 			.def("w_open",								(IWriter*	(CLocatorAPI::*)(LPCSTR,LPCSTR)) (&CLocatorAPI::w_open))
 			.def("w_open",								(IWriter*	(CLocatorAPI::*)(LPCSTR)) (&CLocatorAPI::w_close))

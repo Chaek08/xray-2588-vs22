@@ -107,14 +107,12 @@ void MakeFilter(string1024& dest, LPCSTR info, LPCSTR ext)
 		if (res[i] == '|')
 			dest[i] = '\0';
 	}
-
-
 }
 
 //------------------------------------------------------------------------------
 // start_flt_ext = -1-all 0..n-indices
 //------------------------------------------------------------------------------
-bool EFS_Utils::GetOpenName( LPCSTR initial, char *buffer, int sz_buf, bool bMulti, LPCSTR offset, int start_flt_ext )
+bool EFS_Utils::GetOpenName( LPCSTR initial,  string_path& buffer, int sz_buf, bool bMulti, LPCSTR offset, int start_flt_ext )
 {
 	VERIFY(buffer&&(sz_buf>0));
 	FS_Path& P			= *FS.get_path(initial);
@@ -123,7 +121,13 @@ bool EFS_Utils::GetOpenName( LPCSTR initial, char *buffer, int sz_buf, bool bMul
 
 	OPENFILENAME ofn;
 	Memory.mem_fill		( &ofn, 0, sizeof(ofn) );
-    if (xr_strlen(buffer)){ P._update(buffer,buffer); if (strext(buffer)) *strext(buffer)=0; }
+    if (xr_strlen(buffer)){ 
+        string_path		dr;
+        if (!(buffer[0]=='\\' && buffer[1]=='\\')){ // if !network
+            _splitpath		(buffer,dr,0,0,0);
+            if (0==dr[0])	P._update(buffer,buffer); 
+        }
+    }
     ofn.lStructSize		= sizeof(OPENFILENAME);
 	ofn.hwndOwner 		= GetForegroundWindow();
 	ofn.lpstrDefExt 	= P.m_DefExt;
@@ -132,7 +136,8 @@ bool EFS_Utils::GetOpenName( LPCSTR initial, char *buffer, int sz_buf, bool bMul
 	ofn.lpstrFilter 	= flt;
 	ofn.nFilterIndex 	= start_flt_ext+2;
     ofn.lpstrTitle      = "Open a File";
-    string512 path; strcpy(path,(offset&&offset[0])?offset:P.m_Path);
+    string512 path; 
+	strcpy				(path,(offset&&offset[0])?offset:P.m_Path);
 	ofn.lpstrInitialDir = path;
 	ofn.Flags =
     	OFN_PATHMUSTEXIST|
@@ -155,7 +160,7 @@ bool EFS_Utils::GetOpenName( LPCSTR initial, char *buffer, int sz_buf, bool bMul
             string64  	buf;
             string64  	dir;
             string4096 	fns;
-            strcpy(dir, buffer);
+            strcpy		(dir, buffer);
             strcpy		(fns,dir);
             strcat		(fns,"\\");
             strcat		(fns,_GetItem(buffer,1,buf,0x0));
@@ -172,21 +177,26 @@ bool EFS_Utils::GetOpenName( LPCSTR initial, char *buffer, int sz_buf, bool bMul
     return bRes;
 }
 
-bool EFS_Utils::GetSaveName( LPCSTR initial, char *buffer, int sz_buf, LPCSTR offset, int start_flt_ext )
+bool EFS_Utils::GetSaveName( LPCSTR initial, string_path& buffer, LPCSTR offset, int start_flt_ext )
 {
-	VERIFY(buffer&&(sz_buf>0));
 	FS_Path& P			= *FS.get_path(initial);
 	string1024 flt;
 	MakeFilter(flt,P.m_FilterCaption?P.m_FilterCaption:"",P.m_DefExt);
 	OPENFILENAME ofn;
 	Memory.mem_fill		( &ofn, 0, sizeof(ofn) );
-    if (xr_strlen(buffer)){ P._update(buffer,buffer); if (strext(buffer)) *strext(buffer)=0; }
+    if (xr_strlen(buffer)){ 
+        string_path		dr;
+        if (!(buffer[0]=='\\' && buffer[1]=='\\')){ // if !network
+            _splitpath		(buffer,dr,0,0,0);
+            if (0==dr[0])	P._update(buffer,buffer); 
+        }
+    }
 	ofn.hwndOwner 		= GetForegroundWindow();
 	ofn.lpstrDefExt 	= P.m_DefExt;
 	ofn.lpstrFile 		= buffer;
 	ofn.lpstrFilter 	= flt;
 	ofn.lStructSize 	= sizeof(ofn);
-	ofn.nMaxFile 		= sz_buf;
+	ofn.nMaxFile 		= sizeof(buffer);
 	ofn.nFilterIndex 	= start_flt_ext+2;
     ofn.lpstrTitle      = "Save a File";
     string512 path; strcpy(path,(offset&&offset[0])?offset:P.m_Path);
@@ -229,27 +239,22 @@ LPCSTR EFS_Utils::AppendFolderToName(LPCSTR src_name, LPSTR dest_name, int depth
 		*d			= 0;
 	}
     return dest_name;
-/*    
-	if (_GetItemCount(src_name,'_')>1){
-		string256 fld;
-		_GetItem(src_name,0,fld,'_');
-		sprintf(dest_name,"%s\\%s",fld,src_name);
-	}else{
-		strcpy(dest_name,src_name);
-	}
-	return dest_name;
-*/
 }
 
 LPCSTR EFS_Utils::GenerateName(LPCSTR base_path, LPCSTR base_name, LPCSTR def_ext, LPSTR out_name)
 {
     int cnt = 0;
-	string256 fn;
-    if (base_name)	xr_strconcat	(fn,base_path,base_name,def_ext);
-	else 			sprintf		(fn,"%s%02d%s",base_path,cnt++,def_ext);
+	string_path fn;
+    if (base_name)	
+		xr_strconcat	(fn, base_path,base_name,def_ext);
+	else 			
+		sprintf_s		(fn, sizeof(fn), "%s%02d%s",base_path,cnt++,def_ext);
+
 	while (FS.exist(fn))
-	    if (base_name)	sprintf(fn,"%s%s%02d%s",base_path,base_name,cnt++,def_ext);
-        else 			sprintf(fn,"%s%02d%s",base_path,cnt++,def_ext);
+	    if (base_name)	
+			sprintf_s	(fn, sizeof(fn),"%s%s%02d%s",base_path,base_name,cnt++,def_ext);
+        else 			
+			sprintf_s	(fn, sizeof(fn), "%s%02d%s",base_path,cnt++,def_ext);
     strcpy(out_name,fn);
 	return out_name;
 }

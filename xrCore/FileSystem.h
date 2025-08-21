@@ -8,7 +8,8 @@
 #define BACKUP_FILE_LEVEL 5
 
 class XRCORE_API EFS_Utils {
-	DEFINE_MAP	(xr_string,void*,HANDLEMap,HANDLEPairIt);
+	using HANDLEMap = xr_map<xr_string, void*>;
+	using HANDLEPairIt = HANDLEMap::iterator;
 
     HANDLEMap 	m_LockFiles;
 public:
@@ -19,26 +20,24 @@ public:
 
 	LPCSTR		GenerateName	(LPCSTR base_path, LPCSTR base_name, LPCSTR def_ext, LPSTR out_name);
 
-	bool 		GetOpenName		(LPCSTR initial, LPSTR buffer, int sz_buf, bool bMulti=false, LPCSTR offset=0, int start_flt_ext=-1 );
+	bool 		GetOpenName		(LPCSTR initial, string_path& buffer, int sz_buf, bool bMulti=false, LPCSTR offset=0, int start_flt_ext=-1 );
 	bool 		GetOpenName		(LPCSTR initial, xr_string& buf, bool bMulti=false, LPCSTR offset=0, int start_flt_ext=-1 );
 
-	bool 		GetSaveName		(LPCSTR initial, LPSTR buffer, int sz_buf, LPCSTR offset=0, int start_flt_ext=-1 );
+	bool 		GetSaveName		(LPCSTR initial, string_path& buffer, LPCSTR offset=0, int start_flt_ext=-1 );
 	bool 		GetSaveName		(LPCSTR initial, xr_string& buf, LPCSTR offset=0, int start_flt_ext=-1 );
 
 	void 		MarkFile		(LPCSTR fn, bool bDeleteSource);
-	void 		BackupFile		(LPCSTR initial, LPCSTR fname, bool bMsg=FALSE, u32 backup_level=BACKUP_FILE_LEVEL);
 
-	BOOL		CheckLocking	(LPCSTR initial, LPCSTR fn, bool bOnlySelf, bool bMsg, shared_str* owner=0);
-	BOOL		LockFile		(LPCSTR initial, LPCSTR fn, bool bLog=true);
-	BOOL		UnlockFile		(LPCSTR initial, LPCSTR fn, bool bLog=true);
-	shared_str	GetLockOwner	(LPCSTR initial, LPCSTR fn);
-
-	void		WriteAccessLog	(LPCSTR fn, LPCSTR start_msg);
-
-	xr_string AppendFolderToName(xr_string& tex_name, int depth, BOOL full_name);
+	xr_string 	AppendFolderToName(xr_string& tex_name, int depth, BOOL full_name);
 
 	LPCSTR		AppendFolderToName(LPSTR tex_name, int depth, BOOL full_name);
 	LPCSTR		AppendFolderToName(LPCSTR src_name, LPSTR dest_name, int depth, BOOL full_name);
+
+	BOOL		LockFile		(LPCSTR fn, bool bLog=true);
+	BOOL		UnlockFile		(LPCSTR fn, bool bLog=true);
+	BOOL		CheckLocking	(LPCSTR fn, bool bOnlySelf, bool bMsg);//, shared_str* owner=0);
+	void 		WriteAccessLog	(LPCSTR fn, LPCSTR start_msg);
+//.	shared_str 	GetLockOwner	(LPCSTR initial, LPCSTR fn);
 
     xr_string	ChangeFileExt	(LPCSTR src, LPCSTR ext);
     xr_string	ChangeFileExt	(const xr_string& src, LPCSTR ext);

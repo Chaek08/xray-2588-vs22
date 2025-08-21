@@ -1,6 +1,8 @@
 #ifndef LocatorAPI_defsH
 #define LocatorAPI_defsH
 
+#pragma once
+
 enum FS_List
 {
 	FS_ListFiles	=(1<<0),
@@ -28,19 +30,22 @@ public:
 public:
 				FS_Path		(LPCSTR _Root, LPCSTR _Add, LPCSTR _DefExt=0, LPCSTR _FilterString=0, u32 flags=0);
 				~FS_Path	();
-	LPCSTR		_update		(LPSTR dest, LPCSTR src) const;
-	void		_update		(xr_string& dest, LPCSTR src) const;
+	LPCSTR		_update		(string_path& dest, LPCSTR src) const;
+//.	void		_update		(xr_string& dest, LPCSTR src) const;
 	void		_set		(LPSTR add);
+	void		_set_root	(LPSTR root);
 
     void __stdcall rescan_path_cb	();
 };
 
-#include <io.h> 
-
 #ifdef _EDITOR
-#define _FINDDATA_T std::_finddata_t
+	namespace std{
+		struct 			_finddata_t;
+	};
+#	define _FINDDATA_T	std::_finddata_t
 #else
-#define _FINDDATA_T _finddata64i32_t
+	struct 				_finddata64i32_t;
+#	define _FINDDATA_T	_finddata64i32_t
 #endif
 
 struct XRCORE_API FS_File{
@@ -61,7 +66,9 @@ public:
 				FS_File		(xr_string nm, long sz, time_t modif,unsigned attr);
 	bool 		operator<	(const FS_File& _X) const	{return xr_strcmp(name.c_str(),_X.name.c_str())<0; }
 };
-DEFINE_SET		(FS_File,FS_FileSet,FS_FileSetIt);
+
+using FS_FileSet = xr_set<FS_File>;
+using FS_FileSetIt = FS_FileSet::iterator;
 
 extern bool	XRCORE_API PatternMatch(LPCSTR s, LPCSTR mask);
 

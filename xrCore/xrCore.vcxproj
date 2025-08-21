@@ -252,6 +252,7 @@
     <ClCompile Include="crc32.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="FileSystem_borland.cpp" />
+    <ClCompile Include="file_stream_reader.cpp" />
     <ClCompile Include="FS.cpp" />
     <ClCompile Include="FTimer.cpp" />
     <ClCompile Include="LocatorAPI.cpp" />
@@ -276,6 +277,7 @@
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">true</ShowIncludes>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="stream_reader.cpp" />
     <ClCompile Include="string_concatenations.cpp" />
     <ClCompile Include="xrCore.cpp" />
     <ClCompile Include="xrDebug.cpp" />
@@ -313,6 +315,7 @@
     <ClInclude Include="cpuid.h" />
     <ClInclude Include="fastdelegate.h" />
     <CustomBuild Include="FileSystem.h" />
+    <ClInclude Include="file_stream_reader.h" />
     <ClInclude Include="FixedMap.h" />
     <ClInclude Include="FixedSet.h" />
     <ClInclude Include="FixedVector.h" />
@@ -334,6 +337,8 @@
     <ClInclude Include="rt_lzo.h" />
     <ClInclude Include="rt_lzo_config.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="stream_reader.h" />
+    <ClInclude Include="stream_reader_inline.h" />
     <ClInclude Include="string_concatenations.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="xrCore.h" />

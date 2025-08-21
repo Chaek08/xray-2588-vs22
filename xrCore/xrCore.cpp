@@ -100,6 +100,14 @@ void xrCore::_initialize	(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs,
 #ifdef	_EDITOR // for EDITORS - no cache
 		flags 				&=~ CLocatorAPI::flCacheFiles;
 #endif
+		flags |= CLocatorAPI::flScanAppRoot;
+		
+#ifndef	_EDITOR
+	#ifndef ELocatorAPIH
+		if (0!=strstr(Params,"-file_activity"))	 flags |= CLocatorAPI::flDumpFileActivity;
+	#endif
+#endif
+
 		FS._initialize		(flags,0,fs_fname);
 		EFS._initialize		();
 	}

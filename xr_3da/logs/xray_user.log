@@ -1,0 +1,14 @@
+* Detected CPU: GenuineIntel P3 family, F6/M14/S11, 3598.00 mhz, 61-clk 'rdtsc'
+* CPU Features: RDTSC, MMX, SSE, SSE2
+
+Initializing File System...
+using fs-ltx fsgame.ltx
+FS: 414 files cached, 154Kb memory used.
+Init FileSystem 0.011295 sec
+'xrCore' build 9542, Aug 21 2025
+
+Initializing Engine...
+loading gamedata\config\system.ltx
+***STOP*** file '(null)', line 0.
+***Reason***: *** Fatal Error ***
+Can't open section 'sound'

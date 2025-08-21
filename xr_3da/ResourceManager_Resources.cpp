@@ -261,7 +261,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 
 		// Open file
 		includer					Includer;
-		string256					cname;
+		string_path					cname;
 		FS.update_path				(cname,	"$game_shaders$", xr_strconcat(cname,::Render->getShaderPath(),name,".ps"));
 
 		// duplicate and zero-terminate

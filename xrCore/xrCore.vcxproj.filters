@@ -145,6 +145,12 @@
     <ClCompile Include="string_concatenations.cpp">
       <Filter>FS</Filter>
     </ClCompile>
+    <ClCompile Include="file_stream_reader.cpp">
+      <Filter>FS</Filter>
+    </ClCompile>
+    <ClCompile Include="stream_reader.cpp">
+      <Filter>FS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FTimer.h">
@@ -329,6 +335,15 @@
     </ClInclude>
     <ClInclude Include="xrSyncronize.h" />
     <ClInclude Include="string_concatenations.h">
+      <Filter>FS</Filter>
+    </ClInclude>
+    <ClInclude Include="file_stream_reader.h">
+      <Filter>FS</Filter>
+    </ClInclude>
+    <ClInclude Include="stream_reader.h">
+      <Filter>FS</Filter>
+    </ClInclude>
+    <ClInclude Include="stream_reader_inline.h">
       <Filter>FS</Filter>
     </ClInclude>
   </ItemGroup>

@@ -146,12 +146,21 @@ void xrDebug::fail(const char* e1, const char* file, int line)
     sprintf(reason, "*** Assertion failed ***\nExpression: %s\n", e1);
     backend(reason, file, line);
 }
+
 void xrDebug::fail(const char* e1, const char* e2, const char* file, int line)
 {
     string1024  reason;
     sprintf(reason, "*** Assertion failed ***\nExpression: %s\n%s", e1, e2);
     backend(reason, file, line);
 }
+
+void xrDebug::fail(const char* e1, std::string &e2, const char* file, int line)
+{
+    string1024  reason;
+    sprintf(reason, "*** Assertion failed ***\nExpression: %s\n%s", e1, e2);
+    backend(reason, file, line);
+}
+
 void xrDebug::fail(const char* e1, const char* e2, const char* e3, const char* file, int line)
 {
     string1024  reason;
@@ -310,3 +319,10 @@ void    xrDebug::_initialize()
     ::SetUnhandledExceptionFilter(UnhandledFilter);
 }
 #endif
+
+void xrDebug::do_exit	(const std::string &message)
+{
+	FlushLog			();
+    MessageBox			(NULL,message.c_str(),"Error",MB_OK|MB_ICONERROR|MB_SYSTEMMODAL);
+    TerminateProcess	(GetCurrentProcess(),1);
+}

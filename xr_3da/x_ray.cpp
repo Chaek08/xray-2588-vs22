@@ -65,6 +65,7 @@ void InitSettings	()
 {
 	string_path					fname; 
 	FS.update_path				(fname,"$game_config$","system.ltx");
+	Msg							("loading %s", fname);
 	pSettings					= xr_new<CInifile>	(fname,TRUE);
 }
 void InitConsole	()

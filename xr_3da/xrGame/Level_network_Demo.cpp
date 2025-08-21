@@ -142,7 +142,7 @@ void						CLevel::Demo_Clear				()
 
 void						CLevel::Demo_Load				(LPCSTR DemoName)
 {	
-	string1024	DemoFileName;
+	string_path	DemoFileName;
 	FS.update_path      (DemoFileName,"$logs$",DemoName);
 	//-----------------------------------------------------
 	HANDLE hDemoFile = CreateFile(DemoFileName, FILE_ALL_ACCESS, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -207,7 +207,7 @@ static long lFileSize = 0;
 void						CLevel::Demo_Load_toFrame	(LPCSTR FileName, DWORD toFrame, long &ofs)
 {
 	m_sDemoFileName = FileName;
-	string1024	DemoFileName;
+	string_path	DemoFileName;
 	FS.update_path      (DemoFileName,"$logs$",FileName);
 	//-----------------------------------------------------
 	FILE* fTDemo = fopen(DemoFileName, "rb");
