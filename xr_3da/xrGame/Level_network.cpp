@@ -164,36 +164,77 @@ struct _NetworkProcessor	: public pureFrame
 
 pureFrame*	g_pNetProcessor	= &NET_processor;
 
-BOOL			CLevel::Connect2Server				(LPCSTR options)
+const int ConnectionTimeOut = 60000;
+
+BOOL CLevel::Connect2Server(LPCSTR options)
 {
-	NET_Packet					P;
-	m_bConnectResultReceived	= false	;
-	m_bConnectResult			= true	;
-	if (!Connect(options))		return	FALSE;
-	//---------------------------------------------------------------------------
-	while	(!m_bConnectResultReceived)		{ 
-		ClientReceive	();
-		Sleep			(5); 
-		if(Server)
-			Server->Update()	;
-	}
-	Msg							("%c client : connection %s - <%s>", m_bConnectResult ?'*':'!', m_bConnectResult ? "accepted" : "rejected", m_sConnectResult.c_str());
-	if		(!m_bConnectResult) 
+	NET_Packet	P;
+	m_bConnectResultReceived = false;
+	m_bConnectResult = true;
+
+	if (!Connect(options))
+		return FALSE;
+
+	u32 EndTime = GetTickCount() + ConnectionTimeOut;
+	while (!m_bConnectResultReceived)
 	{
-		OnConnectRejected	();	
-		Disconnect		()	;
-		return FALSE		;
-	};
+		ClientReceive();
+		Sleep(5);
 
-	while (!net_IsSyncronised()) {
-	};
+		if (Server)
+			Server->Update();
 
-	//---------------------------------------------------------------------------
-	P.w_begin	(M_CLIENT_REQUEST_CONNECTION_DATA);
-	Send		(P);
-	//---------------------------------------------------------------------------
+		u32 CurTime = GetTickCount();
+		if (CurTime > EndTime)
+		{
+			NET_Packet fakeP;
+			fakeP.B.count = 0;
+			fakeP.r_pos = 0;
+
+			fakeP.w_u8(0);
+			fakeP.w_u8(0);
+			fakeP.w_stringZ("Connection timed out.");
+
+			OnConnectResult(&fakeP);
+			break;
+		}
+
+		if (net_isFails_Connect())
+		{
+			OnConnectRejected();
+			Disconnect();
+			return FALSE;
+		}
+	}
+
+	Msg("%c client : connection %s - <%s>",
+		m_bConnectResult ? '*' : '!',
+		m_bConnectResult ? "accepted" : "rejected",
+		m_sConnectResult.c_str());
+
+	if (!m_bConnectResult)
+	{
+		OnConnectRejected();
+		Disconnect();
+		return FALSE;
+	}
+
+	net_Syncronize();
+	while (!net_IsSyncronised())
+	{
+		ClientReceive();
+		Sleep(1);
+		if (Server)
+			Server->Update();
+	}
+
+	P.w_begin(M_CLIENT_REQUEST_CONNECTION_DATA);
+	Send(P);
+
 	return TRUE;
-};
+}
+
+
 
 void			CLevel::OnBuildVersionChallenge		()
 {
