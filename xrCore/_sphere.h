@@ -4,7 +4,7 @@
 template <class T>
 struct _sphere {
 	_vector3<T>	P;
-	T			R;
+	T			R = 0;
 public:
 	IC void		set(const _vector3<T> &_P, T _R)	{ P.set(_P); R = _R; }
 	IC void		set(const _sphere<T> &S)			{ P.set(S.P); R=S.R; }
@@ -16,6 +16,13 @@ public:
 		rpOriginOutside	= 2,
 		fcv_forcedword = u32(-1)
 	};
+
+
+	bool operator==(const _sphere<T>& Left)
+	{
+		return P == Left.P && R == Left.R;
+	}
+
 	// Ray-sphere intersection
 	ICF ERP_Result intersect (const _vector3<T>& S, const _vector3<T>& D, T range, int& quantity, T afT[2]) const
 	{
@@ -62,12 +69,12 @@ public:
 	{
 		int				quantity;
 		float			afT[2];
-		Fsphere::ERP_Result	result	= intersect(start,dir,dist,quantity,afT);
+		auto result = intersect(start,dir,dist,quantity,afT);
 
-		if (result == Fsphere::rpOriginInside || ((result==Fsphere::rpOriginOutside)&&(afT[0]<dist))){
+		if (result == _sphere<T>::rpOriginInside || ((result== _sphere<T>::rpOriginOutside)&&(afT[0]<dist))){
 			switch(result){
-				case Fsphere::rpOriginInside:	dist	= afT[0]<dist?afT[0]:dist;		break;
-				case Fsphere::rpOriginOutside:	dist	= afT[0];						break;
+				case _sphere<T>::rpOriginInside:	dist	= afT[0]<dist?afT[0]:dist;		break;
+				case _sphere<T>::rpOriginOutside:	dist	= afT[0];						break;
 			}
 		}
 		return			result;
