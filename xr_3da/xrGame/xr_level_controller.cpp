@@ -266,8 +266,6 @@ public:
 	virtual void Execute(LPCSTR args) {
 		ZeroMemory(key_binding,sizeof(key_binding));
 		bindConsoleCmds.clear();
-
-		Console->Execute("cfg_load default_controls.ltx");
 	}
 };
 
@@ -298,6 +296,23 @@ int NameIdx(int dik, bool b=true)
 	return res;
 
 }
+
+class CCC_DefControls : public CCC_UnBindAll
+{
+public:
+	CCC_DefControls(LPCSTR N) : CCC_UnBindAll(N){}
+
+	virtual void Execute(LPCSTR args) 
+	{
+		CCC_UnBindAll::Execute(args);
+		string_path				_cfg;
+		string_path				cmd;
+		FS.update_path			(_cfg,"$game_config$","default_controls.ltx");
+		xr_strconcat			(cmd,"cfg_load", " ", _cfg);
+		Console->Execute		(cmd);
+	}
+};
+
 class CCC_BindList : public IConsole_Command
 {
 public:
@@ -473,6 +488,7 @@ void CCC_RegisterInput()
 	CMD1(CCC_Bind,		"bind"					);
 	CMD1(CCC_UnBind,	"unbind"				);
 	CMD1(CCC_UnBindAll,	"unbindall"				);
+	CMD1(CCC_DefControls, "default_controls");
 	CMD1(CCC_ListActions,"list_actions"			);
 
 	CMD1(CCC_BindList,	"bind_list"				);

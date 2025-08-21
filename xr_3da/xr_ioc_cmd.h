@@ -305,3 +305,18 @@ public:
 	virtual void	Save	(IWriter *F)	{}
 
 };
+class ENGINE_API CCC_LoadCFG : public IConsole_Command
+{
+public:
+	virtual bool	allow			(LPCSTR cmd)	{return true;};
+					CCC_LoadCFG		(LPCSTR N);
+	virtual void	Execute			(LPCSTR args);
+};
+
+class ENGINE_API CCC_LoadCFG_custom : public CCC_LoadCFG
+{
+	string64		m_cmd;
+public:
+					CCC_LoadCFG_custom(LPCSTR cmd);
+	virtual bool	allow			(LPCSTR cmd);
+};
