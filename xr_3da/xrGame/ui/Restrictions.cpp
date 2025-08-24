@@ -174,15 +174,18 @@ void CRestrictions::AddRestriction4rank(int rank, LPCSTR lst){		// private
 
 RESTR CRestrictions::GetRestr(LPCSTR item){ // private function
 	RESTR ret;
-	const char* pos = strstr(item,":");
+	const char* pos = strchr(item, ':');
 	R_ASSERT(pos);
-	pos=0;
 
-	ret.name = item;
-	//if (0 == xr_strcmp(++pos,"no_limit"))
-	//	ret.n.max_val = 65536;
-	//else
-    	ret.n = atoi(++pos);
+	ret.name.assign(item, pos - item);
+
+	++pos;
+
+	if (xr_strcmp(pos, "no_limit") == 0)
+		ret.n = 65536;
+	else
+		ret.n = atoi(pos);
+
 	return ret;
 }
 
