@@ -19,12 +19,6 @@ public:
 
 class XRNETSERVER_API IPureClient
 {
-	enum ConnectionState
-	{
-		EnmConnectionFails = 0,
-		EnmConnectionWait = -1,
-		EnmConnectionCompleted = 1
-	};
 	friend void 				sync_thread(void*);
 protected:
 	struct HOST_NODE
@@ -67,8 +61,7 @@ public:
 	void					Disconnect				();
 
 	void					net_Syncronize			();
-	BOOL					net_isCompleted_Connect ()  { return net_Connected == EnmConnectionCompleted; }
-	BOOL					net_isFails_Connect     ()	{ return net_Connected == EnmConnectionFails; }
+	BOOL					net_isCompleted_Connect	()	{ return net_Connected;		}
 	BOOL					net_isCompleted_Sync	()	{ return net_Syncronised;	}
 	BOOL					net_isDisconnected		()	{ return net_Disconnected;	}
 	LPCSTR					net_SessionName			()	{ return *(net_Hosts.front().dpSessionName); }
