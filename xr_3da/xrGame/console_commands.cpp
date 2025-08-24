@@ -2503,7 +2503,7 @@ void CCC_RegisterCommands()
 	CMD1(CCC_SaveStatistic,	"sv_statistic_save");
 	CMD4(CCC_Integer,		"sv_statistic_save_auto", &g_bStatisticSaveAuto, 0, 1);
 	CMD4(CCC_Integer,		"dbg_dump_physics_step", &g_bDebugDumpPhysicsStep, 0, 1);
-	CMD4(CCC_AuthCheck,		"sv_no_auth_check",		&g_SV_Disable_Auth_Check, 0, 1);
+	CMD4(CCC_Integer,		"sv_no_auth_check",		&g_SV_Disable_Auth_Check, 0, 1);
 	CMD1(CCC_Name,			"name");
 	
 #ifdef DEBUG
