@@ -528,9 +528,9 @@ void CUIBagWnd::SellItem(CUICellItem* itm){
 	}
 }
 
-bool CUIBagWnd::CanBuy(CUICellItem* itm){
-	VERIFY(itm);
-	if (!IsInBag(itm))
+bool CUIBagWnd::CanBuy(CUICellItem* itm)
+{
+	if (!itm || !IsInBag(itm))
 		return false;
 
 	CInventoryItem* iitm = (CInventoryItem*)itm->m_pData;
