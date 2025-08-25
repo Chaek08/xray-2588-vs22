@@ -18,6 +18,8 @@
 #include "xrserver.h"
 #include "level.h"
 #include "../x_ray.h"
+#include "string_table.h"
+#include "../igame_persistent.h"
 
 using namespace ALife;
 
@@ -98,7 +100,8 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 
 	{
 		string512				temp;
-		pApp->LoadTitle			(xr_strconcat(temp,"Loading saved game \"",save_name,SAVE_EXTENSION,"\"..."));
+		xr_strconcat			(temp,CStringTable().translate("st_loading_saved_game").c_str()," \"",save_name,SAVE_EXTENSION,"\"");
+		g_pGamePersistent->LoadTitle(temp);
 	}
 
 	unload						();

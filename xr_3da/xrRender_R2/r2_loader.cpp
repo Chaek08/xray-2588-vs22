@@ -18,7 +18,7 @@ void CRender::level_Load(IReader* fs)
 	IReader*						chunk;
 
 	// Shaders
-	pApp->LoadTitle					("Loading shaders...");
+	g_pGamePersistent->LoadTitle		("st_loading_shaders");
 	{
 		chunk = fs->open_chunk		(fsL_SHADERS);
 		R_ASSERT2					(chunk,"Level doesn't builded correctly.");
@@ -45,7 +45,7 @@ void CRender::level_Load(IReader* fs)
 
 	if	(!g_pGamePersistent->bDedicatedServer)	{
 		// VB,IB,SWI
-		pApp->LoadTitle				("Loading geometry...");
+		g_pGamePersistent->LoadTitle("st_loading_geometry");
 		{
 			IReader*	geom			= FS.r_open	("$level$","level.geom");
 			LoadBuffers					(geom,FALSE);
@@ -61,18 +61,18 @@ void CRender::level_Load(IReader* fs)
 		}
 
 		// Visuals
-		pApp->LoadTitle				("Loading spatial-DB...");
+		g_pGamePersistent->LoadTitle("st_loading_spatial_db");
 		chunk						= fs->open_chunk(fsL_VISUALS);
 		LoadVisuals					(chunk);
 		chunk->close				();
 
 		// Details
-		pApp->LoadTitle				("Loading details...");
+		g_pGamePersistent->LoadTitle("st_loading_details");
 		Details->Load				();
 	}
 
 	// Sectors
-	pApp->LoadTitle				("Loading sectors & portals...");
+	g_pGamePersistent->LoadTitle("st_loading_sectors_portals");
 	LoadSectors					(fs);
 
 	// HOM

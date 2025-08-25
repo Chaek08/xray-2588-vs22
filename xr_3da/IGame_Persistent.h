@@ -99,6 +99,7 @@ public:
 #else
 	{}
 #endif
+	virtual	void					LoadTitle			(LPCSTR str) {}
 };
 
 class IMainMenu

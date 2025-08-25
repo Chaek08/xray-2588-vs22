@@ -733,22 +733,24 @@ u32 calc_progress_color(u32 idx, u32 total, int stage, int max_stage)
 	return color_argb_f		(f,1.0f,1.0f,1.0f);
 }
 
-void CApplication::LoadTitle	(char *S, char *S2)
+void CApplication::LoadTitleInt(LPCSTR str)
 {
 	load_stage++;
-	VERIFY						(ll_dwReference);
-	sprintf						(app_title,S,S2);
-	Msg							("* phase time: %d ms",phase_timer.GetElapsed_ms());	phase_timer.Start();
-	Msg							("* phase cmem: %d K", Memory.mem_usage()/1024);
-	Console->Execute			("stat_memory");
-	Log							(app_title);
-	
-	if (g_pGamePersistent->GameType()==1 && strstr(Core.Params,"alife"))
-		max_load_stage			= 17;
-	else
-		max_load_stage			= 14;
 
-	LoadDraw					();
+	VERIFY(ll_dwReference);
+	VERIFY(str && xr_strlen(str) < 256);
+	strcpy_s(app_title, str);
+	Msg("* phase time: %d ms", phase_timer.GetElapsed_ms());	phase_timer.Start();
+	Msg("* phase cmem: %d K", Memory.mem_usage() / 1024);
+	//.	Console->Execute			("stat_memory");
+	Log(app_title);
+
+	if (g_pGamePersistent->GameType() == 1 && strstr(Core.Params, "alife"))
+		max_load_stage = 17;
+	else
+		max_load_stage = 14;
+
+	LoadDraw();
 }
 
 void CApplication::LoadSwitch	()

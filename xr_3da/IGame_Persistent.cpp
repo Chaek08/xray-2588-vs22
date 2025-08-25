@@ -91,7 +91,7 @@ void IGame_Persistent::Disconnect	()
 void IGame_Persistent::OnGameStart	()
 {
 #ifndef _EDITOR
-	pApp->LoadTitle						("Prefetching objects...");
+	LoadTitle								("st_prefetching_objects");
 	if (strstr(Core.Params,"-noprefetch"))	return;
 
 	// prefetch game objects & models
