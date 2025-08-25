@@ -328,6 +328,8 @@ bool CUIInventoryWnd::OnItemDrop(CUICellItem* itm)
 
 bool CUIInventoryWnd::OnItemDbClick(CUICellItem* itm)
 {
+	if(TryUseItem((PIItem)itm->m_pData))		
+		return true;
 	CUIDragDropListEx*	old_owner		= itm->OwnerList();
 	EListType t_old						= GetType(old_owner);
 

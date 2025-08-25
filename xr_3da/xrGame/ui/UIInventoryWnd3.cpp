@@ -22,25 +22,14 @@ void	CUIInventoryWnd::Activate_Artefact()
 	SendEvent_ActivateArtefact				(CurrentIItem());
 };
 
-void CUIInventoryWnd::EatCurrentItem()
+void CUIInventoryWnd::EatItem(PIItem itm)
 {
-	CActor *pActor							= smart_cast<CActor*>(Level().CurrentEntity());
-	if(!pActor)								return;
+	SetCurrentItem							(NULL);
+	if(!itm->Useful())						return;
 
-	SendEvent_Item_Eat						(CurrentIItem());
+	SendEvent_Item_Eat						(itm);
 
-	if(!CurrentIItem()->Useful())
-	{
-		R_ASSERT(0);
-//.		(smart_cast<CUIDragDropList*>(m_pCurrentDragDropItem->GetParent()))->
-//.			DetachChild						(m_pCurrentDragDropItem);
-
-//.		DD_ITEMS_VECTOR_IT it				= std::find(m_vDragDropItems.begin(), m_vDragDropItems.end(),m_pCurrentDragDropItem);
-//.		VERIFY								(it != m_vDragDropItems.end());
-//.		m_pCurrentDragDropItem->Highlight	(false);
-		SetCurrentItem						(NULL);
-//.		m_pCurrentDragDropItem				= NULL;
-	}
+	PlaySnd									(eInvItemUse);
 }
 
 #include "../Medkit.h"
@@ -232,7 +221,7 @@ void CUIInventoryWnd::ProcessPropertiesBoxClicked	()
 				DropCurrentItem(b_all);
 			}break;
 		case INVENTORY_EAT_ACTION:
-			EatCurrentItem();
+			EatItem(CurrentIItem());
 			break;
 		case INVENTORY_ATTACH_ADDON:
 			AttachAddon((PIItem)(UIPropertiesBox.GetClickedItem()->GetData()));
@@ -264,4 +253,18 @@ void CUIInventoryWnd::ProcessPropertiesBoxClicked	()
 			}break;
 		}
 	}
+}
+
+bool CUIInventoryWnd::TryUseItem(PIItem itm)
+{
+	CMedkit* pMedkit = smart_cast<CMedkit*>(itm);
+	CAntirad* pAntirad = smart_cast<CAntirad*>(itm);
+	CEatableItem* pEatableItem = smart_cast<CEatableItem*>(itm);
+
+	if (pMedkit || pAntirad || pEatableItem)
+	{
+		EatItem(itm);
+		return true;
+	}
+	return false;
 }

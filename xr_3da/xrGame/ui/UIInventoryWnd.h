@@ -65,6 +65,7 @@ protected:
 								eInvDropItem,
 								eInvAttachAddon,
 								eInvDetachAddon,
+								eInvItemUse,
 								eInvSndMax};
 
 	ref_sound				sounds					[eInvSndMax];
@@ -130,6 +131,9 @@ protected:
 	CInventory*				m_pInv;
 
 	CUICellItem*			m_pCurrentCellItem;
+
+	bool				TryUseItem					(PIItem itm);
+
 	//---------------------------------------------------------------------
 	void				SendEvent_Item2Slot			(PIItem	pItem);
 	void				SendEvent_Item2Belt			(PIItem	pItem);
@@ -147,7 +151,7 @@ protected:
 	void					Activate_Artefact			();
 
 	void					DropCurrentItem				(bool b_all);
-	void					EatCurrentItem				();
+	void					EatItem						(PIItem itm);
 	
 	bool					ToSlot						(CUICellItem* itm, bool force_place);
 	bool					ToBag						(CUICellItem* itm, bool b_use_cursor_pos);
