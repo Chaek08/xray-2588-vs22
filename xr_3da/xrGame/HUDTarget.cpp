@@ -148,7 +148,6 @@ void CHUDTarget::Render()
 
 	CGameFont* F		= HUD().Font().pFontDI;
 	F->SetAligment		(CGameFont::alCenter);
-	F->SetSizeI			(0.02f);
 	F->OutSetI			(0.f,0.05f);
 
 	if (psHUD_Flags.test(HUD_CROSSHAIR_DIST)){
