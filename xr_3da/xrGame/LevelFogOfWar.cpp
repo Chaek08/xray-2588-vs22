@@ -8,6 +8,7 @@
 #include "alife_registry_wrappers.h"
 #include "ui/UIMap.h"
 #include "game_base_space.h"
+/*
 
 #define FOG_CELL_SZ	(50.0f)
 
@@ -256,3 +257,4 @@ void CLevelFogOfWar::load	(IReader &stream)
 	VERIFY				(colNum == m_colNum);
 	load_data			(m_cells,stream);
 }
+*/

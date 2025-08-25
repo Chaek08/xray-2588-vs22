@@ -4728,9 +4728,6 @@
     <ClInclude Include="LevelGameDef.h">
       <Filter>Core\Client\Level</Filter>
     </ClInclude>
-    <ClInclude Include="LevelFogOfWar.h">
-      <Filter>Core\Client\Level\Map Fog Of War</Filter>
-    </ClInclude>
     <ClInclude Include="Level_Bullet_Manager.h">
       <Filter>Core\Client\Level\Bullet Manager</Filter>
     </ClInclude>
@@ -6549,6 +6546,9 @@
     <ClInclude Include="PHUpdateObject.h">
       <Filter>Physics\Base\Objects\PHObject</Filter>
     </ClInclude>
+    <ClInclude Include="ui\xrUIXmlParser.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="damage_manager.cpp">
@@ -7867,9 +7867,6 @@
     </ClCompile>
     <ClCompile Include="LevelGameDef.cpp">
       <Filter>Core\Client\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelFogOfWar.cpp">
-      <Filter>Core\Client\Level\Map Fog Of War</Filter>
     </ClCompile>
     <ClCompile Include="Level_Bullet_Manager.cpp">
       <Filter>Core\Client\Level\Bullet Manager</Filter>
@@ -9583,6 +9580,9 @@
     </ClCompile>
     <ClCompile Include="ui\UIGameTutorialVideoItem.cpp">
       <Filter>UI\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\xrUIXmlParser.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

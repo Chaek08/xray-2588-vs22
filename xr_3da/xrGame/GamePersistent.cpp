@@ -374,12 +374,6 @@ void CGamePersistent::OnFrame	()
 		profiler().clear		();
 #endif
 
-	m_pUI_core->m_2DFrustum.CreateFromRect	(Frect().set(	0.0f,
-												0.0f,
-												m_pUI_core->ClientToScreenScaledX(UI_BASE_WIDTH),
-												m_pUI_core->ClientToScreenScaledY(UI_BASE_HEIGHT)
-												));
-
 }
 
 void CGamePersistent::OnEvent(EVENT E, u64 P1, u64 P2)

@@ -996,7 +996,6 @@
     <ClInclude Include="item_manager_inline.h" />
     <ClInclude Include="key_binding_registrator.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="LevelFogOfWar.h" />
     <ClInclude Include="LevelGameDef.h" />
     <ClInclude Include="Level_Bullet_Manager.h" />
     <ClInclude Include="level_changer.h" />
@@ -1671,6 +1670,7 @@
     <ClInclude Include="ui\UIWpnParams.h" />
     <ClInclude Include="ui\UIXmlInit.h" />
     <ClInclude Include="ui\UI_IB_Static.h" />
+    <ClInclude Include="ui\xrUIXmlParser.h" />
     <ClInclude Include="ui\xrXMLParser.h" />
     <ClInclude Include="ui_base.h" />
     <ClInclude Include="UsableScriptObject.h" />
@@ -2176,7 +2176,6 @@
     <ClCompile Include="item_manager.cpp" />
     <ClCompile Include="key_binding_registrator_script.cpp" />
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="LevelFogOfWar.cpp" />
     <ClCompile Include="LevelGameDef.cpp" />
     <ClCompile Include="Level_Bullet_Manager.cpp" />
     <ClCompile Include="Level_bullet_manager_firetrace.cpp" />
@@ -2752,6 +2751,7 @@
     <ClCompile Include="ui\UIWpnDragDropItem.cpp" />
     <ClCompile Include="ui\UIXmlInit.cpp" />
     <ClCompile Include="ui\UI_IB_Static.cpp" />
+    <ClCompile Include="ui\xrUIXmlParser.cpp" />
     <ClCompile Include="ui_base.cpp" />
     <ClCompile Include="ui_export_script.cpp" />
     <ClCompile Include="UsableScriptObject.cpp" />

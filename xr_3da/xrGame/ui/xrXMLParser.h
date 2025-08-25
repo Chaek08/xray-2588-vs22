@@ -32,7 +32,7 @@ struct XRXMLPARSER_API StructSampleExport
 XRXMLPARSER_API void FunctionSampleExport();
 
 
-// UIXml.h: interface for the CUIXml class.
+// UIXml.h: interface for the CXml class.
 //
 //
 // дл€ чтени€ параметров из XML файла, использу€ Chilkat XML
@@ -46,16 +46,16 @@ XRXMLPARSER_API void FunctionSampleExport();
 typedef TiXmlNode		XML_NODE;
 typedef TiXmlAttribute	XML_ATTRIBUTE;
 
-class XRXMLPARSER_API CUIXml  
+class XRXMLPARSER_API CXml  
 {
-	string_path m_xml_file_name;
 public:
-	CUIXml();
-	virtual ~CUIXml();
+	string_path m_xml_file_name;
+	CXml();
+	virtual ~CXml();
 	void	ClearInternal					();
 
 	bool Init(LPCSTR path_alias, LPCSTR path, LPCSTR  xml_filename);
-	bool Init(LPCSTR path_alias, LPCSTR path1, LPCSTR path2, LPCSTR xml_filename);
+//	bool Init(LPCSTR path_alias, LPCSTR path1, LPCSTR path2, LPCSTR xml_filename);
 	bool Init(LPCSTR path_alias, LPCSTR xml_filename);
 
 
@@ -141,9 +141,12 @@ protected:
 
 	//буфферный вектор дл€ проверки уникальность аттрибутов
 	xr_vector<shared_str> m_AttribValues;
+
+
+	virtual shared_str correct_file_name	(LPCSTR path, LPCSTR fn) {return fn;}
 private:
-	CUIXml(const CUIXml& copy);
-	void operator=( const CUIXml& copy );
+	CXml(const CXml& copy);
+	void operator=( const CXml& copy );
 
 	typedef TiXmlElement	XML_ELEM;
 	TiXmlDocument	m_Doc;

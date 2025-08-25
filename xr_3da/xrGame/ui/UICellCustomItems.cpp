@@ -271,6 +271,7 @@ CBuyItemCustomDrawCell::CBuyItemCustomDrawCell	(LPCSTR str, CGameFont* pFont)
 void CBuyItemCustomDrawCell::OnDraw(CUICellItem* cell)
 {
 	Fvector2 pos = cell->GetAbsolutePos	();
+	UI()->ClientToScreenScaled			(pos, pos.x, pos.y);
 	m_pFont->Out						(pos.x, pos.y, m_string);
 	m_pFont->OnRender					();
 }

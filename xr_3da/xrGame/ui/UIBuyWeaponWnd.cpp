@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "UIBuyWeaponWnd.h"
 
-#include "xrXMLParser.h"
 #include "UIXmlInit.h"
 #include "../hudmanager.h"
 #include "UISkinSelector.h"

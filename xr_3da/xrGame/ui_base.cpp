@@ -97,6 +97,24 @@ sPoly2D* C2DFrustum::ClipPoly(sPoly2D& S, sPoly2D& D) const
 	return dest;
 }
 
+void ui_core::OnDeviceReset()
+{
+	m_pp_scale_.set	( float(::Render->getTarget()->get_width())/float(UI_BASE_WIDTH),	float(::Render->getTarget()->get_height())/float(UI_BASE_HEIGHT) );
+	m_scale_.set		( float(Device.dwWidth)/float(UI_BASE_WIDTH),						float(Device.dwHeight)/float(UI_BASE_HEIGHT) );
+
+	m_2DFrustum.CreateFromRect	(Frect().set(	0.0f,
+												0.0f,
+												m_scale_.x * UI_BASE_WIDTH,
+												m_scale_.y * UI_BASE_HEIGHT
+												));
+
+	m_2DFrustumPP.CreateFromRect(Frect().set(	0.0f,
+												0.0f,
+												m_pp_scale_.x * UI_BASE_WIDTH,
+												m_pp_scale_.y * UI_BASE_HEIGHT
+												));
+
+}
 
 
 void ui_core::ClientToScreenScaled(Fvector2& dest, float left, float top)
@@ -106,12 +124,12 @@ void ui_core::ClientToScreenScaled(Fvector2& dest, float left, float top)
 
 float ui_core::ClientToScreenScaledX(float left)
 {
-	return left * GetScaleX();
+	return left * m_current_scale->x;
 }
 
 float ui_core::ClientToScreenScaledY(float top)
 {
-	return top * GetScaleY();
+	return top * m_current_scale->y;
 }
 
 void ui_core::OutText(CGameFont *pFont, Frect r, float x, float y, LPCSTR fmt, ...)
@@ -132,8 +150,8 @@ void ui_core::OutText(CGameFont *pFont, Frect r, float x, float y, LPCSTR fmt, .
 		// Rescale position in lower resolution
 		if (x >= 1.0f && y >= 1.0f)
 		{
-			x *= GetScaleX();
-			y *= GetScaleY();
+			x = ClientToScreenScaledX( x );
+			y = ClientToScreenScaledY( y );
 		}
 
 		pFont->Out(x, y, "%s", str.c_str());
@@ -165,12 +183,11 @@ void ui_core::PushScissor(const Frect& r_tgt, bool overlapped)
 	result.rb.x 		= ClientToScreenScaledX(result.rb.x);
 	result.rb.y 		= ClientToScreenScaledY(result.rb.y);
 
-	Irect r;
-	r.x1 = iFloor(result.x1);
-	r.x2 = iFloor(result.x2+0.5f);
-	r.y1 = iFloor(result.y1);
-	r.y2 = iFloor(result.y2+0.5f);
-	VERIFY(r.x1>=0&&r.y1>=0&&(r.x2<=UI_BASE_WIDTH*GetScaleX())&&(r.y2<=UI_BASE_HEIGHT*GetScaleY()));
+	Irect				r;
+	r.x1 				= iFloor(result.x1);
+	r.x2 				= iFloor(result.x2+0.5f);
+	r.y1 				= iFloor(result.y1);
+	r.y2 				= iFloor(result.y2+0.5f);
 	RCache.set_Scissor	(&r);
 }
 
@@ -199,6 +216,9 @@ ui_core::ui_core()
 	m_pUICursor					= xr_new<CUICursor>();
 	m_pFontManager				= xr_new<CFontManager>();
 	m_bPostprocess				= false;
+	m_current_scale				= &m_scale_;
+
+	OnDeviceReset				();
 }
 
 ui_core::~ui_core()
@@ -209,21 +229,57 @@ ui_core::~ui_core()
 
 void ui_core::pp_start()
 {
-	m_bPostprocess = true;
-
+	m_bPostprocess		= true;
+	m_current_scale		= &m_pp_scale_;
+/*
 	m_2DFrustumPP.CreateFromRect(Frect().set(	0.0f,
 												0.0f,
 												ClientToScreenScaledX(UI_BASE_WIDTH),
 												ClientToScreenScaledY(UI_BASE_HEIGHT)
 												));
+*/
 }
 
 void ui_core::pp_stop()
 {
-	m_bPostprocess = false;
+	m_bPostprocess		= false;
+	m_current_scale		= &m_scale_;
 }
 
 void ui_core::RenderFont()
 {
 	Font()->Render();
 }
+
+bool ui_core::is_16_9_mode()
+{
+	return (Device.dwWidth)/float(Device.dwHeight) > (UI_BASE_WIDTH/UI_BASE_HEIGHT +0.01f);
+}
+
+shared_str	ui_core::get_xml_name(LPCSTR fn)
+{
+	string_path				str;
+	if(!is_16_9_mode()){
+		sprintf(str, "%s", fn);
+		if ( NULL==strext(fn) ) strcat(str, ".xml");
+	}else{
+
+		string_path			str_;
+		if ( strext(fn) )
+		{
+			strcpy	(str, fn);
+			*strext(str)	= 0;
+			strcat	(str, "_16.xml");
+		}else
+			sprintf				(str, "%s_16", fn);
+
+		if(NULL==FS.exist(str_, "$game_config$", "ui\\" , str) )
+		{
+			sprintf(str, "%s", fn);
+			if ( NULL==strext(fn) ) strcat(str, ".xml");
+		}
+		Msg("[16-9] get_xml_name for[%s] returns [%s]", fn, str);
+	}
+	return str;
+}
+

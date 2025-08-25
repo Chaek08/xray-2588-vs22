@@ -1,7 +1,6 @@
 #pragma once
 #include "UIDialogWnd.h"
 #include "UIEditBox.h"
-#include "xrXmlParser.h"
 
 class CUIGameLog;
 class game_cl_GameState;

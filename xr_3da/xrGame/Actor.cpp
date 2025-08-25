@@ -52,7 +52,6 @@
 #include "ai_space.h"
 
 #include "trade.h"
-#include "LevelFogOfWar.h"
 
 #include "inventory.h"
 

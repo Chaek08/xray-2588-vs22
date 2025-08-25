@@ -37,13 +37,14 @@ void CUIOutfitDragDropList::SetOutfit(CUICellItem* itm)
 	r.y2				= r.y1+CHAR_ICON_FULL_HEIGHT*ICON_GRID_HEIGHT;
 	
 	m_background->Init(0,0, GetWidth(), GetHeight());
+	m_background->SetStretchTexture		(true);
 	m_background->SetShader				(InventoryUtilities::GetCharIconsShader());
 
 	m_background->SetOriginalRect		(r);
 
 	m_background->TextureAvailable		(true);
 	m_background->TextureOn				();
-	m_background->RescaleRelative2Rect	(r);
+	//m_background->RescaleRelative2Rect	(r);
 }
 
 void CUIOutfitDragDropList::SetDefaultOutfit(LPCSTR default_outfit){

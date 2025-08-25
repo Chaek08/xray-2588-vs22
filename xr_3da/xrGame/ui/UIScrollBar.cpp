@@ -6,7 +6,6 @@
 #include ".\uiscrollbar.h"
 #include "UI3tButton.h"
 #include "UIScrollBox.h"
-#include "xrXmlParser.h"
 #include "UIXmlInit.h"
 #include "UITextureMaster.h"
 //#define SCROLLBAR_LEFT_ARROW		"ui\\ui_scb_left_arrow"

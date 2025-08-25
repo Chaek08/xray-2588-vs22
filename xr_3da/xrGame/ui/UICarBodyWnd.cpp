@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "UICarBodyWnd.h"
-#include "xrXMLParser.h"
+#include "xrUIXmlParser.h"
 #include "UIXmlInit.h"
 #include "../HUDManager.h"
 #include "../level.h"
@@ -35,7 +35,6 @@ CUICarBodyWnd::CUICarBodyWnd()
 	Init				();
 	Hide				();
 
-	SetFont				(HUD().Font().pFontMedium);
 	m_b_need_update		= false;
 }
 
@@ -51,8 +50,8 @@ void CUICarBodyWnd::Init()
 	uiXml.Init			(CONFIG_PATH, UI_PATH, CAR_BODY_XML);
 	
 	CUIXmlInit			xml_init;
-
-	CUIWindow::Init		(0, 0, UI_BASE_WIDTH, UI_BASE_HEIGHT);
+	
+	xml_init.InitWindow			(uiXml, "main", 0, this);
 
 	m_pUIStaticTop				= xr_new<CUIStatic>(); m_pUIStaticTop->SetAutoDelete(true);
 	AttachChild					(m_pUIStaticTop);

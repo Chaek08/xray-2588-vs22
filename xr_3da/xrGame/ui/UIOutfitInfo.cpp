@@ -35,7 +35,10 @@ CUIOutfitInfo::~CUIOutfitInfo(){
 void CUIOutfitInfo::Init(float x, float y, float width, float height){
 	CUIWindow::Init(x, y, width, height);
 	// init Caption
-	m_staticTitle.Init(TITLE_INDENT_X, 0, width, 40);
+	if(UI()->is_16_9_mode() )
+		m_staticTitle.Init(TITLE_INDENT_X/1.328f, 0, width, 40);
+	else	
+		m_staticTitle.Init(TITLE_INDENT_X, 0, width, 40);
 	// init list
 	m_listWnd.Init(0, TITLE_INDENT_Y, width, height);
 	m_listWnd.SetItemHeight(LIST_ITEM_HEIGHT);

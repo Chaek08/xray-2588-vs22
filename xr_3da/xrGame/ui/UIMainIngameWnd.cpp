@@ -214,9 +214,10 @@ void CUIMainIngameWnd::Init()
 	UIInvincibleIcon.Show(false);
 
 
-	if(GameID()==GAME_ARTEFACTHUNT){
-		xml_init.InitStatic(uiXml, "artefact_static", 0, &UIArtefactIcon);
-		UIArtefactIcon.Show(false);
+	if(IsGameTypeSingle())
+	{
+		m_artefactPanel->InitFromXML		(uiXml, "artefact_panel", 0);
+		this->AttachChild					(m_artefactPanel);	
 	}
 	
 	shared_str warningStrings[6] = 
@@ -263,9 +264,10 @@ void CUIMainIngameWnd::Init()
 	AttachChild						(&UIMotionIcon);
 	UIMotionIcon.Init				();
 
-	if(IsGameTypeSingle()){
-		xml_init.InitArtefactPanel(uiXml, "artefact_panel", 0, m_artefactPanel);
-		this->AttachChild(m_artefactPanel);	
+	if(IsGameTypeSingle())
+	{
+		m_artefactPanel->InitFromXML		(uiXml, "artefact_panel", 0);
+		this->AttachChild					(m_artefactPanel);	
 	}
 
 	AttachChild(&UIStaticDiskIO);

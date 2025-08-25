@@ -9,7 +9,6 @@
 #include "../hudmanager.h"
 #include "../level.h"
 #include "UIListBoxItem.h"
-#include "xrXmlParser.h"
 #include "UIXmlInit.h"
 
 #define OFFSET_X (5)
@@ -103,15 +102,15 @@ void CUIPropertiesBox::Show(float x, float y)
 
 
 	//выбрать позицию, чтобы окношко полностью влазило в экран
-	if(x+GetWidth()<float(Device.dwWidth/UI()->GetScaleX()))
+	if(x+GetWidth()<UI_BASE_WIDTH)
 		x_pos = x;
 	else
-		x_pos = x - (x+GetWidth()-( Device.dwWidth/UI()->GetScaleX() )  );
+		x_pos = x - (x+GetWidth() - UI_BASE_WIDTH  );
 	
-	if(y+GetHeight()<float(Device.dwHeight/UI()->GetScaleY()))
+	if(y+GetHeight()<UI_BASE_HEIGHT)
 		y_pos = y;
 	else
-		y_pos = y - (y+GetHeight()-( Device.dwHeight/UI()->GetScaleY() )  );
+		y_pos = y - (y+GetHeight() - UI_BASE_HEIGHT  );
 		
 	SetWndPos(x_pos,y_pos);
 

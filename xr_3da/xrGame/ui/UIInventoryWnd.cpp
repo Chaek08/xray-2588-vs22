@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UIInventoryWnd.h"
 
-#include "xrXMLParser.h"
+#include "xrUIXmlParser.h"
 #include "UIXmlInit.h"
 #include "../string_table.h"
 

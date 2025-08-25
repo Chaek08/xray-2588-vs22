@@ -28,7 +28,6 @@
 #include "UIMultiTextStatic.h"
 #include "UIAnimatedStatic.h"
 #include "uixmlinit.h"
-#include "uiartefactpanel.h"
 #include "UIListBox.h" //#include "UIScrollView.h"
 #include "UIComboBox.h"
 #include "../game_base_space.h"
@@ -499,7 +498,7 @@ bool CUIXmlInit::InitListWnd(CUIXml& xml_doc, LPCSTR path,
 
 
 	float ri = xml_doc.ReadAttribFlt	(path, index, "right_ident", 0.0f);
-	pWnd->SetRightIndention				(ri*UI()->GetScaleX());
+	pWnd->SetRightIndention				( UI()->ClientToScreenScaledX( ri ) );
 
 	bool bVertFlip						= (1==xml_doc.ReadAttribInt	(path, index, "flip_vert", 0));
 	pWnd->SetVertFlip					(bVertFlip);
@@ -1199,22 +1198,6 @@ void CUIXmlInit::InitColorDefs()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-bool CUIXmlInit::InitArtefactPanel(CUIXml &xml_doc, const char* path, int index, CUIArtefactPanel* pWnd){
-	R_ASSERT3(xml_doc.NavigateToNode(path,index), "XML node not found", path);
-
-	float x = xml_doc.ReadAttribFlt(path, index, "x");
-	float y = xml_doc.ReadAttribFlt(path, index, "y");
-	InitAlignment(xml_doc, path, index, x, y, pWnd);
-	float width = xml_doc.ReadAttribFlt(path, index, "width");
-	float height = xml_doc.ReadAttribFlt(path, index, "height");
-	pWnd->Init(x, y, width, height);
-
-	float fScale = xml_doc.ReadAttribFlt(path, index, "scale");
-	pWnd->SetScaleXY(fScale,fScale);
-	return true;
-}
-
 
 bool CUIXmlInit::InitScrollView	(CUIXml& xml_doc, const char* path, int index, CUIScrollView* pWnd)
 {
