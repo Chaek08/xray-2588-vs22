@@ -1675,3 +1675,8 @@ float		CActor::				GetMass				()
 {
 	return g_Alive()?character_physics_support()->movement()->GetMass():m_pPhysicsShell?m_pPhysicsShell->getMass():0; 
 }
+
+bool CActor::is_on_ground()
+{
+	return (character_physics_support()->movement()->Environment() != CPHMovementControl::peInAir);
+}
