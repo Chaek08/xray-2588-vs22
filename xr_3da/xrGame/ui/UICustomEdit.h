@@ -18,6 +18,7 @@ public:
 
 	virtual bool	OnMouse			(float x, float y, EUIMessages mouse_action);
 	virtual bool	OnKeyboard		(int dik, EUIMessages keyboard_action);
+	virtual bool	OnKeyboardHold	(int dik);
 	virtual void	OnFocusLost		();
 
 	virtual void	Update			();
@@ -41,11 +42,9 @@ protected:
 	bool KeyPressed(int dik);
 	bool KeyReleased(int dik);
 
-	void AddLetter(char c);
 	virtual void AddChar(char c);
 
 	bool m_bInputFocus;
-	bool m_bShift;
 
 	bool m_bNumbersOnly;
 	bool m_bFloatNumbers;

@@ -93,9 +93,9 @@ void InitConsole	()
 
 void InitInput		()
 {
-	BOOL bCaptureInput			= !strstr(Core.Params,"-i");
+	BOOL bCaptureInput = !strstr(Core.Params, "-i");
 
-	pInput						= xr_new<CInput>		(bCaptureInput);
+	pInput = xr_new<CInput>(bCaptureInput);
 }
 void destroyInput	()
 {

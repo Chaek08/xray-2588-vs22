@@ -37,6 +37,7 @@ public:
 	STRING_VALUE				translate				(const STRING_INDEX str_index)	const;
 
 	static BOOL					m_bWriteErrorsToLog;
+	shared_str					GetLanguage()			{return pData->m_sLanguage;}
 private:
 	virtual void				Init					();
 	virtual void				Load					(LPCSTR xml_file);

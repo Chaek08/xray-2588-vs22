@@ -87,9 +87,6 @@ void xrDebug::backend(const char* reason, const char* file, int line)
     if (handler)        
         handler();
 
-    if (get_on_dialog())
-        get_on_dialog()	(true);
-
     dlgExpr = reason;
     dlgFile = file;
     sprintf(dlgLine, "%d", line);
@@ -116,9 +113,6 @@ void xrDebug::backend(const char* reason, const char* file, int line)
         DEBUG_INVOKE;
         break;
     }
-
-    if (get_on_dialog())
-        get_on_dialog()	(false);
 
     CS.Leave();
 }
@@ -320,7 +314,6 @@ static void __cdecl def_new_handler()
 void    xrDebug::_initialize()
 {
     handler = 0;
-    m_on_dialog = 0;
     std::set_new_handler(def_new_handler);
     std::set_terminate(_terminate);
     //std::set_unexpected(_terminate);
