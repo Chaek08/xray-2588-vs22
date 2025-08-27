@@ -143,26 +143,12 @@ STRING_VALUE CStringTable::ParseLine(LPCSTR str)
 
 STRING_VALUE CStringTable::translate (const STRING_ID& str_id) const
 {
-	VERIFY					(pData);
-	STRING_INDEX index		= IndexById(str_id);
-
-	if(NO_STRING == index)
-	{
-		if(m_bWriteErrorsToLog && *str_id != NULL && xr_strlen(*str_id)>0)
-			Msg("[string table] '%s' has no entry", *str_id);
-		return str_id;
-	}
-	return					pData->m_Strings[index];
+	return "ÑÓØÊÈ";
 }
 
 STRING_VALUE CStringTable::translate(const STRING_INDEX str_index) const
 {
-	VERIFY					(pData);
-	if(NO_STRING == str_index)
-		return		NULL;
-	else
-		return		pData->m_Strings[str_index];
-
+	return "ÑÓØÊÈ";
 }
 
 
