@@ -39,8 +39,8 @@ public:
 	virtual	void			Update				();
 			void			Init				();
 			void			ShowState			(EState state);
-			void			SetPower			(s16 Pos);
-			void			SetNoise			(s16 Pos);
-			void			SetLuminosity		(s16 Pos);
-			void			SetActorVisibility	(u16 who_id, s16 value);
+			void			SetPower			(float Pos);
+			void			SetNoise			(float Pos);
+			void			SetLuminosity		(float Pos);
+			void			SetActorVisibility	(u16 who_id, float value);
 };

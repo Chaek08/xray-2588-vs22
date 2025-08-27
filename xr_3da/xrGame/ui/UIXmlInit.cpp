@@ -526,30 +526,33 @@ bool CUIXmlInit::InitProgressBar(CUIXml& xml_doc, LPCSTR path,
 
 	pWnd->Init(x, y, width, height, is_horizontal);
 
-	int min = xml_doc.ReadAttribInt(path, index, "min");
-	int max = xml_doc.ReadAttribInt(path, index, "max");
-	int pos = xml_doc.ReadAttribInt(path, index, "pos");
+	float min = xml_doc.ReadAttribFlt(path, index, "min");
+	float max = xml_doc.ReadAttribFlt(path, index, "max");
+	float pos = xml_doc.ReadAttribFlt(path, index, "pos");
 	
-	pWnd->SetRange((s16)min,(s16)max);
-	pWnd->SetProgressPos((s16)pos);
-
+	pWnd->SetRange			(min, max);
+	pWnd->SetProgressPos	(pos);
+	pWnd->m_inertion		= xml_doc.ReadAttribFlt(path, index, "inertion", 0.0f);
 	// progress
- xr_strconcat(buf,path,":progress");
+ 	xr_strconcat(buf,path,":progress");
 
 	if (!xml_doc.NavigateToNode(buf, index))
 		return false;
 
 	InitStatic(xml_doc, buf, index, &pWnd->m_UIProgressItem);
 
+	pWnd->m_UIProgressItem.SetWndSize		(pWnd->GetWndSize());
+
 	// background
- xr_strconcat(buf,path,":background");
+ 	xr_strconcat(buf,path,":background");
 	if (xml_doc.NavigateToNode(buf, index))
 	{
         InitStatic(xml_doc, buf, index, &pWnd->m_UIBackgroundItem);
 		pWnd->m_bBackgroundPresent = true;
+		pWnd->m_UIBackgroundItem.SetWndSize(pWnd->GetWndSize());
 	}
 
- xr_strconcat(buf,path,":min_color");
+ 	xr_strconcat(buf,path,":min_color");
 	
 	if( xml_doc.NavigateToNode(buf,index) ){
 		pWnd->m_bUseColor			= true;
@@ -557,7 +560,7 @@ bool CUIXmlInit::InitProgressBar(CUIXml& xml_doc, LPCSTR path,
 		u32 color = GetColor	(xml_doc, buf, index, 0xff);
 		pWnd->m_minColor.set(color);
 
-	 xr_strconcat(buf,path,":max_color");
+	xr_strconcat(buf,path,":max_color");
 	
 		color = GetColor	(xml_doc, buf, index, 0xff);
 		pWnd->m_maxColor.set(color);
