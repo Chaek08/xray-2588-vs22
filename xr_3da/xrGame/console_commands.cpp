@@ -139,6 +139,13 @@ public:
 #endif
 		char	Name[128];	Name[0]=0;
 		sscanf	(args,"%s", Name);
+
+		if (!pSettings->section_exist(Name)) 
+		{
+			Msg("! Cannot spawn: section [%s] not found.", Name);
+			return;
+		}
+
 		Fvector pos = Actor()->Position();
 		pos.y		+= 2.0f;
 		Level().g_cl_Spawn	(Name,0xff,M_SPAWN_OBJECT_LOCAL, pos);
