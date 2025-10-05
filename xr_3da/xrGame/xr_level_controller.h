@@ -102,6 +102,9 @@ enum	EKeyBinding
 	kUSE_BANDAGE	,
 	kUSE_MEDKIT		,
 
+	kQUICK_SAVE,
+	kQUICK_LOAD,
+
 	kFORCEDWORD		= u32(-1)
 };
 

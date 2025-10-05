@@ -106,6 +106,8 @@ _keybind  keybind[]		= {
 	{ "insult_msg",		kINSULT_MSG		},
 	{ "use_bandage",	kUSE_BANDAGE	},
 	{ "use_medkit",		kUSE_MEDKIT		},
+	{ "quick_save",		kQUICK_SAVE		},
+	{ "quick_load",		kQUICK_LOAD		},
 	{ "insult_jesture",	kINSULT_JESTURE	},
 
 	{ NULL, 			0				}

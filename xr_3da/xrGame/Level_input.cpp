@@ -151,6 +151,27 @@ void CLevel::IR_OnKeyboardPress	(int key)
 
 	if ( Game().IR_OnKeyboardPress(key) ) return;
 
+	if (key_binding[key] == kQUICK_SAVE && GameID() == GAME_SINGLE)
+	{
+		Console->Execute("save");
+		return;
+	}
+	if (key_binding[key] == kQUICK_LOAD && GameID() == GAME_SINGLE)
+	{
+#ifdef DEBUG
+		FS.get_path("$game_config$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
+		FS.get_path("$game_scripts$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
+		FS.rescan_pathes();
+#endif
+
+		string_path saved_game, command;
+		xr_strconcat(saved_game, Core.UserName, "_", "quicksave");
+		xr_strconcat(command, "load ", saved_game);
+
+		Console->Execute(command);
+		return;
+	}
+
 	switch (key) {
 #ifdef DEBUG
 	case DIK_RETURN:
@@ -165,26 +186,6 @@ void CLevel::IR_OnKeyboardPress	(int key)
 //	case DIK_F12:
 //		Render->Screenshot			();
 //		return;
-	case DIK_F6: {
-		if (GameID() != GAME_SINGLE) return;
-//		if (!autosave_manager().ready_for_autosave()) {
-//			Msg("! Cannot save the game right now!");
-//			return;
-//		}
-		Console->Execute			("save");
-		return;
-	}
-	case DIK_F7: {
-		if (GameID() != GAME_SINGLE) return;
-		
-		FS.get_path					("$game_config$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
-		FS.get_path					("$game_scripts$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
-		FS.rescan_pathes			();
-		NET_Packet					net_packet;
-		net_packet.w_begin			(M_RELOAD_GAME);
-		Send						(net_packet,net_flags(TRUE));
-		return;
-	}
 #ifdef DEBUG
 				 /**/
 	case DIK_F4: {
