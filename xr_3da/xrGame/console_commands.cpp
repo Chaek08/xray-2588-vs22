@@ -170,7 +170,16 @@ public:
     }
 };
 
-
+class CCC_TimeFactor : public IConsole_Command {
+public:
+	CCC_TimeFactor(LPCSTR N) : IConsole_Command(N) {}
+	virtual void	Execute(LPCSTR args)
+	{
+		float				time_factor = (float)atof(args);
+		clamp(time_factor, .001f, 1000.f);
+		Device.time_factor(time_factor);
+	}
+};
 
 class CCC_GameDifficulty : public CCC_Token {
 public:
@@ -2508,6 +2517,7 @@ void CCC_RegisterCommands()
 
 	CMD1(CCC_StartTimeSingle,	"start_time_single");
 	CMD4(CCC_TimeFactorSingle,	"time_factor_single", &g_fTimeFactor, 0.f,flt_max);
+	CMD1(CCC_TimeFactor,		"time_factor");	
 	CMD1(CCC_StartTimeEnvironment,	"sv_setenvtime");
 
 	CMD1(CCC_SetWeather,	"sv_setweather"			);
