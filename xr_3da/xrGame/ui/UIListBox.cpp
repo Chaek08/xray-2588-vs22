@@ -330,7 +330,7 @@ float CUIListBox::GetLongestLength(){
 		CUIListBoxItem* item = smart_cast<CUIListBoxItem*>(*it);
 		if (item)
 		{
-			float tmp_len = item->GetFont()->SizeOfRel(item->GetText());
+			float tmp_len = item->GetFont()->SizeOf_(item->GetText());
 			if (tmp_len > len)
 				len = tmp_len;
 		}

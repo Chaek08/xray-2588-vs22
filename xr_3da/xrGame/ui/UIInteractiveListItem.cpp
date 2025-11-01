@@ -7,7 +7,7 @@
 #include "StdAfx.h"
 #include "UIInteractiveListItem.h"
 #include "../HUDManager.h"
-
+#include <cmath>
 //=============================================================================
 //  CUIInteractiveListItem class
 //=============================================================================
@@ -55,9 +55,9 @@ void CUIInteractiveListItem::Init(const char *str, const xr_vector<char *> &Data
 		tmpPairs.subStr = strTmp;
 		// Экранные координаты
 		strTmp.assign((char)str, (char)(*it));
-		tmpPairs.pairScreenCrd.first = static_cast<int>(pFont->SizeOf(strTmp.c_str())) + shift;
+		tmpPairs.pairScreenCrd.first = static_cast<int>(pFont->SizeOf_(strTmp.c_str())) + shift;
 		strTmp.assign((char)str, (char)(*(it + 1)));
-		tmpPairs.pairScreenCrd.second = static_cast<int>(pFont->SizeOf(strTmp.c_str())) + shift;
+		tmpPairs.pairScreenCrd.second = static_cast<int>(pFont->SizeOf_(strTmp.c_str())) + shift;
 		// ID
 		tmpPairs.ID = IDs[counter];
 		// Save current
@@ -127,49 +127,30 @@ void CUIInteractiveListItem::Draw()
 
 
 	// Подсвечиваем интерактивный элемент
-	if (itCurrIItem != vPositions.end() && m_bCursorOverWindow && m_bInteractiveBahaviour)
-	{
-//		UpdateTextAlign();
-		GetFont()->SetAligment(GetTextAlignment());
+    if (itCurrIItem != vPositions.end() && m_bCursorOverWindow && m_bInteractiveBahaviour)
+    {
+        CGameFont* F = GetFont();
+        F->SetAligment(GetTextAlignment());
 
-		GetFont()->SetColor(m_HighlightColor);
-		Frect rect = GetSelfClipRect();
-		CGameFont* F = GetFont();
+        const Frect rect = GetSelfClipRect();
+        const char* text = (*itCurrIItem).subStr.c_str();
 
-		UI()->OutText(F, rect,
-			rect.left + 1 +m_iTextOffsetX, 
-			rect.top + 1 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 1 +m_iTextOffsetX, 
-			rect.top - 1 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 1 +m_iTextOffsetX, 
-			rect.top + 1 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 1 +m_iTextOffsetX, 
-			rect.top - 1 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 1 +m_iTextOffsetX, 
-			rect.top + 0 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 1 +m_iTextOffsetX, 
-			rect.top - 0 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 0 +m_iTextOffsetX, 
-			rect.top + 1 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
-		UI()->OutText(F, rect,
-			rect.left + 0 +m_iTextOffsetX,  
-			rect.top - 1 +m_iTextOffsetY,
-			(*itCurrIItem).subStr.c_str());
+        Fvector2 pos;
+        pos.set(rect.left + m_iTextOffsetX, rect.top + m_iTextOffsetY);
+        UI()->ClientToScreenScaled(pos);
 
-	}
+        const u32 col_main   = m_HighlightColor;
+        const u32 col_shadow = color_rgba(0, 0, 0, 160);
+
+        const float dx = 1.0f;
+        const float dy = 1.0f;
+
+        F->SetColor(col_shadow);
+        F->Out(pos.x + dx, pos.y + dy, "%s", text);
+
+        F->SetColor(col_main);
+        F->Out(pos.x, pos.y, "%s", text);
+    }
 	// вывод всей строки
 
 	GetFont()->OnRender();

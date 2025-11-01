@@ -1460,7 +1460,7 @@ void CUIMainIngameWnd::draw_adjust_mode()
 		string32 _3rd_person_view="3-rd person view";
 		CGameFont* F		= UI()->Font()->pFontDI;
 		F->SetAligment		(CGameFont::alCenter);
-		F->SetSizeI			(0.02f);
+		F->SetHeightI		(0.02f);
 		F->OutSetI			(0.f,-0.8f);
 		F->SetColor			(0xffffffff);
 		F->OutNext			("Hud_adjust_mode=%d",g_bHudAdjustMode);

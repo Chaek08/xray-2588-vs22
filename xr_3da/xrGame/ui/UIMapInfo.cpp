@@ -30,6 +30,7 @@ void CUIMapInfo::Init(float x, float y, float width, float height){
 							text += *str_tbl.translate(z);									\
 						text += "%c<default>\\n";											\
 						st = xr_new<CUIStatic>();											\
+						st->SetTextComplexMode(true);										\
 						st->SetFont(txt_font);												\
 						st->SetTextColor(header_color);										\
 						st->SetText(text.c_str());											\
@@ -92,6 +93,7 @@ void CUIMapInfo::InitMap(const char* map_name){
 	{
 		st = xr_new<CUIStatic>(); 
 		CUIXmlInit::InitStatic(xml_doc,"map_name",0,st); 
+		st->SetTextComplexMode(true);
 		st->SetText(map_name);
 		st->SetWidth(m_view->GetDesiredChildWidth());
 		st->AdjustHeightToText();

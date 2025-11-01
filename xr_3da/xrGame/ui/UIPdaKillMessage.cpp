@@ -14,11 +14,13 @@ using namespace InventoryUtilities;
 
 const int INDENT = 3;
 
-CUIPdaKillMessage::CUIPdaKillMessage(){
-	AttachChild(&m_victim_name);
-	AttachChild(&m_killer_name);	
-	AttachChild(&m_initiator);
-	AttachChild(&m_ext_info);
+CUIPdaKillMessage::CUIPdaKillMessage()
+{
+	SetTextComplexMode(true);
+	AttachChild(&m_victim_name);m_victim_name.SetTextComplexMode(true);
+	AttachChild(&m_killer_name);m_killer_name.SetTextComplexMode(true);	
+	AttachChild(&m_initiator);m_initiator.SetTextComplexMode(true);
+	AttachChild(&m_ext_info);m_ext_info.SetTextComplexMode(true);
 }
 
 CUIPdaKillMessage::~CUIPdaKillMessage(){
@@ -49,8 +51,8 @@ float CUIPdaKillMessage::InitText(CUIStatic& refStatic, float x, PlayerInfo& inf
 	float		selfHeight = GetHeight();
 	CGameFont*	pFont = GetFont();
 
-	float width = pFont->SizeOfRel(*info.m_name);
-	float height = pFont->CurrentHeight();
+	float width = pFont->SizeOf_(*info.m_name);
+	float height = pFont->CurrentHeight_();
 	y = (selfHeight - height)/2;
 
 	if (width > 110)

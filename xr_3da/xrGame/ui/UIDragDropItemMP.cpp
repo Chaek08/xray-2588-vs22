@@ -221,36 +221,34 @@ void CUIDragDropItemMP::SetSlot(int slot)
 	slotNum = slot; 
 }
 
-void WpnDrawIndex(CUIDragDropItem *pDDItem)
+void WpnDrawIndex(CUIDragDropItem* pDDItem)
 {
-	CUIDragDropItemMP *pDDItemMP = smart_cast<CUIDragDropItemMP*>(pDDItem);
-	R_ASSERT(pDDItemMP);
-	if (!pDDItemMP) return;
-	if (pDDItemMP->GetSectionGroupID() == GROUP_DEFAULT)
-		return;
+    CUIDragDropItemMP* pDDItemMP = smart_cast<CUIDragDropItemMP*>(pDDItem);
+    R_ASSERT(pDDItemMP);
+    if (!pDDItemMP) return;
+    if (pDDItemMP->GetSectionGroupID() == GROUP_DEFAULT) return;
 
-	if (strstr(pDDItemMP->GetSectionName(), "ammo") && pSettings->r_s32(pDDItemMP->GetSectionName(), "box_size")>1)
-	{
-		float left	= pDDItemMP->GetUIStaticItem().GetPosX();
-		float bottom	= pDDItemMP->GetUIStaticItem().GetPosY() + pDDItemMP->GetUIStaticItem().GetRect().height();
+    float left   = pDDItemMP->GetUIStaticItem().GetPosX();
+    float bottom = pDDItemMP->GetUIStaticItem().GetPosY() + pDDItemMP->GetUIStaticItem().GetRect().height();
 
-		pDDItemMP->GetFont()->SetColor(0xff00ff00);
-		UI()->OutText(pDDItem->GetFont(), pDDItemMP->GetSelfClipRect(), left, 
-			bottom - pDDItemMP->GetFont()->CurrentHeight(),
-			"%d", pSettings->r_s32(pDDItemMP->GetSectionName(), "box_size"));
+    CGameFont* F = pDDItemMP->GetFont();
 
-	}
-	else
-	{
+    float x = left;
+    float y = bottom - F->CurrentHeight_();
 
-		float left	= pDDItemMP->GetUIStaticItem().GetPosX();
-		float bottom	= pDDItemMP->GetUIStaticItem().GetPosY() + pDDItemMP->GetUIStaticItem().GetRect().height();
+    Fvector2 p; p.set(x, y);
+    UI()->ClientToScreenScaled(p);
 
-		pDDItemMP->GetFont()->SetColor(pDDItemMP->GetColor());
-		UI()->OutText(pDDItem->GetFont(), pDDItemMP->GetSelfClipRect(), left, 
-			bottom - pDDItemMP->GetFont()->CurrentHeightRel(),
-			"%d", (pDDItemMP->GetPosInSubSection() + 1)%10);
-	}
+    if (strstr(pDDItemMP->GetSectionName(), "ammo") && pSettings->r_s32(pDDItemMP->GetSectionName(), "box_size") > 1)
+    {
+        F->SetColor(0xff00ff00);
+        F->Out(p.x, p.y, "%d", pSettings->r_s32(pDDItemMP->GetSectionName(), "box_size"));
+    }
+    else
+    {
+        F->SetColor(pDDItemMP->GetColor());
+        F->Out(p.x, p.y, "%d", (pDDItemMP->GetPosInSubSection() + 1) % 10);
+    }
 
-	pDDItemMP->GetFont()->OnRender();
+    F->OnRender();
 }

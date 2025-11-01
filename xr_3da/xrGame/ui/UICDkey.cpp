@@ -15,25 +15,57 @@ CUICDkey::~CUICDkey(){
 
 }
 
-void CUICDkey::Draw(){
+void CUICDkey::Draw()
+{
 	Frect rect = GetAbsoluteRect();
-	float outX, outY;
-	Frect scr_rect;
-	scr_rect.set(0,0,1024,768);
+	Fvector2					outXY;
 
-	outY = (m_wndSize.y - m_lines.m_pFont->CurrentHeightRel())/2;
-	outX = 0;
-	m_lines.m_pFont->SetColor(m_lines.GetTextColor());
-	UI()->OutText(m_lines.m_pFont, scr_rect, rect.left+outX, 
-		rect.top+outY,  AddHyphens(m_lines.m_text.c_str()));
+	outXY.y						= (m_wndSize.y - m_lines.m_pFont->CurrentHeight_())/2.0f;
+	outXY.x						= 0;
+	m_lines.m_pFont->SetColor	(m_lines.GetTextColor());
+
+	Fvector2					pos;
+	pos.set						(rect.left+outXY.x, rect.top+outXY.y);
+	UI()->ClientToScreenScaled	(pos);
 
 	if(m_bInputFocus)
-	{	
-		outY = (m_wndSize.y - m_lines.m_pFont->CurrentHeightRel())/2;
-		outX = m_lines.GetDrawCursorPos();
-		outX += m_lines.m_pFont->SizeOfRel("-")*(_min(iFloor(m_lines.m_iCursorPos/4.0f),3));
+	{		
+		m_lines.m_pFont->Out	( pos.x, pos.y, "%s" ,AddHyphens(m_lines.m_text.c_str()) );
+		
+		float _h				= m_lines.m_pFont->CurrentHeight_();
+		UI()->ClientToScreenScaledHeight(_h);
+		
+		outXY.y					= rect.top + (m_wndSize.y - _h)/2.0f;
+		
+		float	_w_tmp			=0.0f;
 
-		CUILine::DrawCursor(m_lines.m_pFont, rect.left+outX, rect.top+outY, m_lines.GetTextColor());
+		string256				buff;
+		int i					= m_lines.m_iCursorPos;
+		strncpy					(buff,m_lines.m_text.c_str(),i);
+		buff					[i]=0;
+		_w_tmp					= m_lines.m_pFont->SizeOf_(buff);
+		UI()->ClientToScreenScaledWidth(_w_tmp);
+		outXY.x					= rect.left+_w_tmp;
+		
+		_w_tmp					= m_lines.m_pFont->SizeOf_("-");
+		UI()->ClientToScreenScaledWidth(_w_tmp);
+		
+		if(i>3)
+			outXY.x	+= _w_tmp;
+		if(i>7)
+			outXY.x	+= _w_tmp;
+		if(i>11)
+			outXY.x	+= _w_tmp;
+
+		UI()->ClientToScreenScaled	(outXY);
+		m_lines.m_pFont->Out		(outXY.x, outXY.y, "_");
+	}
+	else
+	{
+		string64 tmp = "xxxxxxxxxxxxxxxx";
+		tmp[m_lines.m_text.size()] = 0;
+
+		m_lines.m_pFont->Out(pos.x, pos.y, "%s" ,AddHyphens(tmp) );
 	}
 }
 

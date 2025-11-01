@@ -152,29 +152,18 @@ void CStats::Show()
 		pFont->OnRender	();
 	}
 
-	CGameFont&	F			= *((CGameFont*)pFont);
-	float		f_base_size	= 8;	//F.GetSize();
-				F.SetSize	(f_base_size);
+	CGameFont& F = *pFont;
+	float		f_base_size	= 0.01f;
+				F.SetHeightI	(f_base_size);
 
-/* moved to igame_level::on_render
-	if( Device.Pause() && !g_pGamePersistent->m_pMainUI->IsActive() && bShowPauseString){
-		float sz		= pFont->GetSize();
-		pFont->SetSize	(32);
-		pFont->SetColor	(0x80FF0000	);
-		pFont->OutSet	(Device.dwWidth/2.0f-(pFont->SizeOf("Game paused")/2.0f),Device.dwHeight/2.0f);
-		pFont->OutNext	("Game paused");
-		pFont->OnRender	();
-		pFont->SetSize	(sz);
-	}
-*/
 	if (vtune.enabled())	{
-		float sz		= pFont->GetSize();
-		pFont->SetSize	(16);
+		float sz		= pFont->GetHeight();
+		pFont->SetHeightI(0.02f);
 		pFont->SetColor	(0xFFFF0000	);
-		pFont->OutSet	(Device.dwWidth/2.0f+(pFont->SizeOf("Game paused")/2.0f),Device.dwHeight/2.0f);
+		pFont->OutSet	(Device.dwWidth/2.0f+(pFont->SizeOf_("--= tune =--")/2.0f),Device.dwHeight/2.0f);
 		pFont->OutNext	("--= tune =--");
 		pFont->OnRender	();
-		pFont->SetSize	(sz);
+		pFont->SetHeight(sz);
 	};
 
 	// Show them
@@ -189,17 +178,6 @@ void CStats::Show()
 		::Sound->statistic			(&snd_stat,0);
 		F.SetColor	(0xFFFFFFFF	);
 
-		F.OutSet	(640,0);
-		F.OutNext	("static:        %3.1f/%d",	RCache.stat.r.s_static.verts/1024.f,		RCache.stat.r.s_static.dips );
-		F.OutNext	("flora:         %3.1f/%d",	RCache.stat.r.s_flora.verts/1024.f,			RCache.stat.r.s_flora.dips );
-		F.OutNext	("  flora_lods:  %3.1f/%d",	RCache.stat.r.s_flora_lods.verts/1024.f,	RCache.stat.r.s_flora_lods.dips );
-		F.OutNext	("dynamic:       %3.1f/%d",	RCache.stat.r.s_dynamic.verts/1024.f,		RCache.stat.r.s_dynamic.dips );
-		F.OutNext	("  dynamic_sw:  %3.1f/%d",	RCache.stat.r.s_dynamic_sw.verts/1024.f,	RCache.stat.r.s_dynamic_sw.dips );
-		F.OutNext	("  dynamic_inst:%3.1f/%d",	RCache.stat.r.s_dynamic_inst.verts/1024.f,	RCache.stat.r.s_dynamic_inst.dips );
-		F.OutNext	("  dynamic_1B:  %3.1f/%d",	RCache.stat.r.s_dynamic_1B.verts/1024.f,	RCache.stat.r.s_dynamic_1B.dips );
-		F.OutNext	("  dynamic_2B:  %3.1f/%d",	RCache.stat.r.s_dynamic_2B.verts/1024.f,	RCache.stat.r.s_dynamic_2B.dips );
-		F.OutNext	("details:       %3.1f/%d",	RCache.stat.r.s_details.verts/1024.f,		RCache.stat.r.s_details.dips );
-
 		F.OutSet	(0,0);
 		F.OutNext	("FPS/RFPS:    %3.1f/%3.1f",fFPS,fRFPS);
 		F.OutNext	("TPS:         %2.2f M",	fTPS);
@@ -207,6 +185,9 @@ void CStats::Show()
 		F.OutNext	("POLY:        %d/%d",		RCache.stat.polys,RCache.stat.calls?RCache.stat.polys/RCache.stat.calls:0);
 		F.OutNext	("DIP/DP:      %d",			RCache.stat.calls);
 #ifdef DEBUG
+		F.OutSkip	();
+		F.OutNext	("mapped:      %d",			g_file_mapped_memory);
+		F.OutSkip	();
 		F.OutNext	("SH/T/M/C:    %d/%d/%d/%d",RCache.stat.states,RCache.stat.textures,RCache.stat.matrices,RCache.stat.constants);
 		F.OutNext	("RT/PS/VS:    %d/%d/%d",	RCache.stat.target_rt,RCache.stat.ps,RCache.stat.vs);
 		F.OutNext	("DCL/VB/IB:   %d/%d/%d",   RCache.stat.decl,RCache.stat.vb,RCache.stat.ib);
@@ -268,42 +249,53 @@ void CStats::Show()
 		F.OutNext	("netClient:   %2.2fms, %d",netClient.result,netClient.count);
 		F.OutNext	("netServer:   %2.2fms, %d",netServer.result,netServer.count);
 		F.OutSkip	();
-		F.OutNext	("CAMERA POS:  [%3.2f,%3.2f,%3.2f]",VPUSH(Device.vCameraPosition));
+
 		F.OutSkip	();
 		F.OutNext	("TEST 0:      %2.2fms, %d",TEST0.result,TEST0.count);
 		F.OutNext	("TEST 1:      %2.2fms, %d",TEST1.result,TEST1.count);
 		F.OutNext	("TEST 2:      %2.2fms, %d",TEST2.result,TEST2.count);
 		F.OutNext	("TEST 3:      %2.2fms, %d",TEST3.result,TEST3.count);
-#ifdef	DEBUG
+#ifdef DEBUG_MEMORY_MANAGER
 		F.OutSkip	();
 		F.OutNext	("str: cmp[%3d], dock[%3d], qpc[%3d]",Memory.stat_strcmp,Memory.stat_strdock,CPU::qpc_counter);
 		Memory.stat_strcmp	=	0		;
 		Memory.stat_strdock	=	0		;
 		CPU::qpc_counter	=	0		;
-#else
+#else // DEBUG_MEMORY_MANAGER
 		F.OutSkip	();
 		F.OutNext	("qpc[%3d]",CPU::qpc_counter);
 		CPU::qpc_counter	=	0		;
-#endif
+#endif // DEBUG_MEMORY_MANAGER
+//		F.OutSet	(640,0);
+		F.OutSkip	();
+		F.OutNext	("static:        %3.1f/%d",	RCache.stat.r.s_static.verts/1024.f,		RCache.stat.r.s_static.dips );
+		F.OutNext	("flora:         %3.1f/%d",	RCache.stat.r.s_flora.verts/1024.f,			RCache.stat.r.s_flora.dips );
+		F.OutNext	("  flora_lods:  %3.1f/%d",	RCache.stat.r.s_flora_lods.verts/1024.f,	RCache.stat.r.s_flora_lods.dips );
+		F.OutNext	("dynamic:       %3.1f/%d",	RCache.stat.r.s_dynamic.verts/1024.f,		RCache.stat.r.s_dynamic.dips );
+		F.OutNext	("  dynamic_sw:  %3.1f/%d",	RCache.stat.r.s_dynamic_sw.verts/1024.f,	RCache.stat.r.s_dynamic_sw.dips );
+		F.OutNext	("  dynamic_inst:%3.1f/%d",	RCache.stat.r.s_dynamic_inst.verts/1024.f,	RCache.stat.r.s_dynamic_inst.dips );
+		F.OutNext	("  dynamic_1B:  %3.1f/%d",	RCache.stat.r.s_dynamic_1B.verts/1024.f,	RCache.stat.r.s_dynamic_1B.dips );
+		F.OutNext	("  dynamic_2B:  %3.1f/%d",	RCache.stat.r.s_dynamic_2B.verts/1024.f,	RCache.stat.r.s_dynamic_2B.dips );
+		F.OutNext	("details:       %3.1f/%d",	RCache.stat.r.s_details.verts/1024.f,		RCache.stat.r.s_details.dips );
 
 		//////////////////////////////////////////////////////////////////////////
 		// Renderer specific
-		F.SetSize						(f_base_size);
+		F.SetHeightI						(f_base_size);
 		F.OutSet						(200,0);
 		Render->Statistics				(&F);
 
 		//////////////////////////////////////////////////////////////////////////
 		// Game specific
-		F.SetSize						(f_base_size);
+		F.SetHeightI						(f_base_size);
 		F.OutSet						(400,0);
 		g_pGamePersistent->Statistics	(&F);
 
 		//////////////////////////////////////////////////////////////////////////
 		// process PURE STATS
-		F.SetSize						(f_base_size);
+		F.SetHeightI						(f_base_size);
 		seqStats.Process				(rp_Stats);
 		pFont->OnRender					();
-	}
+	};
 
 #ifdef DEBUG
 	//////////////////////////////////////////////////////////////////////////
@@ -313,7 +305,7 @@ void CStats::Show()
 		CGameFont&	F = *((CGameFont*)pFont);
 		F.SetColor						(color_rgba(255,16,16,255));
 		F.OutSet						(300,300);
-		F.SetSize						(f_base_size*2);
+		F.SetHeightI						(f_base_size*2);
 		if (fFPS<30)					F.OutNext	("FPS       < 30:   %3.1f",	fFPS);
 		if (RCache.stat.verts>500000)	F.OutNext	("Verts     > 500k: %d",	RCache.stat.verts);
 		//if (RCache.stat.polys>500000)	F.OutNext	("Polys     > 500k: %d",	RCache.stat.polys);
@@ -337,7 +329,7 @@ void CStats::Show()
 		CGameFont&	F = *((CGameFont*)pFont);
 		F.SetColor	(color_rgba(255,16,16,191));
 		F.OutSet	(200,0);
-		F.SetSize	(f_base_size);
+		F.SetHeightI	(f_base_size);
 #if 0
 		for (u32 it=0; it<errors.size(); it++)
 			F.OutNext("%s",errors[it].c_str());
@@ -419,7 +411,7 @@ void CStats::OnDeviceCreate			()
 
 //	if (!strstr(Core.Params, "-dedicated"))
 #ifndef DEDICATED_SERVER
-		pFont	= xr_new<CGameFont>		("stat_font");
+	pFont	= xr_new<CGameFont>		("stat_font", CGameFont::fsDeviceIndependent);
 #endif
 	
 	if(!pSettings->section_exist("evaluation")

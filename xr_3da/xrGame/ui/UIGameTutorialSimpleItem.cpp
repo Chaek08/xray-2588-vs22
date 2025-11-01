@@ -104,6 +104,7 @@ void CUISequenceSimpleItem::Load(CUIXml* xml, int idx)
 		_si->m_length				= xml->ReadAttribFlt("auto_static",i,"length_sec",0);
 		_si->m_visible				= false;
 		_si->m_wnd					= smart_cast<CUIStatic*>(find_child_window(m_UIWindow, sname)); VERIFY(_si->m_wnd);
+		_si->m_wnd->SetTextComplexMode(true);
 		_si->m_wnd->Show			(false);
 
 		xml->SetLocalRoot			(_sr);

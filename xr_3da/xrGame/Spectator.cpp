@@ -311,9 +311,6 @@ void CSpectator::cam_Set	(EActorCameras style)
 
 void CSpectator::cam_Update	(CActor* A)
 {
-	HUD().Font().pFontDI->SetColor			(0xF0808080);
-	HUD().Font().pFontDI->SetSizeI			(0.03f);
-	HUD().Font().pFontDI->SetAligment		(CGameFont::alCenter);
 	if (A){
 		const Fmatrix& M			= A->XFORM();
 		CCameraBase* pACam			= A->cam_Active();

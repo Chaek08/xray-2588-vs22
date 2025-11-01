@@ -87,6 +87,7 @@ void CUIMessagesWindow::AddPdaMessage(LPCSTR message, int iDelay){
 void CUIMessagesWindow::AddIconedPdaMessage(LPCSTR textureName, Frect originalRect, LPCSTR message, int iDelay){
 	
 	CUIPdaMsgListItem *pItem = m_pGameLog->AddPdaMessage(message, float(iDelay));
+	pItem->SetTextComplexMode			(true);
 	pItem->UIIcon.InitTexture			(textureName);
 	pItem->UIIcon.SetOriginalRect		(originalRect.left, originalRect.top, originalRect.right, originalRect.bottom);
 	pItem->UIMsgText.SetWidth(m_pGameLog->GetDesiredChildWidth() - pItem->UIIcon.GetWidth());

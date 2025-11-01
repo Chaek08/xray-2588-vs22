@@ -16,20 +16,10 @@ CFontManager& mngr(){
 	return *(UI()->Font());
 }
 
-// hud font
-CGameFont* GetFontSmall()
-{return mngr().pFontSmall;}
-
 CGameFont* GetFontMedium()
 {return mngr().pFontMedium;}
 CGameFont* GetFontDI()
 {return mngr().pFontDI;}
-
-	//חאדמכמגמקםûי רנטפע
-CGameFont* GetFontHeaderRussian()
-{return mngr().pFontHeaderRussian;}
-CGameFont* GetFontHeaderEurope()
-{return mngr().pFontHeaderEurope;}
 
 //רנטפעû הכÿ טםעונפויסא
 CGameFont* GetFontGraffiti19Russian()
@@ -74,11 +64,8 @@ void CUIWindow::script_register(lua_State *L)
 	module(L)
 	[
 		def("GetARGB",					&GetARGB),
-		def("GetFontSmall",				&GetFontSmall),
 		def("GetFontMedium",			&GetFontMedium),
 		def("GetFontDI",				&GetFontDI),
-		def("GetFontHeaderRussian",		&GetFontHeaderRussian),
-		def("GetFontHeaderEurope",		&GetFontHeaderEurope),
 		def("GetFontGraffiti19Russian",	&GetFontGraffiti19Russian),
 		def("GetFontGraffiti22Russian",	&GetFontGraffiti22Russian),
 		def("GetFontLetterica16Russian",&GetFontLetterica16Russian),

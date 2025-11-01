@@ -92,7 +92,7 @@ void CConsole::OnRender	()
 
 	if (!bVisible) return;
 	if (0==pFont)
-		pFont		= xr_new<CGameFont>	("console_font",CGameFont::fsDeviceIndependent);
+		pFont		= xr_new<CGameFont>	("hud_font_di",CGameFont::fsDeviceIndependent);
 
 	bGame	=false;	
 	if ( (g_pGameLevel && g_pGameLevel->bReady)||
@@ -119,7 +119,7 @@ void CConsole::OnRender	()
 	if (bCursor) strcat(buf,"|");
 
 	pFont->SetColor( color_rgba(128  ,128  ,255, 255) );
-	//pFont->SetSizeI(0.02f);
+	pFont->SetHeightI(0.025f);
 	pFont->OutI	( -1.f, fMaxY-LDIST, "%s", buf );
 
 	float ypos=fMaxY-LDIST-LDIST;

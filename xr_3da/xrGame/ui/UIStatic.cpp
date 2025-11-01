@@ -12,6 +12,7 @@
 #include "../../LightAnimLibrary.h"
 #include "uilines.h"
 #include "../string_table.h"
+#include "../ui_base.h"
 
 const char * const	clDefault	= "default";
 #define CREATE_LINES if (!m_pLines) {m_pLines = xr_new<CUILines>(); m_pLines->SetTextAlignment(CGameFont::alLeft);}
@@ -436,7 +437,9 @@ CGameFont::EAligment CUIStatic::GetTextAlignment(){
 void CUIStatic::SetTextAlignment(CGameFont::EAligment align){
 	CREATE_LINES;
 	m_pLines->SetTextAlignment(align);
+	m_pLines->GetFont()->SetAligment((CGameFont::EAligment)align);
 }
+
 
 void CUIStatic::SetVTextAlignment(EVTextAlignment al){
 	CREATE_LINES;
@@ -595,8 +598,11 @@ void CUIStatic::AdjustHeightToText(){
 	SetHeight				(m_pLines->GetVisibleHeight());
 }
 
-void CUIStatic::AdjustWidthToText(){
-	SetWidth(m_pLines->GetTextLength());
+void CUIStatic::AdjustWidthToText()
+{
+	float _len		= m_pLines->GetFont()->SizeOf_(m_pLines->GetText());
+	UI()->ClientToScreenScaledWidth(_len);
+	SetWidth		(_len);
 }
 
 void CUIStatic::RescaleRelative2Rect(const Frect& r){
@@ -604,6 +610,10 @@ void CUIStatic::RescaleRelative2Rect(const Frect& r){
 	Frect my_r = m_xxxRect;
 	float h_rel = my_r.width()/r.width();
 	float v_rel = my_r.height()/r.height();
+	if (ui_core::is_16_9_mode())
+	{
+		h_rel	*= (3.0f/4.0f);
+	}
 	float w;
 	float h;
 	if (h_rel < v_rel){

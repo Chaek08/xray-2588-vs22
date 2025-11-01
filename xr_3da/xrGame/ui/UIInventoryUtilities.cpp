@@ -69,18 +69,23 @@ void InventoryUtilities::AmmoDrawProc(CUIDragDropItem* pItem)
 	CInventoryItem* pIItem = (CInventoryItem*)(pItem->GetData());
 	CWeaponAmmo* pAmmoItem = smart_cast<CWeaponAmmo*>(pIItem);
 
-	if (pAmmoItem->m_boxCurr > 1)
-	{
-		float left	= pItem->GetUIStaticItem().GetPosX() + 5;
-		float bottom	= pItem->GetUIStaticItem().GetPosY() + pItem->GetUIStaticItem().GetRect().height();
+    if (pAmmoItem->m_boxCurr > 1)
+    {
+        float left   = pItem->GetUIStaticItem().GetPosX() + 5;
+        float bottom = pItem->GetUIStaticItem().GetPosY() + pItem->GetUIStaticItem().GetRect().height();
 
-		pItem->GetFont()->SetColor(0xffffffff);
-		UI()->OutText(	pItem->GetFont(), pItem->GetSelfClipRect(), left, 
-						bottom - pItem->GetFont()->CurrentHeight(),
-						"%d",	pAmmoItem->m_boxCurr);
+        CGameFont* F = pItem->GetFont();
+        F->SetColor(0xffffffff);
 
-		pItem->GetFont()->OnRender();
-	}
+        float x = left;
+        float y = bottom - F->CurrentHeight_();
+
+        Fvector2 pos; pos.set(x, y);
+        UI()->ClientToScreenScaled(pos);
+
+        F->Out(pos.x, pos.y, "%d", pAmmoItem->m_boxCurr);
+        F->OnRender();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -93,19 +98,22 @@ void InventoryUtilities::FoodDrawProc(CUIDragDropItem* pItem)
 	CInventoryItem* pIItem = (CInventoryItem*)(pItem->GetData()); R_ASSERT(pIItem);
 	CEatableItem* pEatableItem = smart_cast<CEatableItem*>(pIItem); R_ASSERT(pEatableItem);
 
-	if (pEatableItem->PortionsNum() > 1)
-	{
-		Frect rect = pItem->GetAbsoluteRect();
+    if (pEatableItem->PortionsNum() > 1)
+    {
+        Frect rect = pItem->GetAbsoluteRect();
 
-		pItem->GetFont()->SetColor(0xffffffff);
-		UI()->OutText(	pItem->GetFont(), 
-						pItem->GetSelfClipRect(), 
-						rect.left, 
-						float(rect.bottom - pItem->GetFont()->CurrentHeight()- 2),
-						"%d",	pEatableItem->PortionsNum());
+        CGameFont* F = pItem->GetFont();
+        F->SetColor(0xffffffff);
 
-		pItem->GetFont()->OnRender();
-	}
+        float x = rect.left;
+        float y = float(rect.bottom - F->CurrentHeight_() - 2);
+
+        Fvector2 pos; pos.set(x, y);
+        UI()->ClientToScreenScaled(pos);
+
+        F->Out(pos.x, pos.y, "%d", pEatableItem->PortionsNum());
+        F->OnRender();
+    }
 }
 
 

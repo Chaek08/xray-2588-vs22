@@ -2610,7 +2610,9 @@
     <ClCompile Include="ui\UIComboBox_script.cpp" />
     <ClCompile Include="ui\UICustomEdit.cpp" />
     <ClCompile Include="ui\UICustomSpin.cpp" />
-    <ClCompile Include="ui\UIDebugFonts.cpp" />
+    <ClCompile Include="ui\UIDebugFonts.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="ui\UIDialogWnd.cpp" />
     <ClCompile Include="ui\UIDiaryWnd2.cpp" />
     <ClCompile Include="ui\UIDragDropItem.cpp" />

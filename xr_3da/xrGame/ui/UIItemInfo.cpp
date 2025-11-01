@@ -113,6 +113,7 @@ void CUIItemInfo::InitItem(CInventoryItem* pInvItem)
 	TryAddWpnInfo(*pInvItem->object().cNameSect());
 	CUIStatic* pItem					= xr_new<CUIStatic>();
 	pItem->SetWidth						(UIDesc->GetDesiredChildWidth());
+	pItem->SetTextComplexMode			(true);
 	pItem->SetText						(*pInvItem->ItemDescription());
 	pItem->AdjustHeightToText			();
 	UIDesc->AddWindow					(pItem, true);

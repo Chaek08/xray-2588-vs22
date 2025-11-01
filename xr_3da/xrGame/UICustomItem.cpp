@@ -35,8 +35,11 @@ void CUICustomItem::Render(FVF::TL*& Pointer, const Fvector2& pos, u32 color,
 	Fvector2 LTp,RBp;
 	Fvector2 LTt,RBt;
 	//координаты на экране в пикселях
-	LTp.set			(pos.x+UI()->ClientToScreenScaledX(x1), pos.y+UI()->ClientToScreenScaledY(y1) );
-	RBp.set			(pos.x+UI()->ClientToScreenScaledX(x2), pos.y+UI()->ClientToScreenScaledY(y2) );
+	UI()->ClientToScreenScaled	(LTp, x1,y1);
+	LTp.add						(pos);
+
+	UI()->ClientToScreenScaled	(RBp, x2,y2);
+	RBp.add						(pos);
 
 	//текстурные координаты
 	LTt.set			( iOriginalRect.x1/ts.x, iOriginalRect.y1/ts.y);
@@ -73,6 +76,7 @@ void CUICustomItem::Render(FVF::TL*& Pointer, const Fvector2& pos, u32 color)
 
 void CUICustomItem::Render(FVF::TL*& Pointer, const Fvector2& pos, u32 color, float angle)
 {
+//.	angle = -0.3f;
 	CTexture* T		= RCache.get_ActiveTexture(0);
 	Fvector2		ts;
 	Fvector2		hp;
@@ -86,20 +90,25 @@ void CUICustomItem::Render(FVF::TL*& Pointer, const Fvector2& pos, u32 color, fl
 		uFlags		|= flValidOriginalRect;
 	}
 
-	Fvector2		pivot,offset,SZ;
-	SZ.set			(UI()->ClientToScreenScaledX(iVisRect.x2),UI()->ClientToScreenScaledY(iVisRect.y2));
-	float cosA		= _cos(angle);
-	float sinA		= _sin(angle);
+	Fvector2							pivot,offset,SZ;
+	SZ.set								(iVisRect.rb);
+
+//	UI()->ClientToScreenScaled			(SZ, iVisRect.x2, iVisRect.y2);
+
+	float cosA							= _cos(angle);
+	float sinA							= _sin(angle);
 
 	// Rotation
 	if(!(uFlags&flValidHeadingPivot))	pivot.set(iVisRect.x2/2.f, iVisRect.y2/2.f);
 	else								pivot.set(iHeadingPivot.x, iHeadingPivot.y);
-	pivot.x			= UI()->ClientToScreenScaledX( pivot.x );
-	pivot.y			= UI()->ClientToScreenScaledY( pivot.y );
-	offset.set		(pos.x,pos.y);
-	Fvector2		LTt,RBt;
-	LTt.set			(iOriginalRect.x1/ts.x+hp.x, iOriginalRect.y1/ts.y+hp.y);
-	RBt.set			(iOriginalRect.x2/ts.x+hp.x, iOriginalRect.y2/ts.y+hp.y);
+
+//.	UI()->ClientToScreenScaled			(pivot, pivot.x, pivot.y);
+	pivot.set							(pivot);
+	offset.set							(pos);
+
+	Fvector2							LTt,RBt;
+	LTt.set								(iOriginalRect.x1/ts.x+hp.x, iOriginalRect.y1/ts.y+hp.y);
+	RBt.set								(iOriginalRect.x2/ts.x+hp.x, iOriginalRect.y2/ts.y+hp.y);
 	// Check mirror mode
 	if (tmMirrorHorisontal == eMirrorMode || tmMirrorBoth == eMirrorMode)	std::swap	(LTt.x,RBt.x);
 	if (tmMirrorVertical == eMirrorMode || tmMirrorBoth == eMirrorMode)		std::swap	(LTt.y,RBt.y);
@@ -126,7 +135,11 @@ void CUICustomItem::Render(FVF::TL*& Pointer, const Fvector2& pos, u32 color, fl
 	sPoly2D* R		= UI()->ScreenFrustum().ClipPoly(S,D);
 	if (R&&R->size())
 		for (u32 k=0; k<R->size(); k++,Pointer++)
-			Pointer->set	((*R)[k].pt.x, (*R)[k].pt.y,	color, (*R)[k].uv.x, (*R)[k].uv.y); 
+		{
+			Fvector2 _pt;
+			UI()->ClientToScreenScaled			(_pt, (*R)[k].pt.x, (*R)[k].pt.y);
+			Pointer->set						(_pt.x, _pt.y,	color, (*R)[k].uv.x, (*R)[k].uv.y); 
+		}
 }
 
 Frect CUICustomItem::GetOriginalRectScaled()

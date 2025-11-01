@@ -17,13 +17,9 @@ struct CFontManager :public pureDeviceReset			{
 	void					Render					();
 
 	// hud font
-	CGameFont*				pFontSmall;
 	CGameFont*				pFontMedium;
 	CGameFont*				pFontDI;
-	//заголовочный шрифт
-	CGameFont*				pFontHeaderRussian;
-	CGameFont*				pFontHeaderEurope;
-	//шрифты для интерфейса
+
 	CGameFont*				pFontArial14;
 	CGameFont*				pFontGraffiti19Russian;
 	CGameFont*				pFontGraffiti22Russian;
@@ -71,7 +67,7 @@ public:
 
 
 	//устанвка внешнего вида прицела в зависимости от текущей дисперсии
-	void					SetCrosshairDisp	(float disp);
+	void					SetCrosshairDisp	(float dispf, float disps = 0.f);
 	void					ShowCrosshair		(bool show);
 
 	void					SetHitmarkType		(LPCSTR tex_name);

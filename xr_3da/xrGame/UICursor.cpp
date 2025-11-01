@@ -42,7 +42,7 @@ void CUICursor::OnRender	()
 	if(bDebug){
 	CGameFont* F		= UI()->Font()->pFontDI;
 	F->SetAligment		(CGameFont::alCenter);
-	F->SetSizeI			(0.02f);
+	F->SetHeightI		(0.02f);
 	F->OutSetI			(0.f,-0.9f);
 	F->SetColor			(0xffffffff);
 	Fvector2			pt = GetPos();
@@ -119,8 +119,8 @@ void CUICursor::MoveBy(float dx, float dy)
 {
 	vPrevPos = vPos;
 	Fvector2 vDelta;
-	vDelta.x = m_fSensitivity * dx / UI()->ClientToScreenScaledX( UI_BASE_WIDTH);
-	vDelta.y = m_fSensitivity * dy / UI()->ClientToScreenScaledY( UI_BASE_HEIGHT);
+	vDelta.x = m_fSensitivity * dx / Device.dwWidth;
+	vDelta.y = m_fSensitivity * dy / Device.dwHeight;
 
 	if(!bHoldMode){
 		vPos.x += vDelta.x;

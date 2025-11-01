@@ -445,8 +445,8 @@ void _InitializeFont(CGameFont*& F, LPCSTR section, u32 flags)
 
 	if (pSettings->line_exist(section,"size")){
 		float sz = pSettings->r_float(section,"size");
-		if (flags&CGameFont::fsDeviceIndependent)	F->SetSizeI(sz);
-		else										F->SetSize(sz);
+		if (flags&CGameFont::fsDeviceIndependent)	F->SetHeightI(sz);
+		else										F->SetHeight(sz);
 	}
 	if (pSettings->line_exist(section,"interval"))
 		F->SetInterval(pSettings->r_fvector2(section,"interval"));

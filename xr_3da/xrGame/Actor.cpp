@@ -803,7 +803,7 @@ void CActor::g_Physics			(Fvector& _accel, float jump, float dt)
 	bool new_border_state=character_physics_support()->movement()->isOutBorder();
 	if(m_bOutBorder!=new_border_state && Level().CurrentControlEntity() == this)
 	{
-		SwitchOutBorder(new_border_state);
+		//SwitchOutBorder(new_border_state);
 	}
 	character_physics_support()->movement()->GetPosition		(Position());
 	character_physics_support()->movement()->bSleep				=false;
@@ -1302,13 +1302,15 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	Device.mFullTransform.transform(v0r,v0);
 	Device.mFullTransform.transform(v1r,v1);
 	float size = v1r.distance_to(v0r);
-	float OldFontSize = HUD().Font().pFontDI->GetSize		();	
+	CGameFont* pFont = HUD().Font().pFontArial14;
+	if (!pFont) return;
+//	float OldFontSize = pFont->GetHeight	();	
 	float delta_up = 0.0f;
 	if (size < mid_size) delta_up = upsize;
 	else delta_up = upsize*(mid_size/size);
 	dpos.y += delta_up;
 	if (size > mid_size) size = mid_size;
-	float NewFontSize = size/mid_size * fontsize;
+//	float NewFontSize = size/mid_size * fontsize;
 	//------------------------------------------------
 	M.c.y += dpos.y;
 
@@ -1321,12 +1323,12 @@ void CActor::RenderText				(LPCSTR Text, Fvector dpos, float* pdup, u32 color)
 	float x = (1.f + v_res.x)/2.f * (Device.dwWidth);
 	float y = (1.f - v_res.y)/2.f * (Device.dwHeight);
 
-	HUD().Font().pFontDI->SetAligment	(CGameFont::alCenter);
-	HUD().Font().pFontDI->SetColor		(color);
-	HUD().Font().pFontDI->SetSize		(NewFontSize);
-	HUD().Font().pFontDI->Out			(x,y,Text);
+	pFont->SetAligment	(CGameFont::alCenter);
+	pFont->SetColor		(color);
+//	pFont->SetHeight	(NewFontSize);
+	pFont->Out			(x,y,Text);
 	//-------------------------------------------------
-	HUD().Font().pFontDI->SetSize(OldFontSize);
+//	pFont->SetHeight(OldFontSize);
 	*pdup = delta_up;
 };
 

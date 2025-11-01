@@ -76,12 +76,14 @@ void CUIStaticItem::Render		(const ref_shader& sh)
 	// convert&set pos
 	Fvector2		bp;
 	UI()->ClientToScreenScaled	(bp,float(iPos.x),float(iPos.y));
+	bp.x						= (float)iFloor(bp.x);
+	bp.y						= (float)iFloor(bp.y);
 
 	// actual rendering
 	u32							vOffset;
 	Fvector2					pos;
-	float fw					= UI()->ClientToScreenScaledX( iVisRect.x2 );
-	float fh					= UI()->ClientToScreenScaledY( iVisRect.y2 );
+	Fvector2					f_len;
+	UI()->ClientToScreenScaled	(f_len, iVisRect.x2, iVisRect.y2 );
 
 	int tile_x					= fis_zero(iRemX)?iTileX:iTileX+1;
 	int tile_y					= fis_zero(iRemY)?iTileY:iTileY+1;
@@ -92,8 +94,7 @@ void CUIStaticItem::Render		(const ref_shader& sh)
 	FVF::TL* pv					= start_pv;
 	for (x=0; x<tile_x; ++x){
 		for (y=0; y<tile_y; ++y){
-//			pos.set				(iCeil(bp.x+x*fw),iCeil(bp.y+y*fh));
-			pos.set				(bp.x+fw*x,bp.y+fh*y);
+			pos.set				(bp.x+f_len.x*x,bp.y+f_len.y*y);
 			inherited::Render	(pv,pos,dwColor);
 		}
 	}
@@ -120,8 +121,8 @@ void CUIStaticItem::Render(float angle, const ref_shader& sh)
 	if(alpha_ref!=-1)
 		CHK_DX(HW.pDevice->SetRenderState(D3DRS_ALPHAREF,alpha_ref));
 	// convert&set pos
-	Fvector2 bp;
-	UI()->ClientToScreenScaled	(bp, iPos.x, iPos.y);
+	Fvector2		bp;
+	bp.set		(iPos);
 	// actual rendering
 	u32		vOffset;
 	FVF::TL* start_pv			= (FVF::TL*)RCache.Vertex.Lock	(32,hGeom_fan.stride(),vOffset);

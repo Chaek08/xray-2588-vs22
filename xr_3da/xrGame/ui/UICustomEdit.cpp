@@ -191,7 +191,7 @@ bool CUICustomEdit::KeyPressed(int dik)
 void CUICustomEdit::AddChar(char c)
 {
 	int text_length;
-	text_length = (int)m_lines.GetFont()->SizeOfRel(m_lines.GetText());
+	text_length = (int)m_lines.GetFont()->SizeOf_(m_lines.GetText());
 	if (!m_lines.GetTextComplexMode() && (text_length>GetWidth() - 1))
             return;
 	m_lines.AddCharAtCursor(c);
@@ -246,11 +246,34 @@ void CUICustomEdit::Update()
 
 void  CUICustomEdit::Draw()
 {
-	CUIWindow::Draw();
+	CUIWindow::Draw			();
 	Fvector2 pos = GetAbsolutePos();
-	m_lines.Draw(pos.x + m_textPos.x, pos.y + m_textPos.y);
+	m_lines.Draw			(pos.x + m_textPos.x, pos.y + m_textPos.y);
+	
 	if(m_bInputFocus)
-		m_lines.DrawCursor(pos.x + m_textPos.x, pos.y + m_textPos.y);
+	{ //draw cursor here
+		Fvector2							outXY;
+		
+		outXY.x								= 0.0f;
+		float _h				= m_lines.m_pFont->CurrentHeight_();
+		UI()->ClientToScreenScaledHeight(_h);
+		outXY.y								= pos.y + (GetWndSize().y - _h)/2.0f;
+
+		float								_w_tmp;
+		int i								= m_lines.m_iCursorPos;
+		string256							buff;
+		strncpy								(buff,m_lines.m_text.c_str(),i);
+		buff[i]								= 0;
+		_w_tmp								= m_lines.m_pFont->SizeOf_(buff);
+		UI()->ClientToScreenScaledWidth		(_w_tmp);
+		outXY.x								= pos.x + _w_tmp;
+		
+		_w_tmp								= m_lines.m_pFont->SizeOf_("-");
+		UI()->ClientToScreenScaledWidth		(_w_tmp);
+		UI()->ClientToScreenScaled			(outXY);
+
+		m_lines.m_pFont->Out				(outXY.x, outXY.y, "_");
+	}
 }
 
 void CUICustomEdit::SetText(LPCSTR str)

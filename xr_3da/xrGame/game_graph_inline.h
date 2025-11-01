@@ -132,11 +132,15 @@ IC	const GameGraph::LEVEL_MAP &GameGraph::CHeader::levels			() const
 	return						(m_levels);
 }
 
-IC	const GameGraph::SLevel &GameGraph::CHeader::level				(const _LEVEL_ID &id) const
+IC const GameGraph::SLevel &GameGraph::CHeader::level(const _LEVEL_ID &id) const
 {
-	LEVEL_MAP::const_iterator	I = levels().find(id);
-	R_ASSERT2					(I != levels().end(),"There is no specified level in the game graph!");
-	return						((*I).second);
+    LEVEL_MAP::const_iterator I = levels().find(id);
+    if (I == levels().end()) {
+        Msg("! GameGraph::level: id [%d] not found!", id);
+        static GameGraph::SLevel dummy = {};
+        return dummy;
+    }
+    return ((*I).second);
 }
 
 IC	const GameGraph::SLevel &GameGraph::CHeader::level				(LPCSTR level_name) const

@@ -210,6 +210,10 @@ bool CUIXmlInit::InitStatic(CUIXml& xml_doc, LPCSTR path,
 		pWnd->ClipperOn();
 	else
 		pWnd->ClipperOff();
+
+	bool bComplexMode = xml_doc.ReadAttribInt(path, index, "complex_mode", 0) ? true : false;
+	if (bComplexMode)
+		pWnd->SetTextComplexMode(bComplexMode);
 	
 	return true;
 }
@@ -497,9 +501,6 @@ bool CUIXmlInit::InitListWnd(CUIXml& xml_doc, LPCSTR path,
 	}
 
 
-	float ri = xml_doc.ReadAttribFlt	(path, index, "right_ident", 0.0f);
-	pWnd->SetRightIndention				( UI()->ClientToScreenScaledX( ri ) );
-
 	bool bVertFlip						= (1==xml_doc.ReadAttribInt	(path, index, "flip_vert", 0));
 	pWnd->SetVertFlip					(bVertFlip);
 
@@ -650,11 +651,7 @@ bool CUIXmlInit::InitFont(CUIXml &xml_doc, LPCSTR path, int index, u32 &color, C
 
 	if(*font_name)
 	{
-		if(!xr_strcmp(*font_name, HEADER_FONT_NAME))
-		{
-			pFnt = UI()->Font()->pFontHeaderRussian;
-		}
-		else if(!xr_strcmp(*font_name, NORMAL_FONT_NAME) || !xr_strcmp(*font_name, GRAFFITI19_FONT_NAME))
+		if (!xr_strcmp(*font_name, NORMAL_FONT_NAME) || !xr_strcmp(*font_name, GRAFFITI19_FONT_NAME))
 		{
 			pFnt = UI()->Font()->pFontGraffiti19Russian;
 		}
@@ -677,10 +674,6 @@ bool CUIXmlInit::InitFont(CUIXml &xml_doc, LPCSTR path, int index, u32 &color, C
 		else if(!xr_strcmp(*font_name, MEDIUM_FONT_NAME))
 		{
 			pFnt = UI()->Font()->pFontMedium;
-		}
-		else if(!xr_strcmp(*font_name, SMALL_FONT_NAME))
-		{
-			pFnt = UI()->Font()->pFontSmall;
 		}
 		else if(!xr_strcmp(*font_name, LETTERICA16_FONT_NAME))
 		{
@@ -1245,6 +1238,7 @@ bool CUIXmlInit::InitScrollView	(CUIXml& xml_doc, const char* path, int index, C
 	{
 		newStatic = xr_new<CUIStatic>();
 		InitText(xml_doc, "text", i, newStatic);
+		newStatic->SetTextComplexMode(true);
 		newStatic->SetWidth(pWnd->GetDesiredChildWidth());
 		newStatic->AdjustHeightToText();
 		pWnd->AddWindow(newStatic, true);
