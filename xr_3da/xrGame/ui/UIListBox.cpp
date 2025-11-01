@@ -323,18 +323,20 @@ ETextAlignment CUIListBox::GetTextAlignment(){
 	return m_text_al;
 }
 
-float CUIListBox::GetLongestLength(){
+float CUIListBox::GetLongestLength()
+{
 	float len = 0;
 	for(WINDOW_LIST_it it = m_pad->GetChildWndList().begin(); m_pad->GetChildWndList().end()!=it; ++it)
 	{
 		CUIListBoxItem* item = smart_cast<CUIListBoxItem*>(*it);
 		if (item)
 		{
-			float tmp_len = item->GetFont()->SizeOf_(item->GetText());
+			float tmp_len = item->GetFont()->SizeOf_(item->GetText()); //all ok
+			UI()->ClientToScreenScaledWidth(tmp_len);
+
 			if (tmp_len > len)
 				len = tmp_len;
 		}
-		
 	}
 	return len;
 }
