@@ -142,6 +142,7 @@
       <ExceptionHandling />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
@@ -281,9 +282,13 @@
     <ClCompile Include="memory_alloc_xr.cpp" />
     <ClCompile Include="memory_usage.cpp" />
     <ClCompile Include="rt_compressor.cpp" />
-    <ClCompile Include="rt_lzo.cpp">
-      <AssemblerOutput Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">AssemblyAndSourceCode</AssemblerOutput>
-    </ClCompile>
+    <ClCompile Include="rt_compressor9.cpp" />
+    <ClCompile Include="rt_lzo1x_1.cpp" />
+    <ClCompile Include="rt_lzo1x_9x.cpp" />
+    <ClCompile Include="rt_lzo1x_d1.cpp" />
+    <ClCompile Include="rt_lzo1x_d2.cpp" />
+    <ClCompile Include="rt_lzo1x_d3.cpp" />
+    <ClCompile Include="rt_lzo_init.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugNoExceptions|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -349,8 +354,15 @@
     <ClInclude Include="memory_alloc_xr.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rt_compressor.h" />
-    <ClInclude Include="rt_lzo.h" />
+    <ClInclude Include="rt_config1x.h" />
+    <ClInclude Include="rt_lzo1x.h" />
+    <ClInclude Include="rt_lzo_conf.h" />
     <ClInclude Include="rt_lzo_config.h" />
+    <ClInclude Include="rt_lzo_dict.h" />
+    <ClInclude Include="rt_lzo_ptr.h" />
+    <ClInclude Include="rt_lzoconf.h" />
+    <ClInclude Include="rt_lzodefs.h" />
+    <ClInclude Include="rt_miniacc.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stream_reader.h" />
     <ClInclude Include="stream_reader_inline.h" />

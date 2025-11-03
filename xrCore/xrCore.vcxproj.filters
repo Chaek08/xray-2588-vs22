@@ -123,9 +123,6 @@
     <ClCompile Include="rt_compressor.cpp">
       <Filter>Compression</Filter>
     </ClCompile>
-    <ClCompile Include="rt_lzo.cpp">
-      <Filter>Compression</Filter>
-    </ClCompile>
     <ClCompile Include="crc32.cpp">
       <Filter>shared memory/string library</Filter>
     </ClCompile>
@@ -157,6 +154,13 @@
     <ClCompile Include="memory_usage.cpp">
       <Filter>Memory manager</Filter>
     </ClCompile>
+    <ClCompile Include="rt_compressor9.cpp" />
+    <ClCompile Include="rt_lzo1x_1.cpp" />
+    <ClCompile Include="rt_lzo1x_9x.cpp" />
+    <ClCompile Include="rt_lzo1x_d1.cpp" />
+    <ClCompile Include="rt_lzo1x_d2.cpp" />
+    <ClCompile Include="rt_lzo1x_d3.cpp" />
+    <ClCompile Include="rt_lzo_init.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FTimer.h">
@@ -321,9 +325,6 @@
     <ClInclude Include="rt_compressor.h">
       <Filter>Compression</Filter>
     </ClInclude>
-    <ClInclude Include="rt_lzo.h">
-      <Filter>Compression</Filter>
-    </ClInclude>
     <ClInclude Include="rt_lzo_config.h">
       <Filter>Compression</Filter>
     </ClInclude>
@@ -361,6 +362,14 @@
     <ClInclude Include="memory_alloc_xr.h">
       <Filter>Memory manager</Filter>
     </ClInclude>
+    <ClInclude Include="rt_config1x.h" />
+    <ClInclude Include="rt_lzo1x.h" />
+    <ClInclude Include="rt_lzo_conf.h" />
+    <ClInclude Include="rt_lzo_dict.h" />
+    <ClInclude Include="rt_lzo_ptr.h" />
+    <ClInclude Include="rt_lzoconf.h" />
+    <ClInclude Include="rt_lzodefs.h" />
+    <ClInclude Include="rt_miniacc.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="xrCore.rc">

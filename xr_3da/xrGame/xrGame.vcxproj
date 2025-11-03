@@ -189,7 +189,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Mixed/xrGame.map</MapFileName>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration)\lib;$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;$(SolutionDir)\Release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
