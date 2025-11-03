@@ -805,7 +805,7 @@ void CApplication::Level_Scan()
 	folder									= FS.file_list_open		("$game_levels$","$debug$\\",FS_ListFolders|FS_RootOnly);
 	if (folder){
 		string_path	tmp_path;
-		for (u32 i=0; i<folder->size(); i++)Level_Append(strconcat(tmp_path,"$debug$\\",(*folder)[i]));
+		for (u32 i=0; i<folder->size(); i++)Level_Append(xr_strconcat(tmp_path,"$debug$\\",(*folder)[i]));
 		FS.file_list_close	(folder);
 	}
 #endif

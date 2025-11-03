@@ -12,9 +12,6 @@ str_value*	str_container::dock		(str_c value)
 	if (0==value)				return 0;
 
 	cs.Enter					();
-#ifdef DEBUG
-	Memory.stat_strdock			++	;
-#endif
 
 	str_value*	result			= 0	;
 
@@ -47,11 +44,7 @@ str_value*	str_container::dock		(str_c value)
 	// it may be the case, string is not fount or has "non-exact" match
 	if (0==result)				{
 		// Insert string
-		result					= (str_value*)Memory.mem_alloc(HEADER+s_len_with_zero
-#ifdef DEBUG
-			, "storage: sstring"
-#endif
-			);
+		result					= (str_value*)Memory.mem_alloc(HEADER+s_len_with_zero);
 		result->dwReference		= 0;
 		result->dwLength		= sv->dwLength;
 		result->dwCRC			= sv->dwCRC;

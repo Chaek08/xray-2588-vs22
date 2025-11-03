@@ -1752,7 +1752,7 @@ void CUIBuyWeaponWnd::FillItemInfo(CUIDragDropItemMP *pDDItemMP)
 
 				sprintf(tex_name, "ui_hud_status_%s_0%d", team, pDDItemMP->m_iRank+1);
 				
-				//strconcat(tex_name,"ui_hud_status_",itoa(pDDItemMP->m_iRank,foo,10));
+				//xr_strconcat(tex_name,"ui_hud_status_",itoa(pDDItemMP->m_iRank,foo,10));
 				UIDescRankIcon.InitTexture(tex_name);
 			}
 

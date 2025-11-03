@@ -130,7 +130,7 @@ float CPatternFunction::ffGetValue()
 		float value = ffEvaluate();
 		char caString[256];
 		int j = sprintf(caString,"%32s (",m_caName);
-		for ( i=0; i<m_dwVariableCount; ++i)
+		for (int i=0; i<m_dwVariableCount; ++i)
 			j += sprintf(caString + j," %3d",m_dwaVariableValues[i] + 1);
 		sprintf(caString + j,") = %7.2f",value);
 		Msg("- %s",caString);

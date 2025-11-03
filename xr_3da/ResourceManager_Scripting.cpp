@@ -12,11 +12,7 @@
 
 using namespace				luabind;
 
-#ifdef	DEBUG
-#define MDB	Memory.dbg_check()
-#else
 #define MDB
-#endif
 
 // wrapper
 class	adopt_sampler

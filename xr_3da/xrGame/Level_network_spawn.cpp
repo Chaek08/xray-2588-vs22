@@ -68,7 +68,7 @@ void CLevel::g_cl_Spawn		(LPCSTR name, u8 rp, u16 flags, Fvector pos)
 }
 
 #ifdef DEBUG
-XRCORE_API	BOOL	g_bMEMO;
+BOOL	g_bMEMO;
 #endif
 
 void CLevel::g_sv_Spawn		(CSE_Abstract* E)

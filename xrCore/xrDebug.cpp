@@ -27,10 +27,6 @@ static BOOL         bException = FALSE;
 #endif
 #endif
 
-extern "C" int __vsnwprintf(wchar_t* buffer, size_t count, const wchar_t* format, va_list argptr) {
-    return _vsnwprintf(buffer, count, format, argptr);
-}
-
 XRCORE_API xrDebug   Debug;
 
 static const char* dlgExpr = NULL;

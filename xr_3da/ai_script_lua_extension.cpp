@@ -107,7 +107,7 @@ void Script::vfLoadStandardScripts(CLuaVirtualMachine *tpLuaVM)
 	u32				caNamespaceName = _GetItemCount(caScriptString);
 	string256		I;
 	for (u32 i=0; i<caNamespaceName; ++i) {
-		FS.update_path(S,"$game_scripts$",strconcat(S1,_GetItem(caScriptString,i,I),".script"));
+		FS.update_path(S,"$game_scripts$",xr_strconcat(S1,_GetItem(caScriptString,i,I),".script"));
 		bfLoadFile	(tpLuaVM,S,true);
 		if (bfIsObjectPresent(tpLuaVM,"_G",strcat(I,"_initialize"),LUA_TFUNCTION))
 			lua_dostring(tpLuaVM,strcat(I,"()"));

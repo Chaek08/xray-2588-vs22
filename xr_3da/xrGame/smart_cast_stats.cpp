@@ -90,12 +90,16 @@ IC	CSmartCastStats	&stats_all					()
 
 IC	void CSmartCastStats::add					(LPCSTR from, LPCSTR to)
 {
-	CStats					temp(from,to,1);
-	STATS::iterator			I = m_stats.find(temp);
-	if (I == m_stats.end())
-		m_stats.insert		(temp);
-	else
-		++(*I).m_count;
+    CStats k(from, to, 1);
+    auto it = m_stats.find(k);
+    if (it == m_stats.end()) {
+        m_stats.insert(std::move(k));
+    } else {
+        CStats updated = *it;
+        m_stats.erase(it);
+        ++updated.m_count;
+        m_stats.insert(std::move(updated));
+    }
 }
 
 IC	void CSmartCastStats::clear					()

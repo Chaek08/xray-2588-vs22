@@ -516,7 +516,7 @@ void CActor::g_SetAnimation( u32 mstate_rl )
 		if (mstate_rl&mcLLookout)	strcat(buf,"LLookout ");
 		if (mstate_rl&mcRLookout)	strcat(buf,"RLookout ");
 		if (m_bJumpKeyPressed)		strcat(buf,"+Jumping ");
-		HUD().Font().pFontSmall->OutNext	("MSTATE:     [%s]",buf);
+		HUD().Font().pFontStat->OutNext	("MSTATE:     [%s]",buf);
 		//	if (buf[0]) 
 		//		Msg("%s",buf);
 		switch (m_PhysicMovementControl->Environment())
@@ -525,10 +525,10 @@ void CActor::g_SetAnimation( u32 mstate_rl )
 		case CPHMovementControl::peInAir:		strcpy(buf,"air");				break;
 		case CPHMovementControl::peAtWall:		strcpy(buf,"wall");				break;
 		}
-		HUD().Font().pFontSmall->OutNext	(buf);
-		HUD().Font().pFontSmall->OutNext	("Accel     [%3.2f, %3.2f, %3.2f]",VPUSH(NET_SavedAccel));
-		HUD().Font().pFontSmall->OutNext	("V         [%3.2f, %3.2f, %3.2f]",VPUSH(m_PhysicMovementControl->GetVelocity()));
-		HUD().Font().pFontSmall->OutNext	("vertex ID   %d",ai_location().level_vertex_id());
+		HUD().Font().pFontStat->OutNext	(buf);
+		HUD().Font().pFontStat->OutNext	("Accel     [%3.2f, %3.2f, %3.2f]",VPUSH(NET_SavedAccel));
+		HUD().Font().pFontStat->OutNext	("V         [%3.2f, %3.2f, %3.2f]",VPUSH(m_PhysicMovementControl->GetVelocity()));
+		HUD().Font().pFontStat->OutNext	("vertex ID   %d",ai_location().level_vertex_id());
 		
 		strcpy(buf,"");
 		if (m_iCurWeaponHideState & whs_INVENTORY_MENU		) strcat(buf, "INVENTORY_MENU ");
@@ -536,7 +536,7 @@ void CActor::g_SetAnimation( u32 mstate_rl )
 		if (m_iCurWeaponHideState & whs_ON_LEDDER			) strcat(buf, "ON_LEDDER ");
 		if (m_iCurWeaponHideState & whs_SPRINT				) strcat(buf, "SPRINT ");
 		if (m_iCurWeaponHideState & whs_CAR					) strcat(buf, "CAR ");
-		HUD().Font().pFontSmall->OutNext	("WeaponHideState:     [%s]",buf);
+		HUD().Font().pFontStat->OutNext	("WeaponHideState:     [%s]",buf);
 
 		//-------------------------------------------------------
 		Game().m_WeaponUsageStatistic.Draw();
