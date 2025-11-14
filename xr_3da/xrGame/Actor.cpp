@@ -1025,7 +1025,9 @@ void CActor::shedule_Update	(u32 DT)
 		mstate_wishful &=~mcRLookout;
 		mstate_wishful &=~mcFwd;
 		mstate_wishful &=~mcBack;
-		mstate_wishful &=~mcCrouch;
+		extern bool g_bAutoClearCrouch;
+		if (g_bAutoClearCrouch)
+			mstate_wishful &= ~mcCrouch;
 		//-----------------------------------------------------
 		}
 	}
