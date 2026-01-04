@@ -41,10 +41,13 @@ CLocatorAPI::~CLocatorAPI()
 
 void CLocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
 {
+	char _delimiter = '|'; //','
 	if (m_Flags.is(flReady))return;
 
 	Log				("Initializing File System...");
 	m_Flags.set		(flags,TRUE);
+
+	append_path	("$fs_root$", "", 0, FALSE);
 
 	// append application path
 
@@ -68,14 +71,14 @@ void CLocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
 			_GetItem(buf,0,id,'=');
 			if (id[0]==';') continue;
 			_GetItem(buf,1,temp,'=');
-			int cnt		= _GetItemCount(temp);  R_ASSERT(cnt>=3);
+			int cnt		= _GetItemCount(temp,_delimiter);  R_ASSERT(cnt>=3);
 			u32 fl		= 0;
-			_GetItem	(temp,0,b_v);	if (CInifile::IsBOOL(b_v)) fl |= FS_Path::flRecurse;
-			_GetItem	(temp,1,b_v);	if (CInifile::IsBOOL(b_v)) fl |= FS_Path::flNotif;
-			_GetItem	(temp,2,root);
-			_GetItem	(temp,3,add);
-			_GetItem	(temp,4,def);
-			_GetItem	(temp,5,capt);
+			_GetItem	(temp,0,b_v,_delimiter);	if (CInifile::IsBOOL(b_v)) fl |= FS_Path::flRecurse;
+			_GetItem	(temp,1,b_v,_delimiter);	if (CInifile::IsBOOL(b_v)) fl |= FS_Path::flNotif;
+			_GetItem	(temp,2,root,_delimiter);
+			_GetItem	(temp,3,add,_delimiter);
+			_GetItem	(temp,4,def,_delimiter);
+			_GetItem	(temp,5,capt,_delimiter);
 			xr_strlwr	(id);			if (!m_Flags.is(flBuildCopy)&&(0==xr_strcmp(id,"$build_copy$"))) continue;
 			xr_strlwr	(root);
 			lp_add		=(cnt>=4)?xr_strlwr(add):0;
@@ -111,7 +114,7 @@ void CLocatorAPI::_destroy		()
 BOOL CLocatorAPI::file_find(LPCSTR full_name, FS_File& f)
 {
     intptr_t		hFile;
-    _finddata_t		sFile;
+    _FINDDATA_T		sFile;
 	// find all files    
 	if (-1!=(hFile=_findfirst((LPSTR)full_name, &sFile))){
     	f			= FS_File(sFile);
@@ -134,20 +137,25 @@ BOOL CLocatorAPI::exist			(const char* path, const char* name)
 	return exist	(temp);
 }
 
-BOOL CLocatorAPI::exist			(char* fn, const char* path, const char* name)
+BOOL CLocatorAPI::exist			(string_path& fn, const char* path, const char* name)
 {
     update_path		(fn,path,name);
 	return exist	(fn);
 }
 
-BOOL CLocatorAPI::exist			(char* fn, const char* path, const char* name, const char* ext)
+BOOL CLocatorAPI::exist			(string_path& fn, const char* path, const char* name, const char* ext)
 {
 	string_path 	nm;
-	strconcat		(nm,name,ext);
+	strconcat		(sizeof(nm),nm,name,ext);
     update_path		(fn,path,nm);
 	return exist	(fn);
 }
 
+bool ignore_name(const char* _name)
+{
+	// ignore processing ".svn" folders
+	return ( _name[0]=='.' && _name[1]=='s' && _name[2]=='v' && _name[3]=='n' && _name[4]==0) ;
+}
 
 typedef void	(__stdcall * TOnFind)	(_finddata_t&, void*);
 void Recurse	(LPCSTR, bool, TOnFind, void*);
@@ -157,7 +165,9 @@ void ProcessOne	(LPCSTR path, _finddata_t& F, bool root_only, TOnFind on_find_cb
 	strcpy		(N,path);
 	strcat		(N,F.name);
 	xr_strlwr	(N);
-	
+
+	if (ignore_name(N))					return;
+    
 	if (F.attrib&_A_HIDDEN)				return;
 
 	if (F.attrib&_A_SUBDIR) {
@@ -234,21 +244,23 @@ int CLocatorAPI::file_list(FS_FileSet& dest, LPCSTR path, u32 flags, LPCSTR mask
 	R_ASSERT		(path);
 	VERIFY			(flags);
                
-	xr_string		fpath;
-	if (path_exist(path))	update_path(fpath,path,"");
-    else					fpath=path;
+	string_path		fpath;
+	if (path_exist(path))
+    	update_path	(fpath,path,"");
+    else
+    	strcpy(fpath,path);
 
     // build mask
 	SStringVec 		masks;
 	_SequenceToList	(masks,mask);
 
     file_list_cb_data data;
-    data.base_len	= fpath.size();
+    data.base_len	= xr_strlen(fpath);
     data.flags		= flags;
     data.masks		= masks.empty()?0:&masks;
     data.dest		= &dest;
 
-    Recurse			(fpath.c_str(),!!(flags&FS_RootOnly),file_list_cb,&data);
+    Recurse			(fpath,!!(flags&FS_RootOnly),file_list_cb,&data);
 	return dest.size();
 }
 
@@ -328,7 +340,7 @@ IReader* CLocatorAPI::r_open	(LPCSTR path, LPCSTR _fname)
             }
 		}
 	}
-#endif
+#endif // DEBUG
 	return R;
 }
 
@@ -385,9 +397,11 @@ void __stdcall dir_delete_cb(_finddata_t& entry, void* data)
 
 BOOL CLocatorAPI::dir_delete(LPCSTR initial, LPCSTR nm, BOOL remove_files)
 {
-	xr_string			fpath;
-	if (initial&&initial[0])update_path	(fpath,initial,nm);
-    else					fpath		= nm;
+	string_path			fpath;
+	if (initial&&initial[0])
+    	update_path	(fpath,initial,nm);
+    else
+    	strcpy		(fpath,nm);
 
     FS_FileSet 			folders;
     folders.insert		(FS_File(fpath));
@@ -396,7 +410,7 @@ BOOL CLocatorAPI::dir_delete(LPCSTR initial, LPCSTR nm, BOOL remove_files)
     dir_delete_cb_data	data;
 	data.folders		= &folders;
     data.remove_files	= remove_files;
-    Recurse				(fpath.c_str(),false,dir_delete_cb,&data);
+    Recurse				(fpath,false,dir_delete_cb,&data);
 
     // remove folders
     FS_FileSet::reverse_iterator r_it = folders.rbegin();
@@ -407,10 +421,12 @@ BOOL CLocatorAPI::dir_delete(LPCSTR initial, LPCSTR nm, BOOL remove_files)
 
 void CLocatorAPI::file_delete(LPCSTR path, LPCSTR nm)
 {
-	xr_string	fname;
-	if (path&&path[0]) 	update_path	(fname,path,nm);
-    else				fname		= nm;
-    unlink				(fname.c_str());
+	string_path	fname;
+	if (path&&path[0])
+    	update_path	(fname,path,nm);
+    else
+    	strcpy		(fname,nm);
+    unlink			(fname);
 }
 
 void CLocatorAPI::file_copy(LPCSTR src, LPCSTR dest)
@@ -450,7 +466,7 @@ BOOL CLocatorAPI::path_exist(LPCSTR path)
 
 FS_Path* CLocatorAPI::append_path(LPCSTR path_alias, LPCSTR root, LPCSTR add, BOOL recursive)
 {
-	VERIFY			(root&&root[0]);
+	VERIFY			(root/*&&root[0]*/);
 	VERIFY			(false==path_exist(path_alias));
 	FS_Path* P		= xr_new<FS_Path>(root,add,LPCSTR(0),LPCSTR(0),0);
 	pathes.insert	(mk_pair(xr_strdup(path_alias),P));
@@ -464,15 +480,15 @@ FS_Path* CLocatorAPI::get_path(LPCSTR path)
     return P->second;
 }
 
-LPCSTR CLocatorAPI::update_path(LPSTR dest, LPCSTR initial, LPCSTR src)
+LPCSTR CLocatorAPI::update_path(string_path& dest, LPCSTR initial, LPCSTR src)
 {
     return get_path(initial)->_update(dest,src);
 }
-
+/*
 void CLocatorAPI::update_path(xr_string& dest, LPCSTR initial, LPCSTR src)
 {
     return get_path(initial)->_update(dest,src);
-}
+} */
 
 time_t CLocatorAPI::get_file_age(LPCSTR nm)
 {
@@ -495,7 +511,7 @@ BOOL CLocatorAPI::can_write_to_folder(LPCSTR path)
 	if (path&&path[0]){
 		string_path		temp;       
         LPCSTR fn		= "$!#%TEMP%#!$.$$$";
-	    strconcat		(temp,path,path[xr_strlen(path)-1]!='\\'?"\\":"",fn);
+	    strconcat		(sizeof(temp),temp,path,path[xr_strlen(path)-1]!='\\'?"\\":"",fn);
 		FILE* hf		= fopen	(temp, "wb");
 		if (hf==0)		return FALSE;
         else{
@@ -532,4 +548,3 @@ BOOL CLocatorAPI::can_modify_file(LPCSTR path, LPCSTR name)
     update_path			(temp,path,name);
 	return can_modify_file(temp);
 }
-

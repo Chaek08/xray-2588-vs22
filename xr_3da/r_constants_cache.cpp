@@ -33,7 +33,7 @@ void R_constants::flush_cache()
 #ifdef DEBUG
 				if (F.r_hi() > HW.Caps.geometry.dwRegisters)
 				{
-					Debug.fatal("Internal error setting VS-constants: overflow\nregs[%d],hi[%d]",
+					FATAL("Internal error setting VS-constants: overflow\nregs[%d],hi[%d]",
 						HW.Caps.geometry.dwRegisters,F.r_hi()
 						);
 				}

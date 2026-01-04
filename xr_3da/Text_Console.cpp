@@ -212,21 +212,23 @@ void	CTextConsole::DrawLog(HDC hDC)
 	INT Height = wRC.bottom - wRC.top;
 	//---------------------------------------------------------------------------------
 	char		buf	[MAX_LEN+5];
-	strcpy		(buf,ioc_prompt);
+	strcpy_s		(buf,ioc_prompt);
 	strcat		(buf,editor);
-	if (bCursor) strcat(buf,"|");
-	SetTextColor(hDC, RGB(128, 128, 255));
-	TextOut(hDC, 0, Height-tm.tmHeight, buf, xr_strlen(buf));
+	//if (bCursor) 
+		strcat(buf,"|");
 
-	INT YPos = Height - tm.tmHeight - tm.tmHeight;
-	for (int i=LogFile.size()-1-scroll_delta; i>=0; i--) 
+	SetTextColor(hDC, RGB(128, 128, 255));
+	TextOut( hDC, 0, Height-tm.tmHeight, buf, xr_strlen(buf) );
+
+	int YPos = Height - tm.tmHeight - tm.tmHeight;
+	for ( int i = LogFile->size() - 1 - scroll_delta; i >= 0; i-- ) 
 	{
 		YPos-=tm.tmHeight;
 		if (YPos<0)	break;
-		LPCSTR Str = *LogFile[i];
+		LPCSTR Str = *(*LogFile)[i];
 		LPCSTR pOut = Str;
-		if (!Str) continue;
-		switch (Str[0])
+		if ( !Str ) continue;
+		switch ( Str[0] )
 		{
 		case '~':
 			SetTextColor(hDC, RGB(0, 0, 255));
@@ -248,8 +250,8 @@ void	CTextConsole::DrawLog(HDC hDC)
 			SetTextColor(hDC, RGB(255, 255, 255));
 			break;
 		}
-		BOOL res = TextOut(hDC, 0, YPos, pOut,xr_strlen(pOut));
-		if (!res)
+		BOOL res = TextOut( hDC, 10, YPos, pOut, xr_strlen(pOut) );
+		if ( !res )
 		{
 			R_ASSERT(0);
 		}

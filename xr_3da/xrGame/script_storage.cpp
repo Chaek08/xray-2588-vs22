@@ -53,29 +53,6 @@ LPCSTR	file_header = 0;
 #	include "script_debugger.h"
 #endif
 
-static void *lua_alloc_xr	(void *ud, void *ptr, size_t osize, size_t nsize) {
-  (void)ud;
-  (void)osize;
-  if (nsize == 0) {
-    xr_free	(ptr);
-    return	NULL;
-  }
-  else
-  return Memory.mem_realloc		(ptr, nsize);
-}
-
-extern "C"	{
-	void*	dlrealloc(void*, size_t);
-	void	dlfree(void*);
-};
-
-static void *lua_alloc_dl	(void *ud, void *ptr, size_t osize, size_t nsize) {
-  (void)ud;
-  (void)osize;
-  if (nsize == 0)	{	dlfree			(ptr);	 return	NULL;  }
-  else				return dlrealloc	(ptr, nsize);
-}
-
 CScriptStorage::CScriptStorage		()
 {
 	m_current_thread		= 0;
@@ -83,8 +60,7 @@ CScriptStorage::CScriptStorage		()
 	m_stack_is_ready		= false;
 #endif
 	m_virtual_machine		= 0;
-//	m_virtual_machine		= lua_newstate(lua_alloc_dl, NULL);		// switch to lua_alloc_XR - to track memory consumption
-	m_virtual_machine		= lua_newstate(lua_alloc_xr, NULL);		// switch to lua_alloc_XR - to track memory consumption
+	m_virtual_machine		= lua_open();
 	if (!m_virtual_machine) {
 		Msg					("! ERROR : Cannot initialize script virtual machine!");
 		return				;
@@ -130,7 +106,7 @@ int CScriptStorage::vscript_log			(ScriptStorage::ELuaMessageType tLuaMessageTyp
 
 #ifndef DEBUG
 	return		(0);
-#else
+#else // DEBUG
 
 	LPCSTR		S = "", SS = "";
 	LPSTR		S1;
@@ -190,8 +166,10 @@ int CScriptStorage::vscript_log			(ScriptStorage::ELuaMessageType tLuaMessageTyp
 	strcat	(S2,"\r\n");
 
 #ifndef ENGINE_BUILD
-	ai().script_engine().m_output.w(S2,xr_strlen(S2)*sizeof(char));
-#endif
+#	ifdef DEBUG
+		ai().script_engine().m_output.w(S2,xr_strlen(S2)*sizeof(char));
+#	endif // DEBUG
+#endif // DEBUG
 
 	return	(l_iResult);
 #endif
@@ -284,7 +262,7 @@ bool CScriptStorage::load_buffer	(CLuaVirtualMachine *L, LPCSTR caBuffer, size_t
 
 		if (!parse_namespace(caNameSpaceName,a,b))
 			return		(false);
-		sprintf			(insert,header,caNameSpaceName,a,b);
+		sprintf_s			(insert,header,caNameSpaceName,a,b);
 		u32				str_len = xr_strlen(insert);
 		LPSTR			script = xr_alloc<char>(str_len + tSize);
 		strcpy			(script,insert);
@@ -320,13 +298,13 @@ bool CScriptStorage::load_buffer	(CLuaVirtualMachine *L, LPCSTR caBuffer, size_t
 bool CScriptStorage::do_file	(LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
 	int				start = lua_gettop(lua());
-	string256		l_caLuaFileName;
+	string_path		l_caLuaFileName;
 	IReader			*l_tpFileReader = FS.r_open(caScriptName);
 	if (!l_tpFileReader) {
 		script_log	(eLuaMessageTypeError,"Cannot open file \"%s\"",caScriptName);
 		return		(false);
 	}
-	xr_strconcat		(l_caLuaFileName,"@",caScriptName);
+	strconcat		(sizeof(l_caLuaFileName),l_caLuaFileName,"@",caScriptName);
 	
 	if (!load_buffer(lua(),static_cast<LPCSTR>(l_tpFileReader->pointer()),(size_t)l_tpFileReader->length(),l_caLuaFileName,caNameSpaceName)) {
 //		VERIFY		(lua_gettop(lua()) >= 4);
@@ -410,7 +388,7 @@ bool CScriptStorage::namespace_loaded(LPCSTR N, bool remove_from_stack)
 				VERIFY		(lua_gettop(lua()) >= 1);
 				lua_pop		(lua(),1); 
 				VERIFY		(start == lua_gettop(lua()));
-				Debug.fatal	(" Error : the namespace name is already being used by the non-table object!\n");
+				FATAL		(" Error : the namespace name is already being used by the non-table object!\n");
 				return		(false); 
 			} 
 			lua_remove		(lua(),-2); 
@@ -542,10 +520,12 @@ void CScriptStorage::print_error(CLuaVirtualMachine *L, int iErrorCode)
 	}
 }
 
+#ifdef DEBUG
 void CScriptStorage::flush_log()
 {
 	string_path			log_file_name;
-	xr_strconcat           (log_file_name,Core.ApplicationName,"_",Core.UserName,"_lua.log");
+	strconcat           (sizeof(log_file_name),log_file_name,Core.ApplicationName,"_",Core.UserName,"_lua.log");
 	FS.update_path      (log_file_name,"$logs$",log_file_name);
 	m_output.save_to	(log_file_name);
 }
+#endif // DEBUG

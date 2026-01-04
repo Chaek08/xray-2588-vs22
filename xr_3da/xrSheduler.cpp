@@ -29,8 +29,8 @@ void CSheduler::Destroy			()
 	{
 		string1024		_objects; _objects[0]=0;
 		for (u32 it=0; it<Items.size(); it++)
-		 xr_strconcat	(_objects,*Items[it].Object->shedule_Name(),",");
-		Debug.fatal		("Sheduler work-list is not empty\n%s",_objects);
+		strconcat	(sizeof(_objects), _objects,*Items[it].Object->shedule_Name(),",");
+		Debug.fatal		(DEBUG_INFO, "Sheduler work-list is not empty\n%s",_objects);
 	}
 #endif
 	ItemsRT.clear		();

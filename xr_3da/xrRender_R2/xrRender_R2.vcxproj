@@ -330,6 +330,7 @@
     <ClInclude Include="DetailFormat.h" />
     <ClInclude Include="DetailManager.h" />
     <ClInclude Include="DetailModel.h" />
+    <ClInclude Include="doug_lea_memory_allocator.h" />
     <ClInclude Include="du_sphere_part.h" />
     <ClInclude Include="FLOD.h" />
     <ClInclude Include="FProgressive.h" />
@@ -397,6 +398,12 @@
     <ClCompile Include="DetailManager_soft.cpp" />
     <ClCompile Include="DetailManager_VS.cpp" />
     <ClCompile Include="DetailModel.cpp" />
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="du_sphere_part.cpp" />
     <ClCompile Include="FLOD.cpp" />
     <ClCompile Include="FProgressive.cpp" />

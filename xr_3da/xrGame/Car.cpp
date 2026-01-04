@@ -909,9 +909,9 @@ void CCar::Init()
 
 	if(ini->section_exist("damage_items"))
 	{
-		CInifile::Sect& data		= ini->r_section("damage_items");
-		for (CInifile::SectIt I=data.begin(); I!=data.end(); I++){
-			CInifile::Item& item	= *I;
+		const CInifile::Sect& data		= ini->r_section("damage_items");
+		for (CInifile::SectCIt I=data.Data.begin(); I!=data.Data.end(); I++){
+			const CInifile::Item& item	= *I;
 			u16 index				= pKinematics->LL_BoneID(*item.first); 
 			R_ASSERT3(index != BI_NONE, "Wrong bone name", *item.first);
 			xr_map   <u16,SWheel>::iterator i=m_wheels_map.find(index);

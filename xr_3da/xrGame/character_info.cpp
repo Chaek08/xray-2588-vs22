@@ -88,7 +88,7 @@ void CCharacterInfo::load_shared	(LPCSTR)
 	const id_to_index::ITEM_DATA& item_data = *id_to_index::GetById(m_ProfileId);
 
 	string128 xml_file_full;
-	xr_strconcat(xml_file_full, *shared_str(item_data.file_name), ".xml");
+	strconcat(sizeof(xml_file_full), xml_file_full, *shared_str(item_data.file_name), ".xml");
 
 	bool xml_result = uiXml.Init(CONFIG_PATH, GAME_PATH, xml_file_full);
 	R_ASSERT3(xml_result, "xml file not found", xml_file_full);

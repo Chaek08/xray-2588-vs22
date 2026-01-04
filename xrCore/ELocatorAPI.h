@@ -47,8 +47,8 @@ public:
 
 	BOOL						exist			(LPCSTR N);
 	BOOL						exist			(LPCSTR path, LPCSTR name);
-	BOOL						exist			(LPSTR fn, LPCSTR path, LPCSTR name);
-	BOOL						exist			(LPSTR fn, LPCSTR path, LPCSTR name, LPCSTR ext);
+	BOOL						exist			(string_path& fn, LPCSTR path, LPCSTR name);
+	BOOL						exist			(string_path& fn, LPCSTR path, LPCSTR name, LPCSTR ext);
 
     BOOL 						can_write_to_folder	(LPCSTR path); 
     BOOL 						can_write_to_alias	(LPCSTR path); 
@@ -69,12 +69,12 @@ public:
     BOOL						path_exist			(LPCSTR path);
     FS_Path*					get_path			(LPCSTR path);
     FS_Path*					append_path			(LPCSTR path_alias, LPCSTR root, LPCSTR add, BOOL recursive);
-    LPCSTR						update_path			(LPSTR dest, LPCSTR initial, LPCSTR src);
+    LPCSTR						update_path			(string_path& dest, LPCSTR initial, LPCSTR src);
 
 	BOOL						file_find			(LPCSTR full_name, FS_File& f);
 
 	int							file_list			(FS_FileSet& dest, LPCSTR path, u32 flags=FS_ListFiles, LPCSTR mask=0);
-    void						update_path			(xr_string& dest, LPCSTR initial, LPCSTR src);
+//.    void						update_path			(xr_string& dest, LPCSTR initial, LPCSTR src);
 };
 
 extern XRCORE_API	CLocatorAPI*					xr_FS;

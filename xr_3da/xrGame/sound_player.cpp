@@ -227,7 +227,7 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 	for (int j=0, N = _GetItemCount(*params.m_sound_prefix); j<N; ++j) {
 		string_path						fn, s, temp;
 		_GetItem						(*params.m_sound_prefix,j,temp);
-		xr_strconcat(s, *params.m_sound_player_prefix, temp);
+		strconcat(sizeof(s), s, *params.m_sound_player_prefix, temp);
 		if (FS.exist(fn,"$game_sounds$",s,".ogg")) {
 			ref_sound					*temp = add(params.m_type,s);
 			if (temp)

@@ -132,27 +132,29 @@ void	CResourceManager::OnDeviceCreate	(IReader* F)
 	LPCSTR	Iname	= fname;
 	if (FS.exist(Iname))
 	{
-		xr_delete		(m_description);
-		m_description	= xr_new<CInifile>	(Iname);
-		CInifile&	ini	= *m_description;
-		if (ini.section_exist("association")){
-			CInifile::Sect& 	data = ini.r_section("association");
-			for (CInifile::SectIt I=data.begin(); I!=data.end(); I++)	{
-				texture_detail			D;
-				string256				T;
-				float					s;
+		xr_delete(m_description);
+		m_description = xr_new<CInifile>(Iname);
+		CInifile& ini = *m_description;
 
-				CInifile::Item& item	= *I;
-				sscanf					(*item.second,"%[^,],%f",T,&s);
+		if (ini.section_exist("association")) {
+			CInifile::Sect& data = ini.r_section("association");
 
-				//
-				D.T				= xr_strdup				(T);
-				D.cs			= xr_new<cl_dt_scaler>	(s);
-				LPSTR N			= xr_strdup				(*item.first);
-				m_td.insert		(mk_pair(N,D));
+			for (CInifile::SectCIt I = data.Data.begin(); I != data.Data.end(); ++I) {
+				texture_detail      D;
+				string256           T;
+				float               s;
+
+				const CInifile::Item& item = *I;
+				sscanf(*item.second, "%[^,],%f", T, &s);
+
+				D.T = xr_strdup(T);
+				D.cs = xr_new<cl_dt_scaler>(s);
+				LPSTR N = xr_strdup(*item.first);
+				m_td.insert(mk_pair(N, D));
 			}
 		}
 	}
+
 }
 
 void	CResourceManager::OnDeviceCreate	(LPCSTR shName)
@@ -168,7 +170,7 @@ void	CResourceManager::OnDeviceCreate	(LPCSTR shName)
 	F->r		(&id,8);
 	if (0==strncmp(id,ID,8))
 	{
-		Debug.fatal			("Unsupported blender library. Compressed?");
+		FATAL			("Unsupported blender library. Compressed?");
 	}
 	OnDeviceCreate			(F);
 	FS.r_close				(F);

@@ -46,7 +46,8 @@ class CPhraseDialog;
 class CPhraseDialogManager;
 
 class CPhraseDialog	: public CSharedClass<SPhraseDialogData, PHRASE_DIALOG_ID, false>,
-					  public CXML_IdToIndex<PHRASE_DIALOG_ID, int, CPhraseDialog>
+					  public CXML_IdToIndex<PHRASE_DIALOG_ID, int, CPhraseDialog>,
+					  public intrusive_base
 {
 private:
 	typedef CSharedClass<SPhraseDialogData, PHRASE_DIALOG_ID, false>				inherited_shared;

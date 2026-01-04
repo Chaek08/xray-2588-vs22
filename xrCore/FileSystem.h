@@ -8,8 +8,7 @@
 #define BACKUP_FILE_LEVEL 5
 
 class XRCORE_API EFS_Utils {
-	using HANDLEMap = xr_map<xr_string, void*>;
-	using HANDLEPairIt = HANDLEMap::iterator;
+	DEFINE_MAP	(xr_string,void*,HANDLEMap,HANDLEPairIt);
 
     HANDLEMap 	m_LockFiles;
 public:

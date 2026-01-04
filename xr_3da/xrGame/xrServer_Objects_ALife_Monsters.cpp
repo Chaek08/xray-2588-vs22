@@ -36,8 +36,8 @@ void setup_location_types_section(GameGraph::TERRAIN_VECTOR &m_vertex_types, CIn
 	VERIFY							(ini->section_exist(section));
 	GameGraph::STerrainPlace		terrain_mask;
 	terrain_mask.tMask.resize		(GameGraph::LOCATION_TYPE_COUNT);
-	CInifile::SectIt				I = ini->r_section(section).begin();
-	CInifile::SectIt				E = ini->r_section(section).end();
+	CInifile::SectCIt				I = ini->r_section(section).Data.begin();
+	CInifile::SectCIt				E = ini->r_section(section).Data.end();
 	for ( ; I != E; ++I) {
 		LPCSTR						S = *(*I).first;
 		string16					I;
@@ -407,8 +407,8 @@ void CSE_ALifeTraderAbstract::set_specific_character	(SPECIFIC_CHARACTER_ID new_
 		//select name and lastname
 		LPCSTR subset				= m_character_name.c_str()+xr_strlen(gen_name);
 
-		string32					t1;
-	 xr_strconcat					(t1,"stalker_names_",subset);
+		string_path					t1;
+		strconcat					(sizeof(t1),t1,"stalker_names_",subset);
 		u32 name_cnt				= pSettings->r_u32(t1, "name_cnt");
 		u32 last_name_cnt			= pSettings->r_u32(t1, "last_name_cnt");
 		

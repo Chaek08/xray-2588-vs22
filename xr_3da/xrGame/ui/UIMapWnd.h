@@ -60,17 +60,17 @@ private:
 	CMapLocation*				m_selected_location;
 	CUIStatic*					m_text_hint;
 
-	void						OnScrollV				();
-	void						OnScrollH				();
-	void						OnToolGlobalMapClicked	(CUIWindow*, void*);
-	void						OnToolHighlightSpotClicked(CUIWindow*, void*);
-	void						OnToolActorClicked		(CUIWindow*, void*);
+	void __stdcall				OnScrollV				(CUIWindow*, void*);
+	void __stdcall				OnScrollH				(CUIWindow*, void*);
+	void		   __stdcall	OnToolGlobalMapClicked	(CUIWindow*, void*);
+	void		   __stdcall	OnToolHighlightSpotClicked(CUIWindow*, void*);
+	void		   __stdcall    OnToolActorClicked		(CUIWindow*, void*);
 	void						OnToolNextMapClicked	(CUIWindow*, void*);
 	void						OnToolPrevMapClicked	(CUIWindow*, void*);
-	void						OnToolZoomInClicked		(CUIWindow*, void*);
-	void						OnToolZoomOutClicked	(CUIWindow*, void*);
-	void						OnToolAddSpotClicked	(CUIWindow*, void*);
-	void						OnToolRemoveSpotClicked	(CUIWindow*, void*);
+	void		   __stdcall	OnToolZoomInClicked		(CUIWindow*, void*);
+	void		   __stdcall	OnToolZoomOutClicked	(CUIWindow*, void*);
+	void		   __stdcall	OnToolAddSpotClicked	(CUIWindow*, void*);
+	void		   __stdcall	OnToolRemoveSpotClicked	(CUIWindow*, void*);
 	void						ValidateToolBar			();
 
 	void						RemoveSpot				();

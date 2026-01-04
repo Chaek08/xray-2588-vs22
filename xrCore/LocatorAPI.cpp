@@ -370,7 +370,7 @@ void CLocatorAPI::ProcessArchive(LPCSTR _path, LPCSTR base_path)
 		u32 ptr			= *(u32*)buffer;
 		buffer			+= sizeof(ptr);
 #endif // PROTECTED_BUILD
-		xr_strconcat	(full,base,name);
+		strconcat		(sizeof(full),full,base,name);
 		size_t vfs		= archives.size()-1;
 
 		Register		(full,(u32)vfs,crc,ptr,size_real,size_compr,0);
@@ -486,11 +486,16 @@ bool CLocatorAPI::Recurse		(const char* path)
 
 	_findclose		( hFile );
 
-	FFVec buffer(rec_files);
-	rec_files.clear();
-	std::sort(buffer.begin(), buffer.end(), pred_str_ff);
-	for (FFIt I = buffer.begin(), E = buffer.end(); I != E; ++I)
-		ProcessOne(path, &*I);
+	u32				count = rec_files.size();
+	_finddata_t		*buffer = (_finddata_t*)_alloca(count*sizeof(_finddata_t));
+	std::copy		(&*rec_files.begin(), &*rec_files.begin() + count, buffer);
+
+//.	std::copy		(&*rec_files.begin(),&*rec_files.end(),buffer);
+
+	rec_files.clear_not_free();
+	std::sort		(buffer, buffer + count, pred_str_ff);
+	for (_finddata_t *I = buffer, *E = buffer + count; I != E; ++I)
+		ProcessOne	(path,I);
 
 	// insert self
     if (path&&path[0])\
@@ -639,7 +644,7 @@ void CLocatorAPI::_initialize	(u32 flags, LPCSTR target_folder, LPCSTR fs_name)
 			FS_Path* P			= xr_new<FS_Path>((p_it!=pathes.end())?p_it->second->m_Path:root,lp_add,lp_def,lp_capt,fl);
 			bNoRecurse			= !(fl&FS_Path::flRecurse);
 			Recurse				(P->m_Path);
-			I					= pathes.insert(std::make_pair(xr_strdup(id),P));
+			I					= pathes.insert(mk_pair(xr_strdup(id),P));
 #ifndef DEBUG
 			m_Flags.set			(flCacheFiles,FALSE);
 #endif // DEBUG
@@ -732,7 +737,7 @@ const CLocatorAPI::file* CLocatorAPI::exist			(string_path& fn, LPCSTR path, LPC
 const CLocatorAPI::file* CLocatorAPI::exist			(string_path& fn, LPCSTR path, LPCSTR name, LPCSTR ext)
 {
 	string_path		nm;
-	xr_strconcat	(nm,name,ext);
+	strconcat		(sizeof(nm),nm,name,ext);
     update_path		(fn,path,nm);
 	return			exist(fn);
 }
@@ -849,20 +854,11 @@ int CLocatorAPI::file_list(FS_FileSet& dest, LPCSTR path, u32 flags, LPCSTR mask
 				}
 				if (!bOK)			continue;
 			}
-
-			FS_File file;
-
-			if (flags & FS_ClampExt)
-				file.name			= EFS.ChangeFileExt(entry_begin, "");
-			else
-				file.name			= entry_begin;
-
-			u32 fl = (entry.vfs != 0xffffffff ? FS_File::flVFS : 0);
-			file.size = entry.size_real;
-			file.time_write = entry.modif;
-			file.attrib = fl;
-
-			dest.insert(std::move(file));
+			xr_string fn			= entry_begin;
+			// insert file entry
+			if (flags&FS_ClampExt)fn= EFS.ChangeFileExt(fn,"");
+			u32 fl = (entry.vfs!=0xffffffff?FS_File::flVFS:0);
+			dest.insert(FS_File(fn,entry.size_real,entry.modif,fl));
 		} else {
 			// folder
 			if ((flags&FS_ListFolders) == 0)	continue;
@@ -1271,7 +1267,7 @@ BOOL CLocatorAPI::dir_delete(LPCSTR path,LPCSTR nm,BOOL remove_files)
 			if ((*end_symbol) !='\\'){
 //		        const char* entry_begin = entry.name+base_len;
 				if (!remove_files) return FALSE;
-		    	_unlink		(entry.name);
+		    	unlink		(entry.name);
 				files.erase	(cur_item);
 	        }else{
             	folders.insert(entry);
@@ -1299,7 +1295,7 @@ void CLocatorAPI::file_delete(LPCSTR path, LPCSTR nm)
     const files_it I	= file_find_it(fname);
     if (I!=files.end()){
 	    // remove file
-    	_unlink			(I->name);
+    	unlink			(I->name);
 		char* str		= LPSTR(I->name);
 		xr_free			(str);
 	    files.erase		(I);
@@ -1328,7 +1324,7 @@ void CLocatorAPI::file_rename(LPCSTR src, LPCSTR dest, bool bOwerwrite)
 		files_it D		= file_find_it(dest);
 		if (D!=files.end()){ 
 	        if (!bOwerwrite) return;
-            _unlink		(D->name);
+            unlink		(D->name);
 			char* str	= LPSTR(D->name);
 			xr_free		(str);
 			files.erase	(D);
@@ -1368,7 +1364,7 @@ FS_Path* CLocatorAPI::append_path(LPCSTR path_alias, LPCSTR root, LPCSTR add, BO
 	FS_Path* P		= xr_new<FS_Path>(root,add,LPCSTR(0),LPCSTR(0),0);
 	bNoRecurse		= !recursive;
 	Recurse			(P->m_Path);
-	pathes.insert	(std::make_pair(xr_strdup(path_alias),P));
+	pathes.insert	(mk_pair(xr_strdup(path_alias),P));
 	return P;
 }
 
@@ -1489,13 +1485,12 @@ BOOL CLocatorAPI::can_write_to_folder(LPCSTR path)
 	if (path&&path[0]){
 		string_path		temp;       
         LPCSTR fn		= "$!#%TEMP%#!$.$$$";
-	    xr_strconcat	(temp,path,path[xr_strlen(path)-1]!='\\'?"\\":"",fn);
-		FILE* hf;
-		fopen_s(&hf, temp, "wb");
+	    strconcat		(sizeof(temp),temp,path,path[xr_strlen(path)-1]!='\\'?"\\":"",fn);
+		FILE* hf		= fopen	(temp, "wb");
 		if (hf==0)		return FALSE;
         else{
         	fclose 		(hf);
-	    	_unlink		(temp);
+	    	unlink		(temp);
             return 		TRUE;
         }
     }else{
@@ -1512,8 +1507,7 @@ BOOL CLocatorAPI::can_write_to_alias(LPCSTR path)
 
 BOOL CLocatorAPI::can_modify_file(LPCSTR fname)
 {
-	FILE* hf;
-	fopen_s(&hf, fname, "r+b");
+	FILE* hf			= fopen	(fname, "r+b");
     if (hf){	
     	fclose			(hf);
         return 			TRUE;
@@ -1545,7 +1539,7 @@ void CLocatorAPI::ProcessExternalArch()
 
 		FS_Path* pFSRoot		= FS.get_path("$fs_root$");
 		
-		xr_strconcat		(_path, pFSRoot->m_Path, "gamedata");
+		strconcat			(sizeof(_path), _path, pFSRoot->m_Path, "gamedata");
 
 		ProcessArchive		(full_mod_name, _path);
 	}

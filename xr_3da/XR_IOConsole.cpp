@@ -123,10 +123,10 @@ void CConsole::OnRender	()
 	pFont->OutI	( -1.f, fMaxY-LDIST, "%s", buf );
 
 	float ypos=fMaxY-LDIST-LDIST;
-	for (int i=LogFile.size()-1-scroll_delta; i>=0; i--) {
+	for (int i=LogFile->size()-1-scroll_delta; i>=0; i--) {
 		ypos-=LDIST;
 		if (ypos<-1.f)	break;
-		LPCSTR			ls = *LogFile[i];
+		LPCSTR			ls = *(*LogFile)[i];
 		if	(0==ls)		continue;
 		switch (ls[0]) {
 		case '~':
@@ -169,7 +169,7 @@ void CConsole::OnPressKey(int dik, BOOL bHold)
 		break;
 	case DIK_PRIOR:
 		scroll_delta++;
-		if (scroll_delta>int(LogFile.size())-1) scroll_delta=LogFile.size()-1;
+		if (scroll_delta>int(LogFile->size())-1) scroll_delta=LogFile->size()-1;
 		break;
 	case DIK_NEXT:
 		scroll_delta--;
@@ -362,12 +362,12 @@ void CConsole::SelectCommand()
 {
 	int		p,k;
 	BOOL	found=false;
-	for (p=LogFile.size()-1, k=0; p>=0; p--) {
-		if (0==*LogFile[p])		continue;
-		if (LogFile[p][0]=='~') {
+	for (p=LogFile->size()-1, k=0; p>=0; p--) {
+		if (0==*(*LogFile)[p])		continue;
+		if ((*LogFile)[p][0]=='~') {
 			k--;
 			if (k==cmd_delta) {
-				strcpy(editor,&(*LogFile[p])[2]);
+				strcpy_s(editor,&(*(*LogFile)[p])[2]);
 				found=true;
 			}
 		}
@@ -391,7 +391,7 @@ void CConsole::Execute		(LPCSTR cmd)
 void CConsole::ExecuteScript(LPCSTR N)
 {
 	string128		cmd;
-	xr_strconcat		(cmd,"cfg_load ",N);
+	strconcat		(sizeof(cmd), cmd,"cfg_load ",N);
 	Execute			(cmd);
 }
 

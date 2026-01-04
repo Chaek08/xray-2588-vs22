@@ -1,27 +1,21 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-LPSTR _TrimLeft(LPSTR str)
+LPSTR _TrimLeft( LPSTR str )
 {
-	LPSTR p = str;
-	while (*p && (*p <= ' '))
-		p++;
-
-	if (p != str) {
-		LPSTR t = str;
-		while (*p) {
-			*t++ = *p++;
-		}
-		*t = 0;
-	}
-
+	LPSTR p 	= str;
+	while( *p && (u8(*p)<=u8(' ')) ) p++;
+    if (p!=str){
+        for (LPSTR t=str; *p; t++,p++) *t=*p;
+        *t = 0;
+    }
 	return str;
 }
 
 LPSTR _TrimRight( LPSTR str )
 {
 	LPSTR p 	= str+xr_strlen(str);
-	while( (p!=str) && ((*p)<=' ') ) p--;
+	while( (p!=str) && (u8(*p)<=u8(' ')) ) p--;
     *(++p) 		= 0;
 	return str;
 }
@@ -101,7 +95,7 @@ LPSTR _GetItems ( LPCSTR src, int idx_start, int idx_end, LPSTR dst, char separa
 u32 _ParseItem ( LPCSTR src, xr_token* token_list )
 {
 	for( int i=0; token_list[i].name; i++ )
-		if( !_stricmp(src,token_list[i].name) )
+		if( !stricmp(src,token_list[i].name) )
 			return token_list[i].id;
 	return u32(-1);
 }
@@ -368,7 +362,7 @@ xr_string& _TrimLeft( xr_string& str )
 {
 	LPCSTR b		= str.c_str();
 	LPCSTR p 		= str.c_str();
-	while( *p && ((*p)<=' ') ) p++;
+	while( *p && (u8(*p)<=u8(' ')) ) p++;
     if (p!=b)
     	str.erase	(0,p-b);
 	return str;
@@ -380,7 +374,7 @@ xr_string& _TrimRight( xr_string& str )
     size_t l		= str.length();
     if (l){
         LPCSTR p 		= str.c_str()+l-1;
-        while( (p!=b) && ((*p)<=' ') ) p--;
+        while( (p!=b) && (u8(*p)<=u8(' ')) ) p--;
         if (p!=(str+b))	str.erase	(p-b+1,l-(p-b));
     }
 	return str;

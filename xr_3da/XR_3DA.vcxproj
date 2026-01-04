@@ -233,7 +233,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>false</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLua\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG;MIXED;WIN32;NDEBUG;_WINDOWS;ENGINE_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -269,7 +269,7 @@
       <SubSystem>Windows</SubSystem>
       <TargetMachine>NotSet</TargetMachine>
       <FixedBaseAddress>false</FixedBaseAddress>
-      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;$(SolutionDir)$(Configuration)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
     </Link>
     <Midl>
@@ -295,7 +295,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;ENGINE_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling />
@@ -330,7 +330,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <FixedBaseAddress>false</FixedBaseAddress>
-      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;$(SolutionDir)\SDK\Xiph\Libs;$(SolutionDir)\SDK\OpenAL\libs;$(SolutionDir)$(Configuration)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -648,6 +648,7 @@
     <ClInclude Include="D3DUtils.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="device.h" />
+    <ClInclude Include="doug_lea_memory_allocator.h" />
     <ClInclude Include="DrawUtils.h" />
     <ClInclude Include="du_box.h" />
     <ClInclude Include="du_cone.h" />
@@ -772,6 +773,12 @@
     <ClCompile Include="Device_Misc.cpp" />
     <ClCompile Include="Device_overdraw.cpp" />
     <ClCompile Include="Device_wndproc.cpp" />
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="du_box.cpp" />
     <ClCompile Include="du_cone.cpp" />
     <ClCompile Include="du_cylinder.cpp" />
@@ -927,14 +934,6 @@
   <ItemGroup>
     <ProjectReference Include="..\xrCDB\xrCDB.vcxproj">
       <Project>{a19b1df2-82ec-4364-8bdf-85d13a1c89b5}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
-      <Project>{a0f7d1fb-59a7-4717-a7e4-96f37e91998e}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\xrLUA_JIT\xrLUA_JIT.vcxproj">
-      <Project>{9ace5473-6d68-4b96-ac42-b39eaba0fe1f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\xrParticles\xrParticles.vcxproj">

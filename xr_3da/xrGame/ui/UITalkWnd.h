@@ -12,7 +12,7 @@
 #include "UIFrameWindow.h"
 
 
-#include "../PhraseDialogDefs.h"
+#include "../PhraseDialog.h"
 
 class CActor;
 class CInventoryOwner;

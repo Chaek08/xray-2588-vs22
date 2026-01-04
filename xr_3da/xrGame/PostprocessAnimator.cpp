@@ -70,7 +70,7 @@ void        CPostprocessAnimator::Load                            (LPCSTR name)
     string_path full_path;
     if (!FS.exist (full_path, "$level$", name))
        if (!FS.exist (full_path, "$game_anims$", name))
-          Debug.fatal ("Can't find motion file '%s'.", name);
+          Debug.fatal (DEBUG_INFO, "Can't find motion file '%s'.", name);
 #else /*_PP_EDITOR_*/
     string_path full_path;
     strcpy (full_path, name);
@@ -118,7 +118,7 @@ void        CPostprocessAnimator::Load                            (LPCSTR name)
           FS.r_close (F);
           }
         else
-           Debug.fatal("ERROR: Can't support files with many animations set. Incorrect file.");
+           FATAL("ERROR: Can't support files with many animations set. Incorrect file.");
         }
 
 	f_length					= GetLength	();

@@ -26,6 +26,55 @@ extern	void	Intro				( void* fn );
 extern	void	Intro_DSHOW			( void* fn );
 extern	int PASCAL IntroDSHOW_wnd	(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
 int		max_load_stage = 0;
+
+// computing build id
+XRCORE_API	LPCSTR	build_date;
+XRCORE_API	u32		build_id;
+
+//#define NO_SINGLE
+#define NO_MULTI_INSTANCES
+
+static LPSTR month_id[12] = {
+	"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
+};
+
+static int days_in_month[12] = {
+	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+};
+
+static int start_day	= 31;	// 31
+static int start_month	= 1;	// January
+static int start_year	= 1999;	// 1999
+
+void compute_build_id	()
+{
+	build_date			= __DATE__;
+
+	int					days;
+	int					months = 0;
+	int					years;
+	string16			month;
+	string256			buffer;
+	strcpy_s				(buffer,__DATE__);
+	sscanf				(buffer,"%s %d %d",month,&days,&years);
+
+	for (int i=0; i<12; i++) {
+		if (_stricmp(month_id[i],month))
+			continue;
+
+		months			= i;
+		break;
+	}
+
+	build_id			= (years - start_year)*365 + days - start_day;
+
+	for (int i=0; i<months; ++i)
+		build_id		+= days_in_month[i];
+
+	for (int i=0; i<start_month-1; ++i)
+		build_id		-= days_in_month[i];
+}
+
 //---------------------------------------------------------------------
 // 2446363
 // umbt@ukr.net
@@ -315,6 +364,8 @@ int APIENTRY WinMain_impl(HINSTANCE hInstance,
 	g_bIntroFinished		= TRUE;
 	g_sLaunchOnExit[0]		= NULL;
 	// Core
+
+	compute_build_id();
 	Core._initialize		("xray",NULL);
 	
 	FPU::m24r				();
@@ -399,14 +450,18 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
 	__try 
 	{
-		Debug._initialize	();
+#ifdef DEDICATED_SERVER
+		Debug._initialize(true);
+#else // DEDICATED_SERVER
+		Debug._initialize(false);
+#endif // DEDICATED_SERVER
 
 		WinMain_impl		(hInstance,hPrevInstance,lpCmdLine,nCmdShow);
 	}
 	__except(stack_overflow_exception_filter(GetExceptionCode()))
 	{
 		_resetstkoflw		();
-		Debug.fatal			("stack overflow");
+		FATAL				("stack overflow");
 	}
 
 	return					(0);
@@ -777,10 +832,10 @@ void CApplication::OnFrame	( )
 void CApplication::Level_Append		(LPCSTR folder)
 {
 	string256	N1,N2,N3,N4;
-	xr_strconcat	(N1,folder,"level");
-	xr_strconcat	(N2,folder,"level.ltx");
-	xr_strconcat	(N3,folder,"level.geom");
-	xr_strconcat	(N4,folder,"level.cform");
+	strconcat	(sizeof(N1), N1,folder,"level");
+	strconcat	(sizeof(N2), N2,folder,"level.ltx");
+	strconcat	(sizeof(N3), N3,folder,"level.geom");
+	strconcat	(sizeof(N4), N4,folder,"level.cform");
 	if	(
 		FS.exist("$game_levels$",N1)		&&
 		FS.exist("$game_levels$",N2)		&&
@@ -805,7 +860,7 @@ void CApplication::Level_Scan()
 	folder									= FS.file_list_open		("$game_levels$","$debug$\\",FS_ListFolders|FS_RootOnly);
 	if (folder){
 		string_path	tmp_path;
-		for (u32 i=0; i<folder->size(); i++)Level_Append(xr_strconcat(tmp_path,"$debug$\\",(*folder)[i]));
+		for (u32 i=0; i<folder->size(); i++)Level_Append(strconcat(sizeof(tmp_path),tmp_path,"$debug$\\",(*folder)[i]));
 		FS.file_list_close	(folder);
 	}
 #endif
@@ -820,7 +875,7 @@ void CApplication::Level_Set(u32 L)
 
 	string_path					temp;
 	string_path					temp2;
-	xr_strconcat					(temp,"intro\\intro_",Levels[L].folder);
+	strconcat					(sizeof(temp), temp,"intro\\intro_",Levels[L].folder);
 	temp[xr_strlen(temp)-1] = 0;
 	if (FS.exist(temp2, "$game_textures$", temp, ".dds"))
 		hLevelLogo.create	("font", temp);
@@ -834,7 +889,7 @@ void CApplication::Level_Set(u32 L)
 int CApplication::Level_ID(LPCSTR name)
 {
 	char buffer	[256];
-	xr_strconcat	(buffer,name,"\\");
+	strconcat	(sizeof(buffer), buffer,name,"\\");
 	for (u32 I=0; I<Levels.size(); I++)
 	{
 		if (0==stricmp(buffer,Levels[I].folder))	return int(I);

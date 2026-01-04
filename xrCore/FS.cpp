@@ -31,6 +31,12 @@ void register_file_mapping			(void *address, const u32 &size, LPCSTR file_name)
 
 	g_file_mapped_memory			+= size;
 	++g_file_mapped_count;
+#ifdef USE_MEMORY_MONITOR
+//	memory_monitor::monitor_alloc	(addres,size,"file mapping");
+	string512						temp;
+	sprintf_s						(temp, sizeof(temp),"file mapping: %s",file_name);
+	memory_monitor::monitor_alloc	(address,size,temp);
+#endif // USE_MEMORY_MONITOR
 }
 
 void unregister_file_mapping		(void *address, const u32 &size)
@@ -43,6 +49,9 @@ void unregister_file_mapping		(void *address, const u32 &size)
 
 	g_file_mappings.erase			(I);
 
+#ifdef USE_MEMORY_MONITOR
+	memory_monitor::monitor_free	(address);
+#endif // USE_MEMORY_MONITOR
 }
 
 XRCORE_API void dump_file_mappings	()
@@ -101,7 +110,11 @@ void*  FileDownload(LPCSTR fn, u32* pdwSize)
 	size	= _filelength(hFile);
 #endif
 
-	buf		= Memory.mem_alloc(size);
+	buf		= Memory.mem_alloc	(size
+#ifdef DEBUG_MEMORY_NAME
+		,"FILE in memory"
+#endif // DEBUG_MEMORY_NAME
+		);
 	int r_bytes	= _read	(hFile,buf,size);
 	R_ASSERT3(r_bytes==(int)size,"Can't read file data:",fn);
 	_close	(hFile);
@@ -117,7 +130,7 @@ void  FileCompress	(const char *fn, const char* sign, void* data, u32 size)
 {
 	MARK M; mk_mark(M,sign);
 
-	int H	= _open(fn,O_BINARY|O_CREAT|O_WRONLY|O_TRUNC,S_IREAD|S_IWRITE);
+	int H	= open(fn,O_BINARY|O_CREAT|O_WRONLY|O_TRUNC,S_IREAD|S_IWRITE);
 	R_ASSERT2(H>0,fn);
 	_write	(H,&M,8);
 	_writeLZ(H,data,size);
@@ -128,7 +141,7 @@ void*  FileDecompress	(const char *fn, const char* sign, u32* size)
 {
 	MARK M,F; mk_mark(M,sign);
 
-	int	H = _open	(fn,O_BINARY|O_RDONLY);
+	int	H = open	(fn,O_BINARY|O_RDONLY);
 	R_ASSERT2(H>0,fn);
 	_read	(H,&F,8);
 	if (strncmp(M,F,8)!=0)		{
@@ -137,7 +150,7 @@ void*  FileDecompress	(const char *fn, const char* sign, u32* size)
     R_ASSERT(strncmp(M,F,8)==0);
 
 	void* ptr = 0; u32 SZ;
-	SZ = _readLZ (H, ptr, _filelength(H)-8);
+	SZ = _readLZ (H, ptr, filelength(H)-8);
 	_close	(H);
 	if (size) *size = SZ;
 	return ptr;
@@ -248,7 +261,6 @@ void	IWriter::w_printf(const char* format, ...)
 	char buf[1024];
 	va_start( mark, format );
 	vsprintf( buf, format, mark );
-	va_end  ( mark);
 	w		( buf, xr_strlen(buf) );
 }
 
@@ -269,11 +281,8 @@ IReader*	IReader::open_chunk(u32 ID)
 		}
 	} else return 0;
 };
-
-void IReader::close() {
-    auto pointer = (IReader*) this;
-    xr_delete(pointer);
-}
+void	IReader::close()
+{	xr_delete((IReader*)this); }
 
 IReader*	IReader::open_chunk_iterator	(u32& ID, IReader* _prev)
 {

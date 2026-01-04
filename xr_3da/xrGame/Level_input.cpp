@@ -165,8 +165,8 @@ void CLevel::IR_OnKeyboardPress	(int key)
 #endif
 
 		string_path saved_game, command;
-		xr_strconcat(saved_game, Core.UserName, "_", "quicksave");
-		xr_strconcat(command, "load ", saved_game);
+		strconcat(sizeof(saved_game), saved_game, Core.UserName, "_", "quicksave");
+		strconcat(sizeof(command), command, "load ", saved_game);
 
 		Console->Execute(command);
 		return;

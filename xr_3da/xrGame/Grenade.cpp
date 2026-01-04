@@ -58,7 +58,7 @@ BOOL CGrenade::net_Spawn(CSE_Abstract* DC)
 	m_dwGrenadeIndependencyTime			= 0;
 	BOOL ret= inherited::net_Spawn		(DC);/* && CInventoryItemObject::net_Spawn(DC)*/
 	Fvector box;BoundingBox().getsize(box);
-	float max_size						=max(max(box.x,box.y),box.z);
+	float max_size						=std::max(std::max(box.x,box.y),box.z);
 	box.set								(max_size,max_size,max_size);
 	box.mul								(3.f);
 	CExplosive::SetExplosionSize		(box);

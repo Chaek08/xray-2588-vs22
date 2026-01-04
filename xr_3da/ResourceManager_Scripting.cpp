@@ -12,7 +12,11 @@
 
 using namespace				luabind;
 
+#ifdef	DEBUG
+#define MDB	Memory.dbg_check()
+#else
 #define MDB
+#endif
 
 // wrapper
 class	adopt_sampler
@@ -77,7 +81,7 @@ void LuaLog(LPCSTR caMessage)
 }
 void LuaError(lua_State* L)
 {
-	Debug.fatal("LUA error: %s",lua_tostring(L,-1));
+	Debug.fatal(DEBUG_INFO, "LUA error: %s",lua_tostring(L,-1));
 }
 
 // export
@@ -171,7 +175,7 @@ void	CResourceManager::LS_Load			()
 		if	(0==strext(namesp) || 0!=xr_strcmp(strext(namesp),".s"))	continue;
 		*strext	(namesp)=0;
 		if		(0==namesp[0])			strcpy	(namesp,"_G");
-		xr_strconcat						(fn,::Render->getShaderPath(),(*folder)[it]);
+		strconcat						(sizeof(fn), fn,::Render->getShaderPath(),(*folder)[it]);
 		FS.update_path					(fn,"$game_shaders$",fn);
 		try {
 			Script::bfLoadFileIntoNamespace	(LSVM,fn,namesp,true);

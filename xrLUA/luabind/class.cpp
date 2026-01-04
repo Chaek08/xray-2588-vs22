@@ -19,14 +19,28 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
+#define LUA_LIB
 
 #include <luabind/lua_include.hpp>
 
 #include <luabind/config.hpp>
 #include <luabind/class.hpp>
+#include <luabind/detail/get_signature.hpp>
 
 #include <cstring>
-#include <iostream>
+//#include <iostream>
+
+void boost::throw_exception	( std::exception const & )
+{
+	abort();
+}
+
+#ifdef NDEBUG
+void std::_terminate()
+{
+	abort();
+}
+#endif // #ifdef NDEBUG
 
 namespace luabind { namespace detail {
 
@@ -420,7 +434,7 @@ namespace luabind { namespace detail {
 		s += "]";
 	}
 
-    string_class get_class_name(lua_State* L, LUABIND_TYPE_INFO i)
+    string_class LUABIND_API get_class_name(lua_State* L, LUABIND_TYPE_INFO i)
     {
         string_class ret;
 
@@ -455,6 +469,5 @@ namespace luabind { namespace detail {
         }
         return ret;
     };
-
 }} // namespace luabind::detail
 

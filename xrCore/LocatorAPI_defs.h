@@ -66,9 +66,7 @@ public:
 				FS_File		(xr_string nm, long sz, time_t modif,unsigned attr);
 	bool 		operator<	(const FS_File& _X) const	{return xr_strcmp(name.c_str(),_X.name.c_str())<0; }
 };
-
-using FS_FileSet = xr_set<FS_File>;
-using FS_FileSetIt = FS_FileSet::iterator;
+DEFINE_SET		(FS_File,FS_FileSet,FS_FileSetIt);
 
 extern bool	XRCORE_API PatternMatch(LPCSTR s, LPCSTR mask);
 

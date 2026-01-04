@@ -112,7 +112,12 @@ namespace FPU
 		_control87	( _RC_NEAR, MCW_RC );
 		_64r		= getFPUsw();	// 64, rounding
 
+#ifndef XRCORE_STATIC
+
 		m24r		();
+
+#endif	//XRCORE_STATIC
+
 		::Random.seed	( u32(CPU::GetCLK()%(1i64<<32i64)) );
 	}
 };
@@ -148,64 +153,62 @@ namespace CPU
 	}
 #endif
 
-	void Detect()
+	void Detect	()
 	{
 		// General CPU identification
-		if (!_cpuid(&ID))
+		if (!_cpuid	(&ID))	
 		{
 			// Core.Fatal		("Fatal error: can't detect CPU/FPU.");
-			abort();
+			abort				();
 		}
 
 		// Timers & frequency
-		u64 start, end;
-		u32 dwStart, dwTest;
+		u64			start,end;
+		u32			dwStart,dwTest;
 
-		SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+		SetPriorityClass		(GetCurrentProcess(),REALTIME_PRIORITY_CLASS);
 
 		// Detect Freq
-		dwTest = timeGetTime();
-		do { dwStart = timeGetTime(); } while (dwTest == dwStart);
-		start = GetCLK();
-		while (timeGetTime() - dwStart < 1000);
-		end = GetCLK();
-		clk_per_second = end - start;
+		dwTest	= timeGetTime();
+		do { dwStart = timeGetTime(); } while (dwTest==dwStart);
+		start	= GetCLK();
+		while (timeGetTime()-dwStart<1000) ;
+		end		= GetCLK();
+		clk_per_second = end-start;
 
 		// Detect RDTSC Overhead
-		clk_overhead = 0;
-		u64 dummy = 0;
-		int i;
-		for (i = 0; i < 256; i++) {
-			start = GetCLK();
-			clk_overhead += GetCLK() - start - dummy;
+		clk_overhead	= 0;
+		u64 dummy		= 0;
+		for (int i=0; i<256; i++)	{
+			start			=	GetCLK();
+			clk_overhead	+=	GetCLK()-start-dummy;
 		}
-		clk_overhead /= 256;
+		clk_overhead		/=	256;
 
 		// Detect QPC Overhead
-		QueryPerformanceFrequency((PLARGE_INTEGER)&qpc_freq);
-		qpc_overhead = 0;
-		for (i = 0; i < 256; i++) {
-			start = QPC();
-			qpc_overhead += QPC() - start - dummy;
+		QueryPerformanceFrequency	((PLARGE_INTEGER)&qpc_freq)	;
+		qpc_overhead	= 0;
+		for (i=0; i<256; i++)	{
+			start			=	QPC();
+			qpc_overhead	+=	QPC()-start-dummy;
 		}
-		qpc_overhead /= 256;
+		qpc_overhead		/=	256;
 
-		SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
+		SetPriorityClass	(GetCurrentProcess(),NORMAL_PRIORITY_CLASS);
 
-		clk_per_second -= clk_overhead;
-		clk_per_milisec = clk_per_second / 1000;
-		clk_per_microsec = clk_per_milisec / 1000;
+		clk_per_second	-=	clk_overhead;
+		clk_per_milisec	=	clk_per_second/1000;
+		clk_per_microsec	=	clk_per_milisec/1000;
 
-		_control87(_PC_64, MCW_PC);
-		// _control87(_RC_CHOP, MCW_RC);
-
-		double a, b;
-		a = 1; b = double(clk_per_second);
-		clk_to_seconds = float(double(a / b));
-		a = 1000; b = double(clk_per_second);
-		clk_to_milisec = float(double(a / b));
-		a = 1000000; b = double(clk_per_second);
-		clk_to_microsec = float(double(a / b));
+		_control87	( _PC_64,   MCW_PC );
+//		_control87	( _RC_CHOP, MCW_RC );
+		double a,b;
+		a = 1;		b = double(clk_per_second);
+		clk_to_seconds = float(double(a/b));
+		a = 1000;	b = double(clk_per_second);
+		clk_to_milisec = float(double(a/b));
+		a = 1000000;b = double(clk_per_second);
+		clk_to_microsec = float(double(a/b));
 	}
 };
 
@@ -219,13 +222,15 @@ void _initialize_cpu	(void)
 		u32(CPU::clk_overhead)
 		);
 
+//	DUMP_PHASE;
+
 	if (strstr(Core.Params,"-x86"))		{
 		CPU::ID.feature	&= ~_CPU_FEATURE_3DNOW	;
 		CPU::ID.feature	&= ~_CPU_FEATURE_SSE	;
 		CPU::ID.feature	&= ~_CPU_FEATURE_SSE2	;
 	};
 
-	string128	features;	strcpy(features,"RDTSC");
+	string128	features;	strcpy_s(features,sizeof(features),"RDTSC");
     if (CPU::ID.feature&_CPU_FEATURE_MMX)	strcat(features,", MMX");
     if (CPU::ID.feature&_CPU_FEATURE_3DNOW)	strcat(features,", 3DNow!");
     if (CPU::ID.feature&_CPU_FEATURE_SSE)	strcat(features,", SSE");
@@ -253,10 +258,15 @@ void _initialize_cpu_thread	()
 #define _MM_SET_FLUSH_ZERO_MODE(mode) _mm_setcsr((_mm_getcsr() & ~_MM_FLUSH_ZERO_MASK) | (mode))
 #define _MM_SET_DENORMALS_ZERO_MODE(mode) _mm_setcsr((_mm_getcsr() & ~_MM_DENORMALS_ZERO_MASK) | (mode))
 static	BOOL	_denormals_are_zero_supported	= TRUE;
+void debug_on_thread_spawn	();
+
 void _initialize_cpu_thread	()
 {
-	// fpu & sse
+	debug_on_thread_spawn	();
+#ifndef XRCORE_STATIC
+	// fpu & sse 
 	FPU::m24r	();
+#endif  // XRCORE_STATIC
 	if (CPU::ID.feature&_CPU_FEATURE_SSE)	{
 		//_mm_setcsr ( _mm_getcsr() | (_MM_FLUSH_ZERO_ON+_MM_DENORMALS_ZERO_ON) );
 		_MM_SET_FLUSH_ZERO_MODE			(_MM_FLUSH_ZERO_ON);

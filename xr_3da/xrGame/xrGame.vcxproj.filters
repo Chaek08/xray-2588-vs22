@@ -1756,9 +1756,6 @@
     <Filter Include="Core\Common\Dll Process Detach">
       <UniqueIdentifier>{8e7fb584-402b-4d7a-83a7-eafaf1e63dd1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Common\IntrusivePtr">
-      <UniqueIdentifier>{50538b99-4de1-4f0f-8b78-de9fbe39f625}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Common\NET Shared">
       <UniqueIdentifier>{e9d3fcbc-2abb-49ac-8321-93f473d1620f}</UniqueIdentifier>
     </Filter>
@@ -2280,6 +2277,9 @@
     </Filter>
     <Filter Include="UI\Tutorial">
       <UniqueIdentifier>{e2532f0f-3bfd-4d41-b8a5-041b3ff3d229}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AI\AScript\memory_allocator">
+      <UniqueIdentifier>{f02dc22e-3ac5-4984-b984-cb6d39159df5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -4638,9 +4638,6 @@
     <ClInclude Include="script_storage_space.h">
       <Filter>AI\AScript\ScriptStorage</Filter>
     </ClInclude>
-    <ClInclude Include="xr_LuaAllocator.h">
-      <Filter>AI\AScript\ScriptStorage</Filter>
-    </ClInclude>
     <ClInclude Include="script_thread.h">
       <Filter>AI\AScript\ScriptThread</Filter>
     </ClInclude>
@@ -5399,12 +5396,6 @@
     </ClInclude>
     <ClInclude Include="date_time.h">
       <Filter>Core\Common\DateTime</Filter>
-    </ClInclude>
-    <ClInclude Include="intrusive_ptr.h">
-      <Filter>Core\Common\IntrusivePtr</Filter>
-    </ClInclude>
-    <ClInclude Include="intrusive_ptr_inline.h">
-      <Filter>Core\Common\IntrusivePtr</Filter>
     </ClInclude>
     <ClInclude Include="client_id.h">
       <Filter>Core\Common\NET Shared</Filter>
@@ -6548,6 +6539,9 @@
     </ClInclude>
     <ClInclude Include="ui\xrUIXmlParser.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="doug_lea_memory_allocator.h">
+      <Filter>AI\AScript\memory_allocator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -7743,9 +7737,6 @@
       <Filter>AI\AScript\ScriptProcess</Filter>
     </ClCompile>
     <ClCompile Include="script_storage.cpp">
-      <Filter>AI\AScript\ScriptStorage</Filter>
-    </ClCompile>
-    <ClCompile Include="xr_LuaAllocator.c">
       <Filter>AI\AScript\ScriptStorage</Filter>
     </ClCompile>
     <ClCompile Include="script_thread.cpp">
@@ -9583,6 +9574,9 @@
     </ClCompile>
     <ClCompile Include="ui\xrUIXmlParser.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <Filter>AI\AScript\memory_allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

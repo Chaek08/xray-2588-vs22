@@ -228,8 +228,8 @@ void CWeaponKnife::LoadFireParams(LPCSTR section, LPCSTR prefix)
 	fHitImpulse_1		= fHitImpulse;
 	m_eHitType_1		= ALife::g_tfString2HitType(pSettings->r_string(section, "hit_type"));
 	
-	fHitPower_2			= pSettings->r_float	(section,xr_strconcat(full_name, prefix, "hit_power_2"));
-	fHitImpulse_2		= pSettings->r_float	(section,xr_strconcat(full_name, prefix, "hit_impulse_2"));
+	fHitPower_2			= pSettings->r_float	(section, strconcat(sizeof(full_name), full_name, prefix, "hit_power_2"));
+	fHitImpulse_2		= pSettings->r_float	(section, strconcat(sizeof(full_name), full_name, prefix, "hit_impulse_2"));
 	m_eHitType_2		= ALife::g_tfString2HitType(pSettings->r_string(section, "hit_type_2"));
 }
 

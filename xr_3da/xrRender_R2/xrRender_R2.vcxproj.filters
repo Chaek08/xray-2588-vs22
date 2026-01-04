@@ -46,6 +46,9 @@
     <Filter Include="Core_Target">
       <UniqueIdentifier>{6ffc7241-8628-4a6e-87a6-1677d84bda16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\memory">
+      <UniqueIdentifier>{a315c558-8fd4-4368-8f42-7feae0c9f2e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_intersect.h">
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="r2_rendertarget_wallmarks.h">
       <Filter>Core_Target</Filter>
+    </ClInclude>
+    <ClInclude Include="doug_lea_memory_allocator.h">
+      <Filter>Core\memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -526,6 +532,9 @@
     </ClCompile>
     <ClCompile Include="r2_rendertarget_phase_smap_S.cpp">
       <Filter>Core_Target</Filter>
+    </ClCompile>
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <Filter>Core\memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

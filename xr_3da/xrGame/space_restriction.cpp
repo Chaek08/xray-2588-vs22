@@ -182,7 +182,7 @@ CSpaceRestriction::CBaseRestrictionPtr CSpaceRestriction::merge	(CBaseRestrictio
 
 	for (const SpaceRestrictionHolder::CBaseRestrictionPtr& it : temp_restrictions)
 	{
-		temp = xr_strconcat(tempBuffer, *temp, ",", it->name().c_str());
+		temp = strconcat(sizeof(tempBuffer), tempBuffer, *temp, ",", it->name().c_str());
 	}
 
 	return							(m_space_restriction_manager->restriction(temp));

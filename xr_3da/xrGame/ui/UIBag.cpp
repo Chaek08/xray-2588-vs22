@@ -183,7 +183,7 @@ int CUIBag::GetItemRank(const char* item){
 	// from 4 downto 1
 	for (int i = 4; i>=0; i--)
 	{
-		xr_strconcat(rank,"rank_",itoa(i,foo,10));
+		strconcat(sizeof(rank), rank,"rank_",itoa(i,foo,10));
 		if (IsInRank(item,rank))
 			return i;
 	}
@@ -728,7 +728,7 @@ void CUIBag::InitWpnSectStorage()
 	wpnOneType.clear();
 
 	CInifile::Sect &sect = pSettings->r_section(m_StrPricesSection.c_str());
-	for (CInifile::SectIt it = sect.begin(); it != sect.end(); it++)
+	for (CInifile::SectCIt it = sect.Data.begin(); it != sect.Data.end(); it++)
 	{
 		u8 group_id, index;
 		GetWeaponIndexByName((*it).first.c_str(), group_id, index);
@@ -791,7 +791,7 @@ void CUIBag::FillUpItem(CUIDragDropItemMP* pDDItem, const char* name){
 
 		// Читаем стоимость оружия
 		string256 buff;
-		if (pSettings->line_exist(m_StrSectionName, xr_strconcat(buff, name, "_cost")))
+		if (pSettings->line_exist(m_StrSectionName, strconcat(sizeof(buff), buff, name, "_cost")))
 			pDDItem->SetCost(pSettings->r_u32(m_StrSectionName, buff));
 		else if (pSettings->line_exist(m_StrPricesSection, name))
 			pDDItem->SetCost(pSettings->r_u32(m_StrPricesSection, name));
@@ -1007,14 +1007,14 @@ void	CUIBag::ReloadItemsPrices	()
 		R_ASSERT(pSettings->line_exist(m_StrPricesSection, (*it)->strName));
 		(*it)->SetCost(pSettings->r_u32(m_StrPricesSection, (*it)->strName.c_str()));
 		//-------------------------------------------------------------------------------
-		xr_strconcat(ItemCostStr, (*it)->strName.c_str(), "_cost");
+		strconcat(sizeof(ItemCostStr), ItemCostStr, (*it)->strName.c_str(), "_cost");
 		if (pSettings->line_exist(m_StrSectionName, ItemCostStr))
 			(*it)->SetCost(pSettings->r_u32(m_StrSectionName, ItemCostStr));
 		//-------------------------------------------------------------------------------
 		for (int i=1; i<=g_mp_restrictions.GetRank(); i++)
 		{
 			string16 tmp;
-			xr_strconcat(RankStr, "rank_", itoa(i, tmp, 10));
+			strconcat(sizeof(RankStr), RankStr, "rank_", itoa(i, tmp, 10));
 			if (!pSettings->line_exist(RankStr, ItemCostStr)) continue;
 			(*it)->SetCost(pSettings->r_u32(RankStr, ItemCostStr));
 		}

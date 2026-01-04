@@ -311,7 +311,7 @@ public:
 		string_path				_cfg;
 		string_path				cmd;
 		FS.update_path			(_cfg,"$game_config$","default_controls.ltx");
-		xr_strconcat			(cmd,"cfg_load", " ", _cfg);
+		strconcat				(sizeof(cmd), cmd,"cfg_load", " ", _cfg);
 		Console->Execute		(cmd);
 	}
 };
@@ -334,9 +334,9 @@ public:
 			int idx = NameIdx(keybind[i].DIK);
 			if(idx!=-1){
 				strcat(key_name,keynames[idx].name);
-			 xr_strconcat(buff,buff," binded to ",key_name);
+				strconcat(sizeof(buff), buff,buff," binded to ",key_name);
 			}else
-			 xr_strconcat(buff,buff," binded to nil");
+				strconcat(sizeof(buff), buff,buff," binded to nil");
 
 			Log(buff);
 		}

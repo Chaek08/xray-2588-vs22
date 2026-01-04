@@ -2,8 +2,6 @@
 #include "UIVideoPlayerWnd.h"
 #include "UITabControl.h"
 #include "UIStatic.h"
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 #include "UIXmlInit.h"
 #include "../level.h"
 #include "../hudmanager.h"
@@ -32,18 +30,18 @@ void CUIVideoPlayerWnd::Init			(CUIXml* doc, LPCSTR start_from)
 	xml_init.InitWindow				(*doc, str, 0, this);
 	
 
- xr_strconcat						(str,start_from,":surface");
+	strconcat						(sizeof(str), str,start_from,":surface");
 	m_surface						= xr_new<CUIStatic>(); m_surface->SetAutoDelete(true);
 	AttachChild						(m_surface);
 	xml_init.InitStatic				(*doc, str, 0, m_surface);
 
- xr_strconcat						(str,start_from,":buttons_tab");
+	strconcat						(sizeof(str), str,start_from,":buttons_tab");
 	m_tabControl					= xr_new<CUITabControl>(); m_tabControl->SetAutoDelete(true);
 	AttachChild						(m_tabControl);
 	xml_init.InitTabControl			(*doc, str, 0, m_tabControl);
 	m_tabControl->SetWindowName		("buttons_tab");
 	Register						(m_tabControl);
-    AddCallback						("buttons_tab",TAB_CHANGED,boost::bind(&CUIVideoPlayerWnd::OnTabChanged,this,_1,_2));
+    AddCallback						("buttons_tab",TAB_CHANGED,CUIWndCallback::void_function(this, &CUIVideoPlayerWnd::OnTabChanged));
 
 	int flag						=doc->ReadAttribInt(start_from, 0, "looped", 0);
 	m_flags.set						(eLooped, flag?true:false);

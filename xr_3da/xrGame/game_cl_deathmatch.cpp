@@ -23,9 +23,6 @@
 #include "game_cl_deathmatch_snd_messages.h"
 #include "game_base_menu_events.h"
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
 #include "ActorCondition.h"
 
 #define	TEAM0_MENU		"deathmatch_team0"
@@ -486,15 +483,15 @@ void game_cl_Deathmatch::shedule_Update			(u32 dt)
 					ConvertTime2String(&S, TimeRemains);
 					string1024 tmpStr = "";
 					if (TimeRemains > 10000)
-						xr_strconcat(tmpStr, *st.translate("mp_time2start"), S);
+						strconcat(sizeof(tmpStr), tmpStr, *st.translate("mp_time2start"), S);
 					else
 					{
 						if (TimeRemains < 1000)
-							xr_strconcat(tmpStr, *st.translate("mp_go"), "");
+							strconcat(sizeof(tmpStr), tmpStr, *st.translate("mp_go"), "");
 						else
 						{
 							_itoa(TimeRemains/1000, S, 10);
-							xr_strconcat(tmpStr, *st.translate("mp_ready"), S);
+							strconcat(sizeof(tmpStr), tmpStr, *st.translate("mp_ready"), S);
 						}
 					};
 					

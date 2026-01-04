@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
+#define LUA_LIB
 #include <luabind/lua_include.hpp>
 
 #include <luabind/detail/stack_utils.hpp>
@@ -712,6 +713,11 @@ int luabind::detail::class_rep::function_dispatcher(lua_State* L)
         }
 		else
 		{
+#if 0
+			xr_string			str;
+			o.get_signature		(L, str);
+			OutputDebugString	((((xr_string("__function__") + rep->crep->name()) + "::") + rep->name + str + "\n").c_str());
+#endif
 	        return o.call(L, force_static_call != 0);
 		}
 

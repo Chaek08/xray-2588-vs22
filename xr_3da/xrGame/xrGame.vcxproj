@@ -194,7 +194,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;$(SolutionDir)\xrODE\include;$(SolutionDir)\SDK\loki;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLua\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;$(SolutionDir)\xrODE\include;$(SolutionDir)\SDK\loki;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ModuleOutputFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleOutputFile>
       <ModuleDependenciesFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleDependenciesFile>
       <XMLDocumentationFileName>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</XMLDocumentationFileName>
@@ -254,7 +254,7 @@
       <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA_JIT\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;$(SolutionDir)\xrODE\include;$(SolutionDir)\SDK\loki;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>scripting\;$(SolutionDir)\SDK\dxSDK\Include;$(SolutionDir)\xrCore;$(SolutionDir)\xrLUA\src;$(SolutionDir)\SDK\luabind\luabind\luabind;$(SolutionDir)\SDK\luabind\luabind;$(SolutionDir)\SDK\boost_1_30_0;$(SolutionDir)\SDK\Xiph\Include;$(SolutionDir)\xrODE\include;$(SolutionDir)\SDK\loki;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ModuleOutputFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleOutputFile>
       <ModuleDependenciesFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</ModuleDependenciesFile>
       <XMLDocumentationFileName>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\</XMLDocumentationFileName>
@@ -926,6 +926,7 @@
     <ClInclude Include="dijkstra.h" />
     <ClInclude Include="dijkstra_inline.h" />
     <ClInclude Include="DisablingParams.h" />
+    <ClInclude Include="doug_lea_memory_allocator.h" />
     <ClInclude Include="DrawUtils.h" />
     <CustomBuild Include="dRayMotions.h" />
     <ClInclude Include="DummyArtifact.h" />
@@ -1071,8 +1072,6 @@
     <ClInclude Include="InfoPortionDefs.h" />
     <ClInclude Include="ini_id_loader.h" />
     <ClInclude Include="ini_table_loader.h" />
-    <ClInclude Include="intrusive_ptr.h" />
-    <ClInclude Include="intrusive_ptr_inline.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryBox.h" />
     <ClInclude Include="InventoryOwner.h" />
@@ -1828,7 +1827,6 @@
     <ClInclude Include="xrServer_script_macroses.h" />
     <ClInclude Include="xrServer_Space.h" />
     <ClInclude Include="xr_level_controller.h" />
-    <ClInclude Include="xr_LuaAllocator.h" />
     <ClInclude Include="xr_time.h" />
     <ClInclude Include="ZoneVisual.h" />
     <ClInclude Include="zone_effector.h" />
@@ -2142,6 +2140,12 @@
     <ClCompile Include="detail_path_manager.cpp" />
     <ClCompile Include="detail_path_manager_smooth.cpp" />
     <ClCompile Include="DisablingParams.cpp" />
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="dRayMotions.cpp" />
     <ClCompile Include="DummyArtifact.cpp" />
     <ClCompile Include="DynamicHeightMap.cpp">
@@ -2948,23 +2952,6 @@
     <ClCompile Include="xrServer_process_update.cpp" />
     <ClCompile Include="xrServer_sls_clear.cpp" />
     <ClCompile Include="xr_level_controller.cpp" />
-    <ClCompile Include="xr_LuaAllocator.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugNoExceptions|Win32'">
-      </PrecompiledHeader>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='DebugNoExceptions|Win32'">TurnOffAllWarnings</WarningLevel>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">TurnOffAllWarnings</WarningLevel>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">
-      </PrecompiledHeader>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">TurnOffAllWarnings</WarningLevel>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_v145|Win32'">
-      </PrecompiledHeader>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">TurnOffAllWarnings</WarningLevel>
-      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release_v145|Win32'">TurnOffAllWarnings</WarningLevel>
-    </ClCompile>
     <ClCompile Include="xr_time.cpp" />
     <ClCompile Include="ZoneVisual.cpp" />
     <ClCompile Include="zone_effector.cpp" />
@@ -2977,10 +2964,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{a0f7d1fb-59a7-4717-a7e4-96f37e91998e}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\xrLUA_JIT\xrLUA_JIT.vcxproj">
-      <Project>{9ace5473-6d68-4b96-ac42-b39eaba0fe1f}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\xrNetServer\xrNetServer.vcxproj">

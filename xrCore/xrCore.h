@@ -2,6 +2,8 @@
 #define xrCoreH
 #pragma once
 
+#pragma warning(disable:4996)
+
 #if (defined(_DEBUG) || defined(MIXED) || defined(DEBUG)) && !defined(FORCE_NO_EXCEPTIONS)
 	// "debug" or "mixed"
 	#if !defined(_CPPUNWIND)
@@ -9,14 +11,16 @@
 	#endif
 	#define _HAS_EXCEPTIONS		1	// STL
 	#define XRAY_EXCEPTIONS		1	// XRAY
+	#define BOOST_NO_EXCEPTIONS
 #else
 	// "release"
 	#if defined(_CPPUNWIND)
 		#error Please disable exceptions...
 	#endif
-	#define _HAS_EXCEPTIONS		1	// STL
+//	#define _HAS_EXCEPTIONS		1	// STL
 	#define XRAY_EXCEPTIONS		0	// XRAY
 	#define LUABIND_NO_EXCEPTIONS
+	#define BOOST_NO_EXCEPTIONS
 	#pragma warning(disable:4530)
 #endif
 
@@ -55,7 +59,10 @@
 #include <stdarg.h>
 #include <math.h>
 #include <string.h>
+
 #include <typeinfo>
+//#include <typeinfo.h>
+
 //#include <process.h>
 
 #ifndef DEBUG
@@ -135,6 +142,7 @@
 	#define MODULE_NAME 	"xrCore.dll"
 #endif
 
+
 // Warnings
 #pragma warning (disable : 4251 )		// object needs DLL interface
 #pragma warning (disable : 4201 )		// nonstandard extension used : nameless struct/union
@@ -151,7 +159,7 @@
 #ifdef _M_AMD64
 #pragma warning (disable : 4512 )
 #endif
-
+       
 // stl
 #pragma warning (push)
 #pragma warning (disable:4702)
@@ -191,7 +199,7 @@
 #include "xr_resource.h"
 #include "rt_compressor.h"
 #include "xr_shared.h"
-#include "string_concatenations.h"
+
 // stl ext
 struct XRCORE_API xr_rtoken{
     shared_str	name;
@@ -238,6 +246,7 @@ DEFINE_VECTOR	(xr_rtoken,RTokenVec,RTokenVecIt);
 #include "FileSystem.h"
 #include "FTimer.h"
 #include "fastdelegate.h"
+#include "intrusive_ptr.h"
 
 // destructor
 template <class T>

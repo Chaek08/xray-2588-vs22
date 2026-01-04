@@ -30,7 +30,7 @@ public:
         u32						modif;			// for editor
 	};
 private:
-	struct	file_pred
+	struct	file_pred: public 	std::binary_function<file&, file&, bool> 
 	{	
 		IC bool operator()	(const file& x, const file& y) const
 		{	return xr_strcmp(x.name,y.name)<0;	}
@@ -41,21 +41,13 @@ private:
 		void					*hSrcFile, *hSrcMap;
 		u32						size;
 	};
-
-	using PathMap = xr_map<LPCSTR, FS_Path*, pred_str>;
-	using PathPairIt = PathMap::iterator;
-
+	DEFINE_MAP_PRED				(LPCSTR,FS_Path*,PathMap,PathPairIt,pred_str);
 	PathMap						pathes;
 
-	using files_set = xr_set<file, file_pred>;
-	using files_it = files_set::iterator;
+	DEFINE_SET_PRED				(file,files_set,files_it,file_pred);
+    DEFINE_VECTOR				(archive,archives_vec,archives_it);
 
-	using archives_vec = xr_vector<archive>;
-	using archives_it = archives_vec::iterator;
-
-	using FFVec = xr_vector<_finddata_t>;
-	using FFIt = FFVec::iterator;
-
+	DEFINE_VECTOR				(_finddata_t,FFVec,FFIt);
 	FFVec						rec_files;
 
     int							m_iLockRescan	; 

@@ -72,7 +72,7 @@ void CMapLocation::LoadSpot(LPCSTR type, bool bReload)
 
 	XML_NODE* node = NULL;
 	string512 path_base, path;
-// xr_strconcat(path_base,"map_spots:",type);
+
 	strcpy(path_base,type);
 	R_ASSERT3(g_uiSpotXml.NavigateToNode(path_base,0), "XML node not found in file map_spots.xml", path_base);
 	LPCSTR s = g_uiSpotXml.ReadAttrib(path_base, 0, "hint", "no hint");
@@ -97,7 +97,7 @@ void CMapLocation::LoadSpot(LPCSTR type, bool bReload)
 		m_flags.set( ePosToActor, TRUE);
 
 
-	xr_strconcat(path,path_base,":level_map");
+	strconcat(sizeof(path), path,path_base,":level_map");
 	node = g_uiSpotXml.NavigateToNode(path,0);
 	if(node){
 		LPCSTR str = g_uiSpotXml.ReadAttrib(path, 0, "spot", "");
@@ -119,7 +119,7 @@ void CMapLocation::LoadSpot(LPCSTR type, bool bReload)
 		}
 	};
 
-	xr_strconcat(path,path_base,":mini_map");
+	strconcat(sizeof(path), path,path_base,":mini_map");
 	node = g_uiSpotXml.NavigateToNode(path,0);
 	if(node){
 		LPCSTR str = g_uiSpotXml.ReadAttrib(path, 0, "spot", "");

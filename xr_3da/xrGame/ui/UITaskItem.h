@@ -17,7 +17,7 @@ class CUITaskItem :public CUIListItem, public CUIWndCallback
 protected:
 	CGameTask*		m_GameTask;
 	int				m_TaskObjectiveIdx;
-	void			OnClick					();
+	void __stdcall	OnClick					(CUIWindow*, void*);
 	void			Init					();
 public:
 					CUITaskItem				(CUIEventsWnd* w);
@@ -50,8 +50,8 @@ public:
 	virtual			~CUITaskRootItem		();
 	virtual void	Update					();
 	virtual void	SetGameTask				(CGameTask* gt, int obj_idx);
-			void	OnShowLocationClicked	();
-			void	OnSwitchDescriptionClicked();
+			void	__stdcall OnShowLocationClicked	(CUIWindow*, void*);
+			void	__stdcall OnSwitchDescriptionClicked(CUIWindow*, void*);
 
 	virtual void	MarkSelected			(bool b);
 	virtual bool	OnDbClick				();
@@ -76,8 +76,8 @@ public:
 	virtual			~CUITaskSubItem			();
 	virtual void	Update					();
 	virtual void	SetGameTask				(CGameTask* gt, int obj_idx);
-			void	OnShowPointerClicked	();
-			void	OnShowDescriptionClicked();
+			void	__stdcall OnShowPointerClicked	(CUIWindow*, void*);
+			void	__stdcall OnShowDescriptionClicked(CUIWindow*, void*);
 	virtual void	MarkSelected			(bool b);
 	virtual bool	OnDbClick				();
 };
@@ -102,11 +102,11 @@ public:
 	virtual			~CUIUserTaskItem			();
 	virtual void	Update					();
 	virtual void	SetGameTask				(CGameTask* gt, int obj_idx);
-			void	OnShowLocationClicked	();
-			void	OnShowPointerClicked	();
-			void	OnDescriptionChanged	();
-			void	OnEditTextClicked		();
-			void	OnRemoveClicked			();
+			void	__stdcall OnShowLocationClicked	(CUIWindow*, void*);
+			void	__stdcall OnShowPointerClicked	(CUIWindow*, void*);
+			void	__stdcall OnDescriptionChanged	(CUIWindow*, void*);
+			void	__stdcall OnEditTextClicked		(CUIWindow*, void*);
+			void	__stdcall OnRemoveClicked			(CUIWindow*, void*);
 
 	virtual bool	OnDbClick				()	{return true;};
 	virtual void	MarkSelected			(bool b);
@@ -122,8 +122,8 @@ class CUIUserTaskEditWnd : public CUIDialogWnd, public CUIWndCallback
 	CUIEditBox*			m_editCaption;
 	CUIEditBoxEx*			m_editDescription;
 protected:
-			void			OnOk					();
-			void			OnCancel				();
+			void	__stdcall		OnOk					(CUIWindow*, void*);
+			void	__stdcall		OnCancel				(CUIWindow*, void*);
 			void			Init					();
 public:
 							CUIUserTaskEditWnd		();

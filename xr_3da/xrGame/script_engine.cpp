@@ -36,7 +36,9 @@ CScriptEngine::~CScriptEngine			()
 {
 	while (!m_script_processes.empty())
 		remove_script_process(m_script_processes.begin()->first);
+#ifdef DEBUG
 	flush_log				();
+#endif
 #ifdef USE_DEBUGGER
 	xr_delete (m_scriptDebugger);
 #endif
@@ -60,7 +62,7 @@ void CScriptEngine::lua_error			(CLuaVirtualMachine *L)
 	print_output			(L,"",LUA_ERRRUN);
 
 #if !XRAY_EXCEPTIONS
-	Debug.fatal				("LUA error: %s",lua_tostring(L,-1));
+	Debug.fatal				(DEBUG_INFO, "LUA error: %s",lua_tostring(L,-1));
 #else
 	throw					lua_tostring(L,-1);
 #endif
@@ -70,7 +72,7 @@ int  CScriptEngine::lua_pcall_failed	(CLuaVirtualMachine *L)
 {
 	print_output			(L,"",LUA_ERRRUN);
 #if !XRAY_EXCEPTIONS
-	Debug.fatal				("LUA error: %s",lua_isstring(L,-1) ? lua_tostring(L,-1) : "");
+	Debug.fatal				(DEBUG_INFO, "LUA error: %s",lua_isstring(L,-1) ? lua_tostring(L,-1) : "");
 #endif
 	if (lua_isstring(L,-1))
 		lua_pop				(L,1);
@@ -81,7 +83,7 @@ void lua_cast_failed					(CLuaVirtualMachine *L, LUABIND_TYPE_INFO info)
 {
 	CScriptEngine::print_output	(L,"",LUA_ERRRUN);
 
-	Debug.fatal				("LUA error: cannot cast lua value to %s",info->name());
+	Debug.fatal				(DEBUG_INFO, "LUA error: cannot cast lua value to %s",info->name());
 }
 
 void CScriptEngine::setup_callbacks		()
@@ -225,7 +227,7 @@ void CScriptEngine::process_file_if_exists	(LPCSTR file_name, bool warn_if_not_e
 
 	string_path				S,S1;
 	if (m_reload_modules || (*file_name && !namespace_loaded(file_name))) {
-		FS.update_path		(S,"$game_scripts$", xr_strconcat(S1,file_name,".script"));
+		FS.update_path		(S,"$game_scripts$", strconcat(sizeof(S1), S1,file_name,".script"));
 		if (!warn_if_not_exist && !FS.exist(S)) {
 #ifdef DEBUG
 			print_stack		();

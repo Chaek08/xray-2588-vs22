@@ -51,7 +51,7 @@ void CALifeStorageManager::save	(LPCSTR save_name, bool update_name)
 	string256					save;
 	strcpy						(save,m_save_name);
 	if (save_name) {
-		xr_strconcat				(m_save_name,save_name,SAVE_EXTENSION);
+		strconcat				(sizeof(m_save_name), m_save_name,save_name,SAVE_EXTENSION);
 	}
 	else {
 		if (!xr_strlen(m_save_name)) {
@@ -86,7 +86,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 			R_ASSERT2			(false,"There is no file name specified!");
 	}
 	else
-		xr_strconcat				(m_save_name,save_name,SAVE_EXTENSION);
+		strconcat				(sizeof(m_save_name), m_save_name,save_name,SAVE_EXTENSION);
 	string_path					file_name;
 	FS.update_path				(file_name,"$game_saves$",m_save_name);
 
@@ -100,7 +100,7 @@ bool CALifeStorageManager::load	(LPCSTR save_name)
 
 	{
 		string512				temp;
-		xr_strconcat			(temp,CStringTable().translate("st_loading_saved_game").c_str()," \"",save_name,SAVE_EXTENSION,"\"");
+		strconcat				(sizeof(temp), temp,CStringTable().translate("st_loading_saved_game").c_str()," \"",save_name,SAVE_EXTENSION,"\"");
 		g_pGamePersistent->LoadTitle(temp);
 	}
 

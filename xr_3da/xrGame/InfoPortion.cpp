@@ -64,7 +64,7 @@ void CInfoPortion::load_shared(LPCSTR)
 
 	CUIXml uiXml;
 	string_path xml_file_full;
-	xr_strconcat(xml_file_full, *item_data.file_name, ".xml");
+	strconcat(sizeof(xml_file_full), xml_file_full, *item_data.file_name, ".xml");
 
 	bool xml_result = uiXml.Init(CONFIG_PATH, GAME_PATH, xml_file_full);
 	THROW3(xml_result, "xml file not found", xml_file_full);

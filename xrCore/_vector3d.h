@@ -14,9 +14,7 @@ public:
 	typedef Self&		SelfRef;
 	typedef const Self&	SelfCRef;
 public:
-	T x = 0;
-	T y = 0;
-	T z = 0;
+	T	x,y,z;
 
 	// access operators
 	ICF	T&			operator[] (int i)					{ return *((T*)this + i); }

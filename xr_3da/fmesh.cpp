@@ -57,7 +57,7 @@ void ConvertVertices(u32 dwTypeDest, void* pDest, u32 dwTypeSrc, void* pSource, 
         tmPosSrc = tmPos;
     }
     else {
-        Debug.fatal("Can't convert between different vertex positions");
+        FATAL("Can't convert between different vertex positions");
     }
 
     if ((dwTypeDest & D3DFVF_PSIZE) && (dwTypeSrc & D3DFVF_PSIZE)) {
@@ -76,7 +76,7 @@ void ConvertVertices(u32 dwTypeDest, void* pDest, u32 dwTypeSrc, void* pSource, 
         TransferMask[tmPos++] = tmPosSrc++;
     }
     if ((dwTypeDest & D3DFVF_NORMAL) && !(dwTypeSrc & D3DFVF_NORMAL)) {
-        Debug.fatal("Source format doesn't have NORMAL but destination HAS");
+        FATAL("Source format doesn't have NORMAL but destination HAS");
     }
     if (!(dwTypeDest & D3DFVF_NORMAL) && (dwTypeSrc & D3DFVF_NORMAL)) {
         tmPosSrc++;
@@ -114,7 +114,7 @@ void ConvertVertices(u32 dwTypeDest, void* pDest, u32 dwTypeSrc, void* pSource, 
     }
     else {
         if (dwTSrc == 0) {
-            Debug.fatal("Source vertex format doesn't has texture coords at all");
+            FATAL("Source vertex format doesn't has texture coords at all");
         }
         u32 dwStage0TC = tmPosSrc;
         for (u32 i = 0; i < dwTSrc; i++) {

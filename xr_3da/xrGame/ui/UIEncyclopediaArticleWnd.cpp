@@ -27,12 +27,12 @@ void CUIEncyclopediaArticleWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 	strcpy(str,start_from);
 	xml_init.InitWindow			(uiXml,str,0,this);
 
- xr_strconcat(str,start_from,":image");
+    strconcat(sizeof(str), str,start_from,":image");
 	m_UIImage				= xr_new<CUIStatic>();	m_UIImage->SetAutoDelete(true);
 	xml_init.InitStatic			(uiXml,str,0,m_UIImage);
 	AttachChild				(m_UIImage);
 
- xr_strconcat(str,start_from,":text_cont");
+    strconcat(sizeof(str), str,start_from,":text_cont");
 	m_UIText				= xr_new<CUIStatic>();	m_UIText->SetAutoDelete(true);
 	xml_init.InitStatic		(uiXml,str,0,m_UIText);
 	AttachChild				(m_UIText);

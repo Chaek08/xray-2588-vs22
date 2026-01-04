@@ -12,9 +12,6 @@
 #include "UI3tButton.h"
 #include "../UI.h"
 
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
-
 //////////////////////////////////////////////////////////////////////////
 
 #define				TALK_XML				"talk.xml"
@@ -96,8 +93,8 @@ void CUITalkDialogWnd::Init(float x, float y, float width, float height)
 	SetWindowName("----CUITalkDialogWnd");
 
 	Register						(&UIToTradeButton);
-	AddCallback						("question_item",LIST_ITEM_CLICKED,boost::bind(&CUITalkDialogWnd::OnQuestionClicked,this,_1,_2));
-	AddCallback						("trade_btn",BUTTON_CLICKED,boost::bind(&CUITalkDialogWnd::OnTradeClicked,this));
+	AddCallback						("question_item",LIST_ITEM_CLICKED,CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnQuestionClicked));
+	AddCallback						("trade_btn",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnTradeClicked));
 }
 
 
@@ -121,7 +118,7 @@ void CUITalkDialogWnd::OnQuestionClicked(CUIWindow* w, void*)
 		GetMessageTarget()->SendMessage(this, TALK_DIALOG_QUESTION_CLICKED);
 }
 
-void CUITalkDialogWnd::OnTradeClicked()
+void CUITalkDialogWnd::OnTradeClicked(CUIWindow* w, void*)
 {
 		GetTop()->SendMessage(this, TALK_DIALOG_TRADE_BUTTON_CLICKED);
 }
@@ -210,12 +207,12 @@ CUIQuestionItem::CUIQuestionItem			(CUIXml* xml_doc, LPCSTR path)
 
 	m_min_height					= xml_doc->ReadAttribFlt(path,0,"min_height",15.0f);
 
- xr_strconcat						(str,path,":content_text");
+	strconcat						(sizeof(str), str,path,":content_text");
 	xml_init.Init3tButton			(*xml_doc, str, 0, m_text);
 
 	Register						(m_text);
 	m_text->SetWindowName			("text_button");
-	AddCallback						("text_button",BUTTON_CLICKED,boost::bind(&CUIQuestionItem::OnTextClicked,this));
+	AddCallback						("text_button",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIQuestionItem::OnTextClicked));
 
 }
 
@@ -228,7 +225,7 @@ void CUIQuestionItem::Init			(int val, LPCSTR text)
 	SetHeight						(new_h);
 }
 
-void	CUIQuestionItem::OnTextClicked()
+void	CUIQuestionItem::OnTextClicked(CUIWindow* w, void*)
 {
 	GetMessageTarget()->SendMessage(this, LIST_ITEM_CLICKED, (void*)this);
 }
@@ -249,10 +246,10 @@ CUIAnswerItem::CUIAnswerItem			(CUIXml* xml_doc, LPCSTR path)
 
 	m_min_height					= xml_doc->ReadAttribFlt(path,0,"min_height",15.0f);
 	m_bottom_footer					= xml_doc->ReadAttribFlt(path,0,"bottom_footer",0.0f);
- xr_strconcat						(str,path,":content_text");
+	strconcat						(sizeof(str), str,path,":content_text");
 	xml_init.InitStatic				(*xml_doc, str, 0, m_text);
 
- xr_strconcat						(str,path,":name_caption");
+	strconcat						(sizeof(str), str,path,":name_caption");
 	xml_init.InitStatic				(*xml_doc, str, 0, m_name);
 	SetAutoDelete					(true);
 }
@@ -276,7 +273,7 @@ CUIAnswerItemIconed::CUIAnswerItemIconed		(CUIXml* xml_doc, LPCSTR path)
 	string512						str;
 	CUIXmlInit						xml_init;
 
- xr_strconcat						(str,path,":msg_icon");
+	strconcat						(sizeof(str), str,path,":msg_icon");
 	xml_init.InitStatic				(*xml_doc, str, 0, m_icon);
 }
 

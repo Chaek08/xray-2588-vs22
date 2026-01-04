@@ -211,7 +211,7 @@ void CUIBagWnd::InitWpnSectStorage()
 	wpnOneType.clear();
 
 	CInifile::Sect &sect = pSettings->r_section(m_sectionPrice.c_str());
-	for (CInifile::SectIt it = sect.begin(); it != sect.end(); it++)
+	for (CInifile::SectCIt it = sect.Data.begin(); it != sect.Data.end(); it++)
 	{
 		u8 group_id, index;
 		GetWeaponIndexByName((*it).first.c_str(), group_id, index);
@@ -840,14 +840,14 @@ void CUIBagWnd::ReloadItemsPrices()
 		R_ASSERT(pSettings->line_exist(m_sectionPrice, iitm->object().cNameSect()/*(*it)->strName)*/));
 		m_info[itm->m_index].price = pSettings->r_u32(m_sectionPrice, *iitm->object().cNameSect());
 		//-------------------------------------------------------------------------------
-	 xr_strconcat(ItemCostStr, *iitm->object().cNameSect(), "_cost");
+	    strconcat(sizeof(ItemCostStr), ItemCostStr, *iitm->object().cNameSect(), "_cost");
 		if (pSettings->line_exist(m_sectionName, ItemCostStr))
 			m_info[itm->m_index].price = pSettings->r_u32(m_sectionName, ItemCostStr);
 		//-------------------------------------------------------------------------------
 		for (int i=1; i<=g_mp_restrictions.GetRank(); i++)
 		{
 			string16 tmp;
-		 xr_strconcat(RankStr, "rank_", itoa(i, tmp, 10));
+		   strconcat(sizeof(RankStr), RankStr, "rank_", itoa(i, tmp, 10));
 			if (!pSettings->line_exist(RankStr, ItemCostStr))
 				continue;
 			m_info[itm->m_index].price = pSettings->r_u32(RankStr, ItemCostStr);

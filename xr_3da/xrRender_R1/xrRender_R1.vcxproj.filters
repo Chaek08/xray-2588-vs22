@@ -40,6 +40,9 @@
     <Filter Include="Lights">
       <UniqueIdentifier>{03609294-5ecf-42d7-a3ad-eec5f9da596e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\memory">
+      <UniqueIdentifier>{b726cfbf-095f-4ad4-b514-e8e4b922ac2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cl_intersect.h">
@@ -209,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="LightTrack.h">
       <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="doug_lea_memory_allocator.h">
+      <Filter>Core\memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -412,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="LightTrack.cpp">
       <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <Filter>Core\memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -86,7 +86,7 @@ void CSpecificCharacter::load_shared	(LPCSTR)
 	const id_to_index::ITEM_DATA& item_data = *id_to_index::GetById(m_OwnId);
 
 	string_path xml_file_full;
-	xr_strconcat	(xml_file_full, *shared_str(item_data.file_name), ".xml");
+	strconcat	(sizeof(xml_file_full), xml_file_full, *shared_str(item_data.file_name), ".xml");
 
 	bool xml_result = uiXml.Init(CONFIG_PATH, GAME_PATH, xml_file_full);
 	R_ASSERT3(xml_result, "xml file not found", xml_file_full);
@@ -199,7 +199,7 @@ void CSpecificCharacter::load_shared	(LPCSTR)
 	xr_free(buf_str);
 	
 	if(data()->m_Community.index() == NO_COMMUNITY_INDEX)
-		Debug.fatal("wrong 'community' '%s' in specific character %s ", team, *m_OwnId);
+		Debug.fatal(DEBUG_INFO, "wrong 'community' '%s' in specific character %s ", team, *m_OwnId);
 
 	data()->m_Rank			= uiXml.ReadInt("rank", 0, NO_RANK);
 	R_ASSERT3(data()->m_Rank != NO_RANK, "'rank' field not fulfiled for specific character", *m_OwnId);

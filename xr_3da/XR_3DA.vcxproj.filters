@@ -142,6 +142,9 @@
     <Filter Include="Engine\Noise">
       <UniqueIdentifier>{5a004b34-a9f7-40dc-a0cc-a26b4b6691bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\Execution &amp; 3D\Shaders\ShaderManager\doug_lea_memory_allocator">
+      <UniqueIdentifier>{19c5266c-2a4c-4a5e-bd86-0dd962230422}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_d3d_extensions.h">
@@ -507,6 +510,9 @@
     <ClInclude Include="perlin.h">
       <Filter>Engine\Noise</Filter>
     </ClInclude>
+    <ClInclude Include="doug_lea_memory_allocator.h">
+      <Filter>Render\Execution &amp; 3D\Shaders\ShaderManager\doug_lea_memory_allocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
@@ -871,6 +877,9 @@
     </ClCompile>
     <ClCompile Include="perlin.cpp">
       <Filter>Engine\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="doug_lea_memory_allocator.c">
+      <Filter>Render\Execution &amp; 3D\Shaders\ShaderManager\doug_lea_memory_allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

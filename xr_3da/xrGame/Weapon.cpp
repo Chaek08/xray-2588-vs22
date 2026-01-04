@@ -409,9 +409,9 @@ void CWeapon::LoadFireParams		(LPCSTR section, LPCSTR prefix)
 void CWeapon::LoadZoomOffset (LPCSTR section, LPCSTR prefix)
 {
 	string256 full_name;
-	m_pHUD->SetZoomOffset(pSettings->r_fvector3	(hud_sect, xr_strconcat(full_name, prefix, "zoom_offset")));
-	m_pHUD->SetZoomRotateX(pSettings->r_float	(hud_sect, xr_strconcat(full_name, prefix, "zoom_rotate_x")));
-	m_pHUD->SetZoomRotateY(pSettings->r_float	(hud_sect, xr_strconcat(full_name, prefix, "zoom_rotate_y")));
+	m_pHUD->SetZoomOffset(pSettings->r_fvector3	(hud_sect, strconcat(sizeof(full_name), full_name, prefix, "zoom_offset")));
+	m_pHUD->SetZoomRotateX(pSettings->r_float	(hud_sect, strconcat(sizeof(full_name), full_name, prefix, "zoom_rotate_x")));
+	m_pHUD->SetZoomRotateY(pSettings->r_float	(hud_sect, strconcat(sizeof(full_name), full_name, prefix, "zoom_rotate_y")));
 
 	if(pSettings->line_exist(hud_sect, "zoom_rotate_time"))
 		m_fZoomRotateTime = pSettings->r_float(hud_sect,"zoom_rotate_time");

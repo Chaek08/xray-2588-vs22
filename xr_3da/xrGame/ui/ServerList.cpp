@@ -366,24 +366,24 @@ bool CServerList::IsValidItem(ServerInfo& item){
 void CServerList::InitFromXml(CUIXml& xml_doc, const char* path){
 	CUIXmlInit::InitWindow		(xml_doc, path, 0, this);
 	string256 buf;
-	CUIXmlInit::InitListWnd		(xml_doc, xr_strconcat(buf,path,":list"),							0, &m_list[LST_SERVER]);
+	CUIXmlInit::InitListWnd		(xml_doc, strconcat(sizeof(buf), buf,path,":list"),							0, &m_list[LST_SERVER]);
 	m_fListH[0] =				m_list[LST_SERVER].GetHeight();
 	m_fListH[1] =				xml_doc.ReadAttribFlt(buf,0,"height2");
-	CUIXmlInit::InitListWnd		(xml_doc, xr_strconcat(buf,path,":list_server_properties"),		0, &m_list[LST_SRV_PROP]);
-	CUIXmlInit::InitListWnd		(xml_doc, xr_strconcat(buf,path,":list_players_list"),				0, &m_list[LST_PLAYERS]);
-	CUIXmlInit::InitFrameWindow	(xml_doc, xr_strconcat(buf,path,":frame"),							0, &m_frame[LST_SERVER]);
-	CUIXmlInit::InitFrameWindow	(xml_doc, xr_strconcat(buf,path,":list_server_properties:frame"),	0, &m_frame[LST_SRV_PROP]);
-	CUIXmlInit::InitFrameWindow	(xml_doc, xr_strconcat(buf,path,":list_players_list:frame"),		0, &m_frame[LST_PLAYERS]);
-	CUIXmlInit::InitFont		(xml_doc, xr_strconcat(buf,path,":list_item:text"),				0, m_itemInfo.color, m_itemInfo.font);
-	CUIXmlInit::InitEditBox		(xml_doc, xr_strconcat(buf,path,":edit_gs_filter"),				0, &m_edit_gs_filter);
+	CUIXmlInit::InitListWnd		(xml_doc, strconcat(sizeof(buf), buf,path,":list_server_properties"),		0, &m_list[LST_SRV_PROP]);
+	CUIXmlInit::InitListWnd		(xml_doc, strconcat(sizeof(buf), buf,path,":list_players_list"),				0, &m_list[LST_PLAYERS]);
+	CUIXmlInit::InitFrameWindow	(xml_doc, strconcat(sizeof(buf), buf,path,":frame"),							0, &m_frame[LST_SERVER]);
+	CUIXmlInit::InitFrameWindow	(xml_doc, strconcat(sizeof(buf), buf,path,":list_server_properties:frame"),	0, &m_frame[LST_SRV_PROP]);
+	CUIXmlInit::InitFrameWindow	(xml_doc, strconcat(sizeof(buf), buf,path,":list_players_list:frame"),		0, &m_frame[LST_PLAYERS]);
+	CUIXmlInit::InitFont		(xml_doc, strconcat(sizeof(buf), buf,path,":list_item:text"),				0, m_itemInfo.color, m_itemInfo.font);
+	CUIXmlInit::InitEditBox		(xml_doc, strconcat(sizeof(buf), buf,path,":edit_gs_filter"),				0, &m_edit_gs_filter);
 	m_fEditPos[0] =				m_edit_gs_filter.GetWndPos().y;
 	m_fEditPos[1] =				xml_doc.ReadAttribFlt(buf,0,"y2");
-	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":cap_server_properties"),			0, &m_header2[0]);
-	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":cap_players_list"),				0, &m_header2[1]);
-	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":cap_frags"),						0, &m_header2[2]);
-	CUIXmlInit::InitLabel		(xml_doc, xr_strconcat(buf,path,":cap_death"),						0, &m_header2[3]);
+	CUIXmlInit::InitLabel		(xml_doc, strconcat(sizeof(buf), buf,path,":cap_server_properties"),			0, &m_header2[0]);
+	CUIXmlInit::InitLabel		(xml_doc, strconcat(sizeof(buf), buf,path,":cap_players_list"),				0, &m_header2[1]);
+	CUIXmlInit::InitLabel		(xml_doc, strconcat(sizeof(buf), buf,path,":cap_frags"),						0, &m_header2[2]);
+	CUIXmlInit::InitLabel		(xml_doc, strconcat(sizeof(buf), buf,path,":cap_death"),						0, &m_header2[3]);
 	
-	m_itemInfo.size.icon	= xml_doc.ReadAttribFlt( xr_strconcat(buf, path, ":sizes"), 0, "icon");
+	m_itemInfo.size.icon	= xml_doc.ReadAttribFlt( strconcat(sizeof(buf), buf, path, ":sizes"), 0, "icon");
 	m_itemInfo.size.server	= xml_doc.ReadAttribFlt( buf, 0, "server");
 	m_itemInfo.size.map		= xml_doc.ReadAttribFlt( buf, 0, "map");
 	m_itemInfo.size.game	= xml_doc.ReadAttribFlt( buf, 0, "game");
@@ -392,11 +392,11 @@ void CServerList::InitFromXml(CUIXml& xml_doc, const char* path){
 
 	// init header elements
 	for (int i = 0; i<6; i++)
-		CUIXmlInit::Init3tButton(xml_doc, xr_strconcat(buf,path,":header"), 0, &m_header[i]);
+		CUIXmlInit::Init3tButton(xml_doc, strconcat(sizeof(buf), buf,path,":header"), 0, &m_header[i]);
 	m_header[0].Enable(false);
 	for (int i = 0; i<5; i++)
 	{
-		CUIXmlInit::InitFrameLine(xml_doc, xr_strconcat(buf,path,":separator"), 0, &m_separator[i]);
+		CUIXmlInit::InitFrameLine(xml_doc, strconcat(sizeof(buf), buf,path,":separator"), 0, &m_separator[i]);
 		m_separator[i].SetHeight(m_list[LST_SERVER].GetHeight());
 	}
 	InitHeader();

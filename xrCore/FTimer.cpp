@@ -25,7 +25,13 @@ void	CStatTimer::FrameEnd	()
 XRCORE_API pauseMngr	g_pauseMngr;
 
 
-void pauseMngr::Pause(BOOL b){
+pauseMngr::pauseMngr	():m_paused(FALSE)
+{
+	m_timers.reserve	(3);
+}
+
+void pauseMngr::Pause(BOOL b)
+{
 	if(m_paused == b)return;
 
 	xr_vector<CTimer_paused*>::iterator it = m_timers.begin();

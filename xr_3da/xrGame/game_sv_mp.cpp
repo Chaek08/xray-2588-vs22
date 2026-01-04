@@ -786,7 +786,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 	char tmp[5];
 	for (int i=1; i<=ps->rank; i++)
 	{
-		xr_strconcat(RankStr,"rank_",itoa(i,tmp,10));
+		strconcat(sizeof(RankStr), RankStr,"rank_",itoa(i,tmp,10));
 		if (!pSettings->section_exist(RankStr)) continue;
 		for (u32 it=0; it<ps->pItemList.size(); it++)
 		{
@@ -794,7 +794,7 @@ void	game_sv_mp::SetPlayersDefItems		(game_PlayerState* ps)
 			WeaponDataStruct* pWpnS = NULL;
 			if (!GetTeamItem_ByID(&pWpnS, &(TeamList[ps->team].aWeapons), *pItemID)) continue;
 
-			xr_strconcat(ItemStr, "def_item_repl_", pWpnS->WeaponName.c_str());
+			strconcat(sizeof(ItemStr), ItemStr, "def_item_repl_", pWpnS->WeaponName.c_str());
 			if (!pSettings->line_exist(RankStr, ItemStr)) continue;
 			
 			strcpy(NewItemStr,pSettings->r_string(RankStr, ItemStr));

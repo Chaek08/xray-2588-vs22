@@ -229,7 +229,7 @@ CBlend*	CKinematicsAnimated::PlayCycle		(LPCSTR  N, BOOL bMixIn, PlayCallback Ca
 {
 	MotionID motion_ID		= ID_Cycle(N);
 	if (motion_ID.valid())	return PlayCycle(motion_ID,bMixIn,Callback,CallbackParam);
-	else					{ Debug.fatal("! MODEL: can't find cycle: %s", N); return 0; }
+	else					{ Debug.fatal(DEBUG_INFO, "! MODEL: can't find cycle: %s", N); return 0; }
 }
 CBlend*	CKinematicsAnimated::PlayCycle		(MotionID motion_ID,  BOOL bMixIn, PlayCallback Callback, LPVOID CallbackParam)
 {	
@@ -502,7 +502,7 @@ CBlend*	CKinematicsAnimated::IBlend_Create	()
 	CBlend *I=blend_pool.begin(), *E=blend_pool.end();
 	for (; I!=E; I++)
 		if (I->blend == CBlend::eFREE_SLOT) return I;
-	Debug.fatal("Too many blended motions requisted");
+	FATAL("Too many blended motions requisted");
 	return 0;
 }
 void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
@@ -532,7 +532,7 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
                     Msg			("!Can't find motion file '%s'.",nm);
                     return;
 #else            
-                    Debug.fatal	("Can't find motion file '%s'.",nm);
+                    Debug.fatal	(DEBUG_INFO, "Can't find motion file '%s'.",nm);
 #endif
                 }
             }
@@ -544,7 +544,7 @@ void CKinematicsAnimated::Load(const char* N, IReader *data, u32 dwFlags)
     	}
     }else{
 		string_path	nm;
-		xr_strconcat			(nm,N,".ogf");
+		strconcat			(sizeof(nm), nm,N,".ogf");
 		m_Motions.push_back(SMotionsSlot());
 		m_Motions.back().motions.create(nm,data,bones);
     }

@@ -213,13 +213,12 @@ void CUIMainIngameWnd::Init()
 	xml_init.InitStatic(uiXml, "invincible_static", 0, &UIInvincibleIcon);
 	UIInvincibleIcon.Show(false);
 
-
-	if(IsGameTypeSingle())
+	if (GameID() == GAME_ARTEFACTHUNT)
 	{
-		m_artefactPanel->InitFromXML		(uiXml, "artefact_panel", 0);
-		this->AttachChild					(m_artefactPanel);	
+		xml_init.InitStatic(uiXml, "artefact_static", 0, &UIArtefactIcon);
+		UIArtefactIcon.Show(false);
 	}
-	
+
 	shared_str warningStrings[6] = 
 	{	
 		"jammed",

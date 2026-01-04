@@ -4,8 +4,6 @@
 #include "UI3tButton.h"
 #include "../gametask.h"
 #include "../string_table.h"
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 #include "UIEventsWnd.h"
 #include "UIEditBoxEx.h"
 #include "UIEditBox.h"
@@ -49,10 +47,10 @@ void CUITaskItem::Update				()
 void CUITaskItem::Init				()
 {
 	SetWindowName					("job_item");
-	AddCallback						("job_item",BUTTON_CLICKED,boost::bind(&CUITaskItem::OnClick,this));
+	AddCallback						("job_item",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskItem::OnClick));
 }
 
-void CUITaskItem::OnClick				()
+void CUITaskItem::OnClick				(CUIWindow*, void*)
 {
 	m_EventsWnd->ShowDescription						(GameTask(), ObjectiveIdx());
 }
@@ -84,8 +82,8 @@ void CUITaskRootItem::Init			()
 	Register(m_showLocationBtn);
 	m_switchDescriptionBtn->SetWindowName("m_switchDescriptionBtn");
 	Register(m_switchDescriptionBtn);
-	AddCallback						("m_showLocationBtn",BUTTON_CLICKED,boost::bind(&CUITaskRootItem::OnShowLocationClicked,this));
-	AddCallback						("m_switchDescriptionBtn",BUTTON_CLICKED,boost::bind(&CUITaskRootItem::OnSwitchDescriptionClicked,this));
+	AddCallback						("m_showLocationBtn",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskRootItem::OnShowLocationClicked));
+	AddCallback						("m_switchDescriptionBtn",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskRootItem::OnSwitchDescriptionClicked));
 
 	CUIXmlInit xml_init;
 	xml_init.InitWindow			(uiXml,"task_root_item",0,this);
@@ -167,13 +165,13 @@ bool CUITaskRootItem::OnDbClick	()
 	return true;
 }
 
-void CUITaskRootItem::OnShowLocationClicked	()
+void CUITaskRootItem::OnShowLocationClicked	(CUIWindow*, void*)
 {
 	bool bPushed = m_showLocationBtn->GetCheck	();
 	m_GameTask->ShowLocations					(bPushed);
 }
 
-void CUITaskRootItem::OnSwitchDescriptionClicked	()
+void CUITaskRootItem::OnSwitchDescriptionClicked	(CUIWindow*, void*)
 {
 	bool bPushed = 	m_switchDescriptionBtn->GetCheck	();
 	m_EventsWnd->SetDescriptionMode						(!bPushed);
@@ -211,8 +209,8 @@ void CUITaskSubItem::Init			()
 	Register										(m_showPointerBtn);
 	Register										(m_showDescriptionBtn);
 
-	AddCallback						("m_showPointerBtn",BUTTON_CLICKED,boost::bind(&CUITaskSubItem::OnShowPointerClicked,this));
-	AddCallback						("m_showDescriptionBtn",BUTTON_CLICKED,boost::bind(&CUITaskSubItem::OnShowDescriptionClicked,this));
+	AddCallback						("m_showPointerBtn",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskSubItem::OnShowPointerClicked));
+	AddCallback						("m_showDescriptionBtn",BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskSubItem::OnShowDescriptionClicked));
 
 
 	CUIXmlInit xml_init;
@@ -284,14 +282,14 @@ bool CUITaskSubItem::OnDbClick				()
 	return true;
 }
 
-void CUITaskSubItem::OnShowPointerClicked	()
+void CUITaskSubItem::OnShowPointerClicked	(CUIWindow*, void*)
 {
 	bool bPushed							= m_showPointerBtn->GetCheck();
 	m_GameTask->HighlightSpotOnMap			(m_TaskObjectiveIdx,bPushed);
 	m_EventsWnd->ShowDescription			(GameTask(), ObjectiveIdx());
 }
 
-void CUITaskSubItem::OnShowDescriptionClicked ()
+void CUITaskSubItem::OnShowDescriptionClicked (CUIWindow*, void*)
 {
 	m_EventsWnd->ShowDescription						(GameTask(), ObjectiveIdx());
 }
@@ -330,23 +328,23 @@ void  CUIUserTaskItem::Init					()
 	m_showLocationBtn				= xr_new<CUI3tButton>();	m_showLocationBtn->SetAutoDelete(true);		AttachChild(m_showLocationBtn);
 	m_showLocationBtn->				SetWindowName("m_showLocationBtn");
 	Register						(m_showLocationBtn);
-	AddCallback						(m_showLocationBtn->WindowName(),BUTTON_CLICKED,boost::bind(&CUIUserTaskItem::OnShowLocationClicked,this));
+	AddCallback						(m_showLocationBtn->WindowName(),BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIUserTaskItem::OnShowLocationClicked));
 
 	m_showPointerBtn				= xr_new<CUI3tButton>();	m_showPointerBtn->SetAutoDelete(true);		AttachChild(m_showPointerBtn);
 	m_showPointerBtn->				SetWindowName("m_showPointerBtn");
 	Register						(m_showPointerBtn);
-	AddCallback						(m_showPointerBtn->WindowName(),BUTTON_CLICKED,boost::bind(&CUIUserTaskItem::OnShowPointerClicked,this));
+	AddCallback						(m_showPointerBtn->WindowName(),BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIUserTaskItem::OnShowPointerClicked));
 
 
 	m_editTextBtn					= xr_new<CUI3tButton>();	m_editTextBtn->SetAutoDelete(true);		AttachChild(m_editTextBtn);
 	m_editTextBtn->					SetWindowName("m_editTextBtn");
 	Register						(m_editTextBtn);
-	AddCallback						(m_editTextBtn->WindowName(), BUTTON_CLICKED,boost::bind(&CUIUserTaskItem::OnEditTextClicked,this));
+	AddCallback						(m_editTextBtn->WindowName(), BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIUserTaskItem::OnEditTextClicked));
 
 	m_removeBtn						= xr_new<CUI3tButton>();	m_removeBtn->SetAutoDelete(true);		AttachChild(m_removeBtn);
 	m_removeBtn->					SetWindowName("m_removeBtn");
 	Register						(m_removeBtn);
-	AddCallback						(m_removeBtn->WindowName(), BUTTON_CLICKED,boost::bind(&CUIUserTaskItem::OnRemoveClicked,this));
+	AddCallback						(m_removeBtn->WindowName(), BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIUserTaskItem::OnRemoveClicked));
 
 
 	CUIXmlInit xml_init;
@@ -405,13 +403,13 @@ void CUIUserTaskItem::SetGameTask				(CGameTask* gt, int obj_idx)
 	SetHeight									(h+10.0f);
 }
 
-void CUIUserTaskItem::OnShowPointerClicked	()
+void CUIUserTaskItem::OnShowPointerClicked	(CUIWindow*, void*)
 {
 	bool bPushed = m_showPointerBtn->GetCheck();
 	m_GameTask->HighlightSpotOnMap			(m_TaskObjectiveIdx,bPushed);
 }
 
-void CUIUserTaskItem::OnShowLocationClicked	()
+void CUIUserTaskItem::OnShowLocationClicked	(CUIWindow*, void*)
 {
 	bool bPushed = m_showLocationBtn->GetCheck	();
 	m_GameTask->ShowLocations					(bPushed);
@@ -421,19 +419,19 @@ void CUIUserTaskItem::MarkSelected				(bool b)
 {
 }
 
-void CUIUserTaskItem::OnDescriptionChanged		()
+void CUIUserTaskItem::OnDescriptionChanged		(CUIWindow*, void*)
 {
 	Objective()->description = m_descriptionStatic->GetText();
 }
 
-void CUIUserTaskItem::OnEditTextClicked		()
+void CUIUserTaskItem::OnEditTextClicked		(CUIWindow*, void*)
 {
 	delete_data			(m_edtWnd);
 	m_edtWnd			= xr_new<CUIUserTaskEditWnd>();
 	m_edtWnd->Start		(this);
 }
 
-void CUIUserTaskItem::OnRemoveClicked		()
+void CUIUserTaskItem::OnRemoveClicked		(CUIWindow*, void*)
 {
 	Level().MapManager().RemoveMapLocation(Objective()->HasMapLocation());
 }
@@ -462,7 +460,7 @@ void CUIUserTaskEditWnd::Start				(CUIUserTaskItem* itm)
 	HUD().GetUI()->StartStopMenu	(this,true);
 }
 
-void CUIUserTaskEditWnd::OnOk			()
+void CUIUserTaskEditWnd::OnOk			(CUIWindow*, void*)
 {
 	m_userTask->GameTask()->m_Title			= m_editCaption->GetText();
 	m_userTask->Objective()->description	= m_editDescription->GetText();
@@ -473,7 +471,7 @@ void CUIUserTaskEditWnd::OnOk			()
 	m_userTask = NULL;
 }
 
-void CUIUserTaskEditWnd::OnCancel				()
+void CUIUserTaskEditWnd::OnCancel				(CUIWindow*, void*)
 {
 	GetHolder()->StartStopMenu(this, false);
 	m_userTask = NULL;
@@ -492,12 +490,12 @@ void CUIUserTaskEditWnd::Init					()
 	m_btnOk				= xr_new<CUI3tButton>();	m_btnOk->SetAutoDelete(true);		m_background->AttachChild(m_btnOk);
 	m_btnOk->SetWindowName("m_btnOk");
 	Register			(m_btnOk);
-	AddCallback			(m_btnOk->WindowName(),BUTTON_CLICKED,boost::bind(&CUIUserTaskEditWnd::OnOk,this));
+	AddCallback			(m_btnOk->WindowName(),BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIUserTaskEditWnd::OnOk));
 
 	m_btnCancel			= xr_new<CUI3tButton>();	m_btnCancel->SetAutoDelete(true);	m_background->AttachChild(m_btnCancel);
 	m_btnCancel->SetWindowName("m_btnCancel");
 	Register			(m_btnCancel);
-	AddCallback			(m_btnCancel->WindowName(),BUTTON_CLICKED,boost::bind(&CUIUserTaskEditWnd::OnCancel,this));
+	AddCallback			(m_btnCancel->WindowName(),BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIUserTaskEditWnd::OnCancel));
 
 	m_editCaption		= xr_new<CUIEditBox>();			m_editCaption->SetAutoDelete(true);		m_background->AttachChild(m_editCaption);
 	m_editDescription	= xr_new<CUIEditBoxEx>();		m_editDescription->SetAutoDelete(true); m_background->AttachChild(m_editDescription);
