@@ -308,7 +308,7 @@ void SndShockEffector::Update()
 #define ANGLE_SPEED		1.5f	
 
 CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(ECamEffectorType type, const Fvector &src_pos, const Fvector &target_pos, float time)
-	:inherited(eCEControllerPsyHit, flt_max)
+	:inherited(eCEControllerPsyHit, flt_max, TRUE)
 {
 	m_time_total			= time;
 	m_time_current			= 0;

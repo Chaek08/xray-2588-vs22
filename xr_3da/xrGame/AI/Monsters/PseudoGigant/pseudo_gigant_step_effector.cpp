@@ -2,7 +2,7 @@
 #include "pseudo_gigant_step_effector.h" 
 
 CPseudogigantStepEffector::CPseudogigantStepEffector(float time, float amp, float periods, float power) 
-					: CEffectorCam(eCEPseudoGigantStep, time)
+					: CEffectorCam(eCEPseudoGigantStep, time, FALSE)
 {
 	total			= time;
 

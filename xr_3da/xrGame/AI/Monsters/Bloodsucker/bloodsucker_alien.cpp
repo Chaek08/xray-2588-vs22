@@ -106,7 +106,7 @@ public:
 
 
 CAlienEffector::CAlienEffector(ECamEffectorType type, CAI_Bloodsucker *obj) :
-	inherited(type, flt_max)
+	inherited(type, flt_max, TRUE)
 {
 	dangle_target.set		(angle_normalize(Random.randFs(DELTA_ANGLE_X)),angle_normalize(Random.randFs(DELTA_ANGLE_Y)),angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
 	dangle_current.set		(0.f, 0.f, 0.f);

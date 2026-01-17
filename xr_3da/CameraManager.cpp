@@ -178,6 +178,19 @@ void CCameraManager::Update(const Fvector& P, const Fvector& D, const Fvector& N
 	vRight.crossproduct		(vNormal,vDirection);
 	vNormal.crossproduct	(vDirection,vRight);
 
+	// Save affected matrix and vectors
+	affected_vPosition.set				(vPosition);
+	affected_vDirection.set				(vDirection);
+	affected_vNormal.set				(vNormal);
+	affected_vRight.crossproduct		(vNormal,vDirection);
+
+	// Save un-affected matrix and vectors
+	unaffected_mView.build_camera_dir	(vPosition,vDirection,vNormal);
+	unaffected_vPosition.set			(vPosition);
+	unaffected_vDirection.set			(vDirection);
+	unaffected_vNormal.set				(vNormal);
+	unaffected_vRight.crossproduct		(vNormal,vDirection);
+
 	float aspect				= Device.fHeight_2/Device.fWidth_2;
 	float src					= 10*Device.fTimeDelta;	clamp(src,0.f,1.f);
 	float dst					= 1-src;
@@ -190,8 +203,17 @@ void CCameraManager::Update(const Fvector& P, const Fvector& D, const Fvector& N
 	if (m_EffectorsCam.size()){
 		for (int i=m_EffectorsCam.size()-1; i>=0; i--){
 			CEffectorCam* eff		= m_EffectorsCam[i];
-			if ((eff->Valid())&&eff->Process(vPosition,vDirection,vNormal,fFov,fFar,fAspect)){
+			Fvector sp=vPosition;
+			Fvector sd=vDirection;
+			Fvector sn=vNormal;
+			if ((eff->Valid()) && eff->Process(vPosition, vDirection, vNormal, fFov, fFar, fAspect)) {
 				bOverlapped		|= eff->Overlapped();
+				if (eff->Affected()){
+					sp.sub(vPosition,sp);	sd.sub(vDirection,sd);	sn.sub(vNormal,sn);
+					affected_vPosition.add	(sp);
+					affected_vDirection.add	(sd);
+					affected_vNormal.add	(sn);
+				}
 			}else{
 				m_EffectorsCam.erase(m_EffectorsCam.begin()+i);
 				xr_delete(eff);
@@ -203,6 +225,10 @@ void CCameraManager::Update(const Fvector& P, const Fvector& D, const Fvector& N
 		vNormal.normalize		();
 		vRight.crossproduct		(vNormal,vDirection);
 		vNormal.crossproduct	(vDirection,vRight);
+		affected_vDirection.normalize	();
+		affected_vNormal.normalize		();
+		affected_vRight.crossproduct	(vNormal,vDirection);
+		affected_vNormal.crossproduct	(vDirection,vRight);
 	}
 
 	pp_affected.validate		("before applying pp");

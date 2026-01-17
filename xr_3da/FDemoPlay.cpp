@@ -14,7 +14,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CDemoPlay::CDemoPlay(const char *name, float ms, u32 cycles, float life_time) : CEffectorCam(cefDemo,life_time/*,FALSE*/)
+CDemoPlay::CDemoPlay(const char *name, float ms, u32 cycles, float life_time) : CEffectorCam(cefDemo,life_time,FALSE)
 {
 	Msg					("! Playing demo: %s",name);
 	Console->Execute	("hud_weapon 0");

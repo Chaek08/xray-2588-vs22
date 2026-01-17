@@ -49,7 +49,7 @@ BOOL CVampirePPEffector::Process(SPPInfo& pp)
 #define ANGLE_SPEED		0.2f	
 #define BEST_DISTANCE	0.3f
 CVampireCameraEffector::CVampireCameraEffector(float time, const Fvector &src, const Fvector &tgt) :
-	inherited(eCEVampire, time)
+	inherited(eCEVampire, time, FALSE)
 {
 	fLifeTime				= time;
 	m_time_total			= time;

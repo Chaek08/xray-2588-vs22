@@ -5,7 +5,7 @@
 #define FALL_SPEED 3.5f
 #define FALL_MAXDIST 0.15f
 
-CEffectorFall::CEffectorFall(float power,float life_time) : CEffectorCam(eCEFall, life_time)
+CEffectorFall::CEffectorFall(float power,float life_time) : CEffectorCam(eCEFall, life_time, FALSE)
 {
 	fPower	= (power>1)?1:((power<0)?0:power*power);
 	fPhase	= 0;
