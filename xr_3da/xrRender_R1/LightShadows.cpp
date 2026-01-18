@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "LightShadows.h"
-#include "LightTrack.h"
+#include "..\xrRender\LightTrack.h"
 #include "..\xr_object.h"
 #include "..\fbasicvisual.h"
 #include "..\CustomHUD.h"

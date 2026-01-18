@@ -952,7 +952,7 @@ void CRender::render_sun_near	()
 
 		// projection: box
 		float	_D					= ps_r2_sun_near;
-		float	a0					= deg2rad(Device.fFOV)/2.f;
+		float	a0					= deg2rad(Device.fFOV*Device.fASPECT)/2.f;
 		float	a1					= deg2rad(Device.fFOV)/2.f;
 		float	c0					= _D/_cos(a0);
 		float	c1					= _D/_cos(a1);

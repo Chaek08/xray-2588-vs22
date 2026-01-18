@@ -2,52 +2,52 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Kernel">
-      <UniqueIdentifier>{b9fcfbc0-b275-4dd4-aaf1-68fca2c70b0d}</UniqueIdentifier>
+      <UniqueIdentifier>{98de33b9-6ec2-4102-8e2f-35c0203cfdf7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core">
-      <UniqueIdentifier>{63b8de6d-ce91-4b51-8a17-1db595cc7a3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Details">
-      <UniqueIdentifier>{825c13c6-eb15-4566-9cda-b1aedc264ab7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Stripifier">
-      <UniqueIdentifier>{aed562e3-8370-4e49-bbd9-a49581bba322}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lights">
-      <UniqueIdentifier>{e93932c0-5cfa-4d57-abd7-2a80ef940df4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Glows">
-      <UniqueIdentifier>{a74f397e-96b5-4310-b1c2-87b7b1532db1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Wallmarks">
-      <UniqueIdentifier>{a96590f1-7bf1-4e0e-a668-e10fa20edaae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shading templates">
-      <UniqueIdentifier>{094785b0-27fd-468e-8c0c-7518600ae2d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shading templates\R1">
-      <UniqueIdentifier>{d45308a9-901c-4082-a590-2bbb8a375714}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Models">
-      <UniqueIdentifier>{495a05d1-3260-4318-bbb8-10c66c1f2df6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Models\Visuals">
-      <UniqueIdentifier>{53793dd8-cc83-48e8-b6e8-8fd0df9c2a57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Visibility">
-      <UniqueIdentifier>{22263c59-3d30-44b4-8fbc-b0d65007c642}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Visibility\Sector/Portal">
-      <UniqueIdentifier>{31eda1b1-4e22-427e-ae03-d2c56551118b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Visibility\HOM Occlusion">
-      <UniqueIdentifier>{1b7191cb-41a6-4ef6-8a49-9236e95c20e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core_Target">
-      <UniqueIdentifier>{6ffc7241-8628-4a6e-87a6-1677d84bda16}</UniqueIdentifier>
+      <UniqueIdentifier>{c8703f66-b714-4609-97a3-6e1752dda874}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\memory">
-      <UniqueIdentifier>{a315c558-8fd4-4368-8f42-7feae0c9f2e6}</UniqueIdentifier>
+      <UniqueIdentifier>{01110b1e-4195-41c3-9b46-f8923f8bb984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Details">
+      <UniqueIdentifier>{b8c95f18-3550-42c2-8e2e-e6dc6e34a726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stripifier">
+      <UniqueIdentifier>{c7f133af-ebef-45ef-a01e-96b55e3c1de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lights">
+      <UniqueIdentifier>{6e01355d-a62b-4016-a6c5-b209ac057bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Glows">
+      <UniqueIdentifier>{04eb1d8e-d80f-4e51-b40d-c64fc125b859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Wallmarks">
+      <UniqueIdentifier>{1380d31b-6606-46b3-b536-d63dfc7a5b0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shading templates">
+      <UniqueIdentifier>{7a03819d-ee54-4535-b5b2-68f459125b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shading templates\R1">
+      <UniqueIdentifier>{60c7bafa-73d4-4842-bf01-363cf6b6194c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{4b9b5a22-25e8-4d7c-a5f3-540d94d18730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\Visuals">
+      <UniqueIdentifier>{8b91c01b-98df-4aed-a41d-2f4d4002b1e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visibility">
+      <UniqueIdentifier>{41cfd65c-05c1-441b-b898-09e9d6bee09e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visibility\Sector/Portal">
+      <UniqueIdentifier>{2cb47c31-005c-49d7-b95c-b4299c393535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visibility\HOM Occlusion">
+      <UniqueIdentifier>{00a856d7-0a85-4a79-a482-efe00dbc310c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core_Target">
+      <UniqueIdentifier>{2e2cfc75-6bec-4885-aa87-9b62aecb84dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,10 +57,10 @@
     <ClInclude Include="stdafx.h">
       <Filter>Kernel</Filter>
     </ClInclude>
-    <ClInclude Include="xrRender_console.h">
+    <ClInclude Include="..\xrRender\xrRender_console.h">
       <Filter>Kernel</Filter>
     </ClInclude>
-    <ClInclude Include="PSLibrary.h">
+    <ClInclude Include="..\xrRender\PSLibrary.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="r2.h">
@@ -69,49 +69,52 @@
     <ClInclude Include="r2_types.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="r__dsgraph_structure.h">
+    <ClInclude Include="..\xrRender\r__dsgraph_structure.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="r__dsgraph_types.h">
+    <ClInclude Include="..\xrRender\r__dsgraph_types.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="r__occlusion.h">
+    <ClInclude Include="..\xrRender\r__occlusion.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="r__pixel_calculator.h">
+    <ClInclude Include="..\xrRender\r__pixel_calculator.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="doug_lea_memory_allocator.h">
+      <Filter>Core\memory</Filter>
     </ClInclude>
     <ClInclude Include="DetailFormat.h">
       <Filter>Details</Filter>
     </ClInclude>
-    <ClInclude Include="DetailManager.h">
+    <ClInclude Include="..\xrRender\DetailManager.h">
       <Filter>Details</Filter>
     </ClInclude>
-    <ClInclude Include="DetailModel.h">
+    <ClInclude Include="..\xrRender\DetailModel.h">
       <Filter>Details</Filter>
     </ClInclude>
-    <ClInclude Include="NvTriStrip.h">
+    <ClInclude Include="..\xrRender\NvTriStrip.h">
       <Filter>Stripifier</Filter>
     </ClInclude>
-    <ClInclude Include="NvTriStripObjects.h">
+    <ClInclude Include="..\xrRender\NvTriStripObjects.h">
       <Filter>Stripifier</Filter>
     </ClInclude>
-    <ClInclude Include="VertexCache.h">
+    <ClInclude Include="..\xrRender\VertexCache.h">
       <Filter>Stripifier</Filter>
     </ClInclude>
-    <ClInclude Include="xrStripify.h">
+    <ClInclude Include="..\xrRender\xrStripify.h">
       <Filter>Stripifier</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
       <Filter>Lights</Filter>
     </ClInclude>
-    <ClInclude Include="Light_DB.h">
+    <ClInclude Include="..\xrRender\Light_DB.h">
       <Filter>Lights</Filter>
     </ClInclude>
     <ClInclude Include="light_gi.h">
       <Filter>Lights</Filter>
     </ClInclude>
-    <ClInclude Include="Light_Package.h">
+    <ClInclude Include="..\xrRender\Light_Package.h">
       <Filter>Lights</Filter>
     </ClInclude>
     <ClInclude Include="Light_Render_Direct.h">
@@ -120,19 +123,19 @@
     <ClInclude Include="light_smapvis.h">
       <Filter>Lights</Filter>
     </ClInclude>
-    <ClInclude Include="LightTrack.h">
+    <ClInclude Include="..\xrRender\LightTrack.h">
       <Filter>Lights</Filter>
     </ClInclude>
     <ClInclude Include="SMAP_Allocator.h">
       <Filter>Lights</Filter>
     </ClInclude>
-    <ClInclude Include="WallmarksEngine.h">
+    <ClInclude Include="..\xrRender\WallmarksEngine.h">
       <Filter>Wallmarks</Filter>
     </ClInclude>
     <ClInclude Include="blender_bloom_build.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_BmmD.h">
+    <ClInclude Include="..\xrRender\Blender_BmmD.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
     <ClInclude Include="blender_combine.h">
@@ -147,10 +150,10 @@
     <ClInclude Include="blender_deffer_model.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_Editor_Selection.h">
+    <ClInclude Include="..\xrRender\Blender_Editor_Selection.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_Editor_Wire.h">
+    <ClInclude Include="..\xrRender\Blender_Editor_Wire.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
     <ClInclude Include="blender_light_direct.h">
@@ -174,61 +177,61 @@
     <ClInclude Include="blender_luminance.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_Particle.h">
+    <ClInclude Include="..\xrRender\Blender_Particle.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
-    <ClInclude Include="uber_deffer.h">
+    <ClInclude Include="..\xrRender\uber_deffer.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_detail_still.h">
+    <ClInclude Include="..\xrRender\Blender_detail_still.h">
       <Filter>Shading templates\R1</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_Lm(EbB).h">
+    <ClInclude Include="..\xrRender\Blender_Lm(EbB).h">
       <Filter>Shading templates\R1</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_Model_EbB.h">
+    <ClInclude Include="..\xrRender\Blender_Model_EbB.h">
       <Filter>Shading templates\R1</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_Screen_SET.h">
+    <ClInclude Include="..\xrRender\Blender_Screen_SET.h">
       <Filter>Shading templates\R1</Filter>
     </ClInclude>
-    <ClInclude Include="Blender_tree.h">
+    <ClInclude Include="..\xrRender\Blender_tree.h">
       <Filter>Shading templates\R1</Filter>
     </ClInclude>
-    <ClInclude Include="ModelPool.h">
+    <ClInclude Include="..\xrRender\ModelPool.h">
       <Filter>Models</Filter>
     </ClInclude>
-    <ClInclude Include="FLOD.h">
+    <ClInclude Include="..\xrRender\FLOD.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="FProgressive.h">
+    <ClInclude Include="..\xrRender\FProgressive.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="FSkinned.h">
+    <ClInclude Include="..\xrRender\FSkinned.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="FTreeVisual.h">
+    <ClInclude Include="..\xrRender\FTreeVisual.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="FVisual.h">
+    <ClInclude Include="..\xrRender\FVisual.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEffect.h">
+    <ClInclude Include="..\xrRender\ParticleEffect.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEffectDef.h">
+    <ClInclude Include="..\xrRender\ParticleEffectDef.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleGroup.h">
+    <ClInclude Include="..\xrRender\ParticleGroup.h">
       <Filter>Models\Visuals</Filter>
     </ClInclude>
-    <ClInclude Include="r__sector.h">
+    <ClInclude Include="..\xrRender\r__sector.h">
       <Filter>Visibility\Sector/Portal</Filter>
     </ClInclude>
-    <ClInclude Include="HOM.h">
+    <ClInclude Include="..\xrRender\HOM.h">
       <Filter>Visibility\HOM Occlusion</Filter>
     </ClInclude>
-    <ClInclude Include="occRasterizer.h">
+    <ClInclude Include="..\xrRender\occRasterizer.h">
       <Filter>Visibility\HOM Occlusion</Filter>
     </ClInclude>
     <ClInclude Include="du_sphere_part.h">
@@ -240,21 +243,18 @@
     <ClInclude Include="r2_rendertarget_wallmarks.h">
       <Filter>Core_Target</Filter>
     </ClInclude>
-    <ClInclude Include="doug_lea_memory_allocator.h">
-      <Filter>Core\memory</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
-    <ClCompile Include="xrRender_console.cpp">
+    <ClCompile Include="..\xrRender\xrRender_console.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
     <ClCompile Include="xrRender_R2.cpp">
       <Filter>Kernel</Filter>
     </ClCompile>
-    <ClCompile Include="PSLibrary.cpp">
+    <ClCompile Include="..\xrRender\PSLibrary.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="r2.cpp">
@@ -284,67 +284,73 @@
     <ClCompile Include="r2_test_hw.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="r__dsgraph_build.cpp">
+    <ClCompile Include="..\xrRender\r__dsgraph_build.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="r__dsgraph_render.cpp">
+    <ClCompile Include="..\xrRender\r__dsgraph_render.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="r__dsgraph_render_lods.cpp">
+    <ClCompile Include="..\xrRender\r__dsgraph_render_lods.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="r__occlusion.cpp">
+    <ClCompile Include="..\xrRender\r__occlusion.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="r__pixel_calculator.cpp">
+    <ClCompile Include="..\xrRender\r__pixel_calculator.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="r__screenshot.cpp">
+    <ClCompile Include="..\xrRender\r__screenshot.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="..\xrRender\Texture.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="DetailManager.cpp">
+    <ClCompile Include="..\xrRender\tga.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrRender\doug_lea_memory_allocator.c">
+      <Filter>Core\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\xrRender\DetailManager.cpp">
       <Filter>Details</Filter>
     </ClCompile>
-    <ClCompile Include="DetailManager_CACHE.cpp">
+    <ClCompile Include="..\xrRender\DetailManager_CACHE.cpp">
       <Filter>Details</Filter>
     </ClCompile>
-    <ClCompile Include="DetailManager_Decompress.cpp">
+    <ClCompile Include="..\xrRender\DetailManager_Decompress.cpp">
       <Filter>Details</Filter>
     </ClCompile>
-    <ClCompile Include="DetailManager_soft.cpp">
+    <ClCompile Include="..\xrRender\DetailManager_soft.cpp">
       <Filter>Details</Filter>
     </ClCompile>
-    <ClCompile Include="DetailManager_VS.cpp">
+    <ClCompile Include="..\xrRender\DetailManager_VS.cpp">
       <Filter>Details</Filter>
     </ClCompile>
-    <ClCompile Include="DetailModel.cpp">
+    <ClCompile Include="..\xrRender\DetailModel.cpp">
       <Filter>Details</Filter>
     </ClCompile>
-    <ClCompile Include="NvTriStrip.cpp">
+    <ClCompile Include="..\xrRender\NvTriStrip.cpp">
       <Filter>Stripifier</Filter>
     </ClCompile>
-    <ClCompile Include="NvTriStripObjects.cpp">
+    <ClCompile Include="..\xrRender\NvTriStripObjects.cpp">
       <Filter>Stripifier</Filter>
     </ClCompile>
-    <ClCompile Include="VertexCache.cpp">
+    <ClCompile Include="..\xrRender\VertexCache.cpp">
       <Filter>Stripifier</Filter>
     </ClCompile>
-    <ClCompile Include="xrStripify.cpp">
+    <ClCompile Include="..\xrRender\xrStripify.cpp">
       <Filter>Stripifier</Filter>
     </ClCompile>
-    <ClCompile Include="light.cpp">
+    <ClCompile Include="..\xrRender\light.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
-    <ClCompile Include="Light_DB.cpp">
+    <ClCompile Include="..\xrRender\Light_DB.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
     <ClCompile Include="light_GI.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
-    <ClCompile Include="Light_Package.cpp">
+    <ClCompile Include="..\xrRender\Light_Package.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
     <ClCompile Include="Light_Render_Direct.cpp">
@@ -359,16 +365,16 @@
     <ClCompile Include="light_vis.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
-    <ClCompile Include="LightTrack.cpp">
+    <ClCompile Include="..\xrRender\LightTrack.cpp">
       <Filter>Lights</Filter>
     </ClCompile>
-    <ClCompile Include="WallmarksEngine.cpp">
+    <ClCompile Include="..\xrRender\WallmarksEngine.cpp">
       <Filter>Wallmarks</Filter>
     </ClCompile>
     <ClCompile Include="blender_bloom_build.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_BmmD.cpp">
+    <ClCompile Include="..\xrRender\Blender_BmmD.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
     <ClCompile Include="blender_combine.cpp">
@@ -383,10 +389,10 @@
     <ClCompile Include="blender_deffer_model.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_Editor_Selection.cpp">
+    <ClCompile Include="..\xrRender\Blender_Editor_Selection.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_Editor_Wire.cpp">
+    <ClCompile Include="..\xrRender\Blender_Editor_Wire.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
     <ClCompile Include="blender_light_direct.cpp">
@@ -410,67 +416,67 @@
     <ClCompile Include="blender_luminance.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_Particle.cpp">
+    <ClCompile Include="..\xrRender\Blender_Particle.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
-    <ClCompile Include="uber_deffer.cpp">
+    <ClCompile Include="..\xrRender\uber_deffer.cpp">
       <Filter>Shading templates</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_detail_still.cpp">
+    <ClCompile Include="..\xrRender\Blender_detail_still.cpp">
       <Filter>Shading templates\R1</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_Lm(EbB).cpp">
+    <ClCompile Include="..\xrRender\Blender_Lm(EbB).cpp">
       <Filter>Shading templates\R1</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_Model_EbB.cpp">
+    <ClCompile Include="..\xrRender\Blender_Model_EbB.cpp">
       <Filter>Shading templates\R1</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_Screen_SET.cpp">
+    <ClCompile Include="..\xrRender\Blender_Screen_SET.cpp">
       <Filter>Shading templates\R1</Filter>
     </ClCompile>
-    <ClCompile Include="Blender_tree.cpp">
+    <ClCompile Include="..\xrRender\Blender_tree.cpp">
       <Filter>Shading templates\R1</Filter>
     </ClCompile>
-    <ClCompile Include="ModelPool.cpp">
+    <ClCompile Include="..\xrRender\ModelPool.cpp">
       <Filter>Models</Filter>
     </ClCompile>
-    <ClCompile Include="FLOD.cpp">
+    <ClCompile Include="..\xrRender\FLOD.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="FProgressive.cpp">
+    <ClCompile Include="..\xrRender\FProgressive.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="FSkinned.cpp">
+    <ClCompile Include="..\xrRender\FSkinned.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="FTreeVisual.cpp">
+    <ClCompile Include="..\xrRender\FTreeVisual.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="FVisual.cpp">
+    <ClCompile Include="..\xrRender\FVisual.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleEffect.cpp">
+    <ClCompile Include="..\xrRender\ParticleEffect.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleEffectDef.cpp">
+    <ClCompile Include="..\xrRender\ParticleEffectDef.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleGroup.cpp">
+    <ClCompile Include="..\xrRender\ParticleGroup.cpp">
       <Filter>Models\Visuals</Filter>
     </ClCompile>
-    <ClCompile Include="r__sector.cpp">
+    <ClCompile Include="..\xrRender\r__sector.cpp">
       <Filter>Visibility\Sector/Portal</Filter>
     </ClCompile>
-    <ClCompile Include="r__sector_traversal.cpp">
+    <ClCompile Include="..\xrRender\r__sector_traversal.cpp">
       <Filter>Visibility\Sector/Portal</Filter>
     </ClCompile>
-    <ClCompile Include="HOM.cpp">
+    <ClCompile Include="..\xrRender\HOM.cpp">
       <Filter>Visibility\HOM Occlusion</Filter>
     </ClCompile>
-    <ClCompile Include="occRasterizer.cpp">
+    <ClCompile Include="..\xrRender\occRasterizer.cpp">
       <Filter>Visibility\HOM Occlusion</Filter>
     </ClCompile>
-    <ClCompile Include="occRasterizer_core.cpp">
+    <ClCompile Include="..\xrRender\occRasterizer_core.cpp">
       <Filter>Visibility\HOM Occlusion</Filter>
     </ClCompile>
     <ClCompile Include="du_sphere_part.cpp">
@@ -533,11 +539,8 @@
     <ClCompile Include="r2_rendertarget_phase_smap_S.cpp">
       <Filter>Core_Target</Filter>
     </ClCompile>
-    <ClCompile Include="doug_lea_memory_allocator.c">
-      <Filter>Core\memory</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="todo.txt" />
+    <None Include="todo.txt" />
   </ItemGroup>
 </Project>

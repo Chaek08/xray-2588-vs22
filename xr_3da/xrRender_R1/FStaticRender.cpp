@@ -9,7 +9,7 @@
 #include "..\CustomHUD.h"
 #include "..\xr_object.h"
 #include "..\fmesh.h"
-#include "lighttrack.h"
+#include "..\xrRender\lighttrack.h"
  
 using	namespace		R_dsgraph;
 

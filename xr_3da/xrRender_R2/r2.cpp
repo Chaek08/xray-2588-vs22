@@ -5,8 +5,8 @@
 #include "..\CustomHUD.h"
 #include "..\igame_persistent.h"
 #include "..\environment.h"
-#include "LightTrack.h"
- 
+#include "..\xrRender\LightTrack.h"
+
 CRender										RImplementation;
 
 //////////////////////////////////////////////////////////////////////////
