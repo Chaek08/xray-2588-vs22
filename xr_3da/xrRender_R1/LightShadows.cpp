@@ -39,7 +39,7 @@ CLightShadows::CLightShadows()
 	LPCSTR	RTname			= "$user$shadow";
 	LPCSTR	RTtemp			= "$user$temp";
 	string128 RTname2;		strconcat(sizeof(RTname2), RTname2,RTname,",",RTname);
-	string128 RTtemp2;		strconcat(sizeof(RTname2), RTtemp2,RTtemp,",",RTtemp);
+	string128 RTtemp2;		strconcat(sizeof(RTtemp2), RTtemp2,RTtemp,",",RTtemp);
 
 	// 
 	RT.create				(RTname,S_rt_size,S_rt_size,S_rtf);
