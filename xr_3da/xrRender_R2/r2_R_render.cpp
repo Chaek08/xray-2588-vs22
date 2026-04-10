@@ -298,12 +298,12 @@ void CRender::Render		()
 	}
 
 	// Directional light - fucking sun
-	if (bSUN)	{
-//		Lights_LastFrame.push_back			(Lights.sun_adapted);
+	if (bSUN)
+	{
 		RImplementation.stats.l_visible		++;
-		render_sun_near						();
-		render_sun							();
-		render_sun_filtered					();
+
+		render_sun_cascades					();
+
 		Target->accum_direct_blend			();
 	}
 

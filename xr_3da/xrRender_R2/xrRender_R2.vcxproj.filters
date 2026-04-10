@@ -51,91 +51,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cl_intersect.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\xrRender_console.h">
-      <Filter>Kernel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\PSLibrary.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="r2.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="r2_types.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\r__dsgraph_structure.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\r__dsgraph_types.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\r__occlusion.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\r__pixel_calculator.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="doug_lea_memory_allocator.h">
-      <Filter>Core\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="DetailFormat.h">
-      <Filter>Details</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\DetailManager.h">
-      <Filter>Details</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\DetailModel.h">
-      <Filter>Details</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\NvTriStrip.h">
-      <Filter>Stripifier</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\NvTriStripObjects.h">
-      <Filter>Stripifier</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\VertexCache.h">
-      <Filter>Stripifier</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\xrStripify.h">
-      <Filter>Stripifier</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\Light_DB.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="light_gi.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\Light_Package.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="Light_Render_Direct.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="light_smapvis.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\LightTrack.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="SMAP_Allocator.h">
-      <Filter>Lights</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\WallmarksEngine.h">
-      <Filter>Wallmarks</Filter>
-    </ClInclude>
     <ClInclude Include="blender_bloom_build.h">
-      <Filter>Shading templates</Filter>
-    </ClInclude>
-    <ClInclude Include="..\xrRender\Blender_BmmD.h">
       <Filter>Shading templates</Filter>
     </ClInclude>
     <ClInclude Include="blender_combine.h">
@@ -242,6 +158,10 @@
     </ClInclude>
     <ClInclude Include="r2_rendertarget_wallmarks.h">
       <Filter>Core_Target</Filter>
+    </ClInclude>
+    <ClInclude Include="Blender_BmmD.h" />
+    <ClInclude Include="blender_light_direct_cascade.h">
+      <Filter>Shading templates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="r2_rendertarget_phase_smap_S.cpp">
       <Filter>Core_Target</Filter>
+    </ClCompile>
+    <ClCompile Include="blender_light_direct_cascade.cpp">
+      <Filter>Shading templates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

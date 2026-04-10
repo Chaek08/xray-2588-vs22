@@ -314,6 +314,7 @@
     <ClInclude Include="..\xrRender\Blender_Editor_Selection.h" />
     <ClInclude Include="..\xrRender\Blender_Editor_Wire.h" />
     <ClInclude Include="blender_light_direct.h" />
+    <ClInclude Include="blender_light_direct_cascade.h" />
     <ClInclude Include="blender_light_mask.h" />
     <ClInclude Include="blender_light_occq.h" />
     <ClInclude Include="blender_light_point.h" />
@@ -344,6 +345,7 @@
     <ClInclude Include="r2_rendertarget_wallmarks.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="blender_light_direct_cascade.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Create</PrecompiledHeader>
