@@ -356,9 +356,11 @@ public:
 	// Cameras and effectors
 	//////////////////////////////////////////////////////////////////////////
 public:
-	CCameraManager&			Cameras				() 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
-	IC CCameraBase*			cam_Active			()	{return cameras[cam_active];}
-	IC CCameraBase*			cam_FirstEye		()	{return cameras[eacFirstEye];}
+	CCameraManager&			Cameras				   () 	{VERIFY(m_pActorEffector); return *m_pActorEffector;}
+	IC CCameraBase*			cam_Active			   ()	{return cameras[cam_active];}
+	IC CCameraBase*			cam_FirstEye		   ()	{return cameras[eacFirstEye];}
+
+	IC EActorCameras		GOTTA_GET_A_ACTIVE_CAM () const { return cam_active; }
 
 protected:
 	void					cam_Set					(EActorCameras style);
