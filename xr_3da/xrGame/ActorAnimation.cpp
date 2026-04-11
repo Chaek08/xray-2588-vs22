@@ -401,7 +401,12 @@ void CActor::g_SetAnimation( u32 mstate_rl )
 						else
 						{
 							switch (W->GetState()){
-							case CWeapon::eIdle:	M_torso	= W->IsZoomed()?TW->aim_zoom:TW->aim;		break;
+							case CWeapon::eIdle:
+								if (is_standing)
+									M_torso = W->IsZoomed() ? TW->aim_zoom : TW->fire_idle;
+								else
+									M_torso = W->IsZoomed() ? TW->aim_zoom : TW->aim;
+								break;
 							case CWeapon::eFire:	M_torso	= W->IsZoomed()?TW->attack_zoom:TW->attack;	break;
 							case CWeapon::eFire2:	M_torso	= W->IsZoomed()?TW->attack_zoom:TW->attack; break;
 							case CWeapon::eReload:	
