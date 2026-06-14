@@ -158,7 +158,7 @@
       <TargetMachine>NotSet</TargetMachine>
       <AdditionalLibraryDirectories>$(SolutionDir)\SDK\dxSDK\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)$(Configuration)\lib\$(TargetName).lib</ImportLibrary>
-      <IncrementalLinkDatabaseFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).ilk</IncrementalLinkDatabaseFile>
+      <IncrementalLinkDatabaseFile>$(IntDir)$(TargetName).ilk</IncrementalLinkDatabaseFile>
       <ManifestFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName)$(TargetExt).intermediate.manifest</ManifestFile>
       <LinkTimeCodeGenerationObjectFile>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).iobj</LinkTimeCodeGenerationObjectFile>
       <ProfileGuidedDatabase>$(SolutionDir)$(Configuration)\intermediate\$(ProjectName)\$(TargetName).pgd</ProfileGuidedDatabase>
