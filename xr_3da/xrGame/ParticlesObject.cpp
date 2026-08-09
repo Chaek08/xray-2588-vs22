@@ -178,6 +178,18 @@ void CParticlesObject::SetXFORM			(const Fmatrix& m)
 	UpdateSpatial		();
 }
 
+void CParticlesObject::SetLiveUpdate(BOOL b)
+{
+	IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
+	return V->SetLiveUpdate(b);
+}
+
+BOOL CParticlesObject::GetLiveUpdate()
+{
+	IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);
+	return V->GetLiveUpdate();
+}
+
 void CParticlesObject::UpdateParent		(const Fmatrix& m, const Fvector& vel)
 {
 	IParticleCustom* V	= smart_cast<IParticleCustom*>(renderable.visual); VERIFY(V);

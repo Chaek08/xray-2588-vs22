@@ -53,10 +53,14 @@ namespace PAPI{
 			ANIMATE_CCW	= (1<<0),
 		};
 		pVector		pos;	// 12
+		pVector		posI;	// 12
 		pVector		posB;   // 12
 		pVector		vel;    // 12  	
+		pVector		velI;	// 12
 		pVector		size;   // 12
+		pVector		sizeI;	// 12
 		pVector		rot;	// 12   60
+		pVector		rotI;	// 12
 		u32			color;	// 4
 		float		age;	// 4       
 		u16			frame;	// 2

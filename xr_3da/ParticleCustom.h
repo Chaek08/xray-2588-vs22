@@ -13,6 +13,7 @@ public:
     virtual void 	OnDeviceCreate		()=0;
     virtual void 	OnDeviceDestroy		()=0;
 
+
     virtual void	UpdateParent		(const Fmatrix& m, const Fvector& velocity, BOOL bXFORM)=0;
 	virtual void	OnFrame				(u32 dt)=0;
 
@@ -24,6 +25,9 @@ public:
 
 	virtual float	GetTimeLimit		()=0;
     virtual BOOL	IsLooped			(){return GetTimeLimit()<0.f;}
+
+	virtual void	SetLiveUpdate		(BOOL b)=0;
+	virtual BOOL	GetLiveUpdate		()=0;
 
 	virtual const shared_str	Name		()=0;
 
